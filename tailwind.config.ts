@@ -10,12 +10,43 @@ const config: Config = {
     extend: {
       colors: {
         primary: {
-          DEFAULT: '#0F5132',
+          light: '#40916C',
+          DEFAULT: '#2D6A4F',
           dark: '#1B4332',
         },
-        accent: '#40916C',
-        background: '#FFFFFF',
-        text: '#1A1A1A',
+        accent: {
+          DEFAULT: '#D4A574',
+          hover: '#C09464',
+        },
+        background: {
+          dark: '#0A0A0A',
+          light: '#F8F9FA',
+        },
+        text: {
+          DEFAULT: '#1A1A1A',
+          light: '#6B7280',
+        },
+      },
+      fontFamily: {
+        sans: ['Inter', 'system-ui', 'sans-serif'],
+      },
+      borderRadius: {
+        'xl': '1rem',
+        '2xl': '1.5rem',
+      },
+      boxShadow: {
+        'soft': '0 2px 8px rgba(0, 0, 0, 0.08)',
+        'medium': '0 4px 16px rgba(0, 0, 0, 0.12)',
+        'hover': '0 8px 24px rgba(0, 0, 0, 0.16)',
+      },
+      transitionDuration: {
+        '300': '300ms',
+      },
+      transitionTimingFunction: {
+        'smooth': 'cubic-bezier(0.4, 0, 0.2, 1)',
+      },
+      backdropBlur: {
+        xs: '2px',
       },
     },
   },
