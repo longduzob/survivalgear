@@ -30,7 +30,8 @@ export default function CheckoutPage() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     // PayPal integration would go here
-    alert("PayPal integration - à implémenter avec les credentials");
+    // TODO: Implement PayPal Smart Buttons
+    console.log("PayPal payment initiated");
   };
 
   return (

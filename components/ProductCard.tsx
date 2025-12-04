@@ -34,13 +34,13 @@ export default function ProductCard({ product }: ProductCardProps) {
             </div>
           )}
           <div className="relative w-full h-full">
-            {product.images[0] ? (
+            {!product.images[0] ? (
               <div className="w-full h-full flex items-center justify-center bg-gray-200">
-                <span className="text-gray-400">Image</span>
+                <span className="text-gray-400">No Image</span>
               </div>
             ) : (
               <div className="w-full h-full flex items-center justify-center bg-gray-200">
-                <span className="text-gray-400">No Image</span>
+                <span className="text-gray-400">Image</span>
               </div>
             )}
           </div>

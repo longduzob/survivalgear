@@ -23,8 +23,16 @@ class AliExpressScraper:
         """
         Scrape product data from AliExpress
         
-        Note: AliExpress uses heavy JavaScript rendering, so this basic
-        implementation may need Selenium or their API for production use.
+        ⚠️ IMPORTANT: AliExpress uses heavy JavaScript rendering. This basic
+        BeautifulSoup implementation is a template and will likely NOT work
+        in production without modification.
+        
+        For production use, you need to:
+        1. Use Selenium/Playwright for JavaScript rendering
+        2. Use AliExpress API if available
+        3. Use a scraping service like ScraperAPI or Bright Data
+        
+        This is a starting point that demonstrates the data structure needed.
         """
         try:
             response = self.session.get(url, timeout=15)

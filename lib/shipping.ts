@@ -24,7 +24,7 @@ export function calculateShipping(country: string, total: number): number {
   return 14.99;
 }
 
-export function getEstimatedDelivery(): string {
+export function getEstimatedDelivery(locale: string = 'fr-FR'): string {
   const today = new Date();
   const minDays = 10;
   const maxDays = 20;
@@ -35,5 +35,5 @@ export function getEstimatedDelivery(): string {
   const maxDate = new Date(today);
   maxDate.setDate(today.getDate() + maxDays);
 
-  return `${minDate.toLocaleDateString('fr-FR', { day: 'numeric', month: 'long' })} - ${maxDate.toLocaleDateString('fr-FR', { day: 'numeric', month: 'long' })}`;
+  return `${minDate.toLocaleDateString(locale, { day: 'numeric', month: 'long' })} - ${maxDate.toLocaleDateString(locale, { day: 'numeric', month: 'long' })}`;
 }
