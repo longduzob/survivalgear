@@ -28,3 +28,9 @@ DEFAULT_CATEGORY = "general"
 
 # Variants to extract
 VARIANT_TYPES = ["color", "size", "quantity"]
+
+# Default stock quantity for imported products
+DEFAULT_STOCK = 100
+
+# Fallback price if extraction fails (in euros)
+FALLBACK_PRICE = 29.99

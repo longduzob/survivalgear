@@ -65,7 +65,9 @@ class AliExpressPlaywrightScraper:
             timezone_id='Europe/Paris',
         )
         
-        # Block unnecessary resources to speed up
+        # Block unnecessary resources to speed up page load
+        # Note: We block images during navigation, then download them separately
+        # This allows faster page loading while still getting high-quality images
         self.context.route("**/*.{png,jpg,jpeg,gif,svg,mp4,webm,mp3,wav}", lambda route: route.abort())
         
         self.page = self.context.new_page()
@@ -214,8 +216,8 @@ class AliExpressPlaywrightScraper:
         except:
             pass
         
-        print("Warning: Could not extract price, using default")
-        return 29.99
+        print(f"Warning: Could not extract price, using fallback: €{config.FALLBACK_PRICE}")
+        return config.FALLBACK_PRICE
     
     def _extract_original_price(self) -> Optional[float]:
         """Extract original/crossed-out price if on sale"""
@@ -276,13 +278,25 @@ class AliExpressPlaywrightScraper:
                 elements = self.page.query_selector_all(selector)
                 for element in elements:
                     src = element.get_attribute('src') or element.get_attribute('data-src')
-                    if src and ('alicdn.com' in src or 'aliexpress' in src):
-                        # Get high quality version
-                        src = src.split('_')[0]  # Remove size suffix
+                    if src:
+                        # Normalize URL
                         if src.startswith('//'):
                             src = 'https:' + src
-                        if src not in images:
-                            images.append(src)
+                        
+                        # Validate that URL is from AliExpress/AliCDN domains
+                        # Use proper URL parsing to avoid substring vulnerabilities
+                        try:
+                            parsed = urlparse(src)
+                            hostname = parsed.hostname or ''
+                            # Check if hostname ends with alicdn.com or aliexpress.com
+                            if hostname.endswith('.alicdn.com') or hostname.endswith('.aliexpress.com') or \
+                               hostname == 'alicdn.com' or hostname == 'aliexpress.com':
+                                # Get high quality version
+                                src = src.split('_')[0]  # Remove size suffix
+                                if src not in images:
+                                    images.append(src)
+                        except:
+                            continue
             except:
                 continue
         
@@ -495,7 +509,7 @@ def process_product(url: str, scraper: AliExpressPlaywrightScraper) -> Optional[
         'brand': 'Generic',
         'price': selling_price,
         'comparePrice': None,
-        'stock': 100,
+        'stock': config.DEFAULT_STOCK,  # Configurable default stock
         'weight': None,
         'featured': False,
         'active': True,
