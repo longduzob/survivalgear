@@ -40,7 +40,6 @@ export default function Home() {
             priority
             className="object-cover"
             sizes="100vw"
-            unoptimized
           />
           {/* Dark overlay for text readability */}
           <div className="absolute inset-0 bg-gradient-to-r from-black/70 to-black/40"></div>
