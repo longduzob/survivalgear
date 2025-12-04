@@ -1,0 +1,59 @@
+{
+  "common": {
+    "cart": "Cart",
+    "account": "Account",
+    "search": "Search",
+    "addToCart": "Add to cart",
+    "buyNow": "Buy now",
+    "login": "Login",
+    "register": "Register",
+    "logout": "Logout"
+  },
+  "home": {
+    "title": "Outdoor & Survival Gear",
+    "subtitle": "Discover our selection of quality equipment for your outdoor adventures",
+    "shopNow": "Shop now",
+    "categories": "Categories",
+    "featuredProducts": "Featured Products",
+    "newArrivals": "New Arrivals"
+  },
+  "product": {
+    "brand": "Brand",
+    "price": "Price",
+    "stock": "Stock",
+    "inStock": "In stock",
+    "outOfStock": "Out of stock",
+    "description": "Description",
+    "reviews": "Customer reviews",
+    "specifications": "Specifications"
+  },
+  "cart": {
+    "title": "Your Cart",
+    "empty": "Your cart is empty",
+    "subtotal": "Subtotal",
+    "shipping": "Shipping",
+    "total": "Total",
+    "checkout": "Checkout",
+    "continueShopping": "Continue shopping"
+  },
+  "footer": {
+    "about": "About",
+    "contact": "Contact",
+    "faq": "FAQ",
+    "legal": "Legal",
+    "cgv": "Terms & Conditions",
+    "mentions": "Legal notice",
+    "privacy": "Privacy",
+    "returns": "Returns",
+    "customerService": "Customer Service",
+    "deliveryTime": "Delivery time: ~2 weeks",
+    "freeShipping": "Free shipping over 100€",
+    "buyerProtection": "Buyer protection guaranteed"
+  },
+  "shipping": {
+    "france": "France: 4.99€",
+    "eu": "European Union: 9.99€",
+    "free": "Free over 100€",
+    "estimatedDelivery": "Estimated delivery"
+  }
+}

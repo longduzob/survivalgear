@@ -1,0 +1,59 @@
+{
+  "common": {
+    "cart": "Panier",
+    "account": "Compte",
+    "search": "Rechercher",
+    "addToCart": "Ajouter au panier",
+    "buyNow": "Acheter maintenant",
+    "login": "Connexion",
+    "register": "Inscription",
+    "logout": "Déconnexion"
+  },
+  "home": {
+    "title": "Équipement Outdoor & Survie",
+    "subtitle": "Découvrez notre sélection de matériel de qualité pour vos aventures en plein air",
+    "shopNow": "Découvrir nos produits",
+    "categories": "Catégories",
+    "featuredProducts": "Produits Populaires",
+    "newArrivals": "Nouveautés"
+  },
+  "product": {
+    "brand": "Marque",
+    "price": "Prix",
+    "stock": "Stock",
+    "inStock": "En stock",
+    "outOfStock": "Rupture de stock",
+    "description": "Description",
+    "reviews": "Avis clients",
+    "specifications": "Caractéristiques"
+  },
+  "cart": {
+    "title": "Votre Panier",
+    "empty": "Votre panier est vide",
+    "subtotal": "Sous-total",
+    "shipping": "Frais de port",
+    "total": "Total",
+    "checkout": "Passer commande",
+    "continueShopping": "Continuer mes achats"
+  },
+  "footer": {
+    "about": "À propos",
+    "contact": "Contact",
+    "faq": "FAQ",
+    "legal": "Légal",
+    "cgv": "CGV",
+    "mentions": "Mentions légales",
+    "privacy": "Confidentialité",
+    "returns": "Retours",
+    "customerService": "Service Client",
+    "deliveryTime": "Délai de livraison: ~2 semaines",
+    "freeShipping": "Livraison gratuite dès 100€",
+    "buyerProtection": "Protection acheteur garantie"
+  },
+  "shipping": {
+    "france": "France: 4.99€",
+    "eu": "Union Européenne: 9.99€",
+    "free": "Gratuit dès 100€",
+    "estimatedDelivery": "Livraison estimée"
+  }
+}

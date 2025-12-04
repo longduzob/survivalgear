@@ -1,0 +1,15 @@
+# Example links file
+# Add one product URL per line
+# Supported: AliExpress, Hipobuy
+
+# Example AliExpress URLs:
+# https://www.aliexpress.com/item/1005001234567890.html
+# https://fr.aliexpress.com/item/1005009876543210.html
+
+# Example Hipobuy URLs:
+# https://www.hipobuy.com/product/example-product-123
+
+# Instructions:
+# 1. Copy this file to links.txt
+# 2. Replace these examples with real product URLs
+# 3. Run: python importer.py
