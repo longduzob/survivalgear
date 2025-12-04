@@ -30,11 +30,20 @@ export default function Home() {
   return (
     <div>
       {/* Hero Section */}
-      <section className="relative min-h-[600px] flex items-center justify-center overflow-hidden">
-        {/* Background with gradient overlay */}
-        <div className="absolute inset-0 bg-gradient-to-br from-primary-dark via-primary to-primary-light">
-          <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxkZWZzPjxwYXR0ZXJuIGlkPSJhIiBwYXR0ZXJuVW5pdHM9InVzZXJTcGFjZU9uVXNlIiB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHBhdHRlcm5UcmFuc2Zvcm09InJvdGF0ZSg0NSkiPjxwYXRoIGQ9Ik0tMTAgMTBoNjBNLTEwIDMwaDYwIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMC41IiBvcGFjaXR5PSIwLjEiLz48L3BhdHRlcm4+PC9kZWZzPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjYSkiLz48L3N2Zz4=')] opacity-30"></div>
-          <div className="absolute inset-0 gradient-overlay"></div>
+      <section className="relative min-h-[700px] flex items-center justify-center overflow-hidden bg-gradient-to-br from-green-900 via-green-800 to-green-700">
+        {/* Background Image - Unsplash camping/nature image */}
+        <div className="absolute inset-0">
+          <Image
+            src="https://images.unsplash.com/photo-1504851149312-7a075b496cc7?w=1920&q=80"
+            alt="Nature background - camping in forest"
+            fill
+            priority
+            className="object-cover"
+            sizes="100vw"
+            unoptimized
+          />
+          {/* Dark overlay for text readability */}
+          <div className="absolute inset-0 bg-gradient-to-r from-black/70 to-black/40"></div>
         </div>
         
         {/* Content */}
@@ -70,18 +79,18 @@ export default function Home() {
             </div>
             
             {/* Trust indicators */}
-            <div className="mt-16 grid grid-cols-3 gap-8 max-w-3xl mx-auto">
-              <div className="text-center">
-                <div className="text-3xl font-bold text-accent mb-2">100+</div>
-                <div className="text-sm text-gray-200">Produits Premium</div>
+            <div className="mt-16 pb-8 grid grid-cols-3 gap-8 max-w-3xl mx-auto">
+              <div className="text-center bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20">
+                <div className="text-4xl font-bold text-accent mb-2">100+</div>
+                <div className="text-sm text-white font-medium">Produits Premium</div>
               </div>
-              <div className="text-center">
-                <div className="text-3xl font-bold text-accent mb-2">24/7</div>
-                <div className="text-sm text-gray-200">Support Client</div>
+              <div className="text-center bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20">
+                <div className="text-4xl font-bold text-accent mb-2">24/7</div>
+                <div className="text-sm text-white font-medium">Support Client</div>
               </div>
-              <div className="text-center">
-                <div className="text-3xl font-bold text-accent mb-2">100%</div>
-                <div className="text-sm text-gray-200">Satisfait ou Remboursé</div>
+              <div className="text-center bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20">
+                <div className="text-4xl font-bold text-accent mb-2">100%</div>
+                <div className="text-sm text-white font-medium">Satisfait ou Remboursé</div>
               </div>
             </div>
           </div>
