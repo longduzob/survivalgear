@@ -1,0 +1,2 @@
+# Product Import Log
+# Format: [DATE] URL | PRODUCT NAME | BASE PRICE | SELLING PRICE | MARGIN %
