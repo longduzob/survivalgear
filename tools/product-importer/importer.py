@@ -13,6 +13,7 @@ from pathlib import Path
 import config
 from scrapers.aliexpress import AliExpressScraper
 from scrapers.hipobuy import HipobuyScraper
+from pricing import calculate_selling_price, calculate_margin_percentage
 
 
 def slugify(text: str) -> str:
@@ -25,11 +26,8 @@ def slugify(text: str) -> str:
 
 
 def calculate_price(original_price: float) -> float:
-    """Apply price multiplier and rounding"""
-    new_price = original_price * config.PRICE_MULTIPLIER
-    # Round to nearest .99
-    dollars = int(new_price)
-    return float(f"{dollars}.99")
+    """Apply dynamic price calculation with tiered margins"""
+    return calculate_selling_price(original_price)
 
 
 def download_image(url: str, product_slug: str, index: int) -> str:

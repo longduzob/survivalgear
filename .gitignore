@@ -42,5 +42,6 @@ prisma/migrations
 # product importer
 tools/product-importer/links.txt
 tools/product-importer/output/*.json
+tools/product-importer/__pycache__/
 public/products/*
 !public/products/.gitkeep
