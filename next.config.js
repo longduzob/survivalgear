@@ -8,6 +8,30 @@ const nextConfig = {
       },
       {
         protocol: 'https',
+        hostname: 'ae01.alicdn.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'ae04.alicdn.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'ae02.alicdn.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'ae03.alicdn.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'ae05.alicdn.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'www.aliexpress.com',
+      },
+      {
+        protocol: 'https',
         hostname: '**',
       },
     ],
