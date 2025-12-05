@@ -99,7 +99,27 @@ npx prisma migrate dev --name init
 npx prisma generate
 ```
 
-### 5. Lancer le serveur de développement
+### 5. Créer les catégories (optionnel)
+
+Les catégories sont créées automatiquement lors de la première visite d'une page de catégorie. Pour créer manuellement les catégories et ajouter des produits de démo :
+
+```bash
+# Créer les catégories de base
+npm run seed
+
+# Ajouter 6 produits de démo avec images et variantes
+npx tsx prisma/seed-products.ts
+```
+
+**Note** : Les 6 produits incluent :
+- Réchaud portable en acier inoxydable
+- Bouilloire de camping portable
+- Poncho imperméable pour adulte
+- Matelas gonflable pour camping
+- Kit de survie multifonction
+- Hache de camping multifonction
+
+### 6. Lancer le serveur de développement
 
 ```bash
 npm run dev
