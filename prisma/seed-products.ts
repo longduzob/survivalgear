@@ -2,6 +2,9 @@ import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
+// Constants
+const COMPARE_PRICE_MULTIPLIER = 1.3; // 30% higher than selling price
+
 const products = [
   {
     name: "Portable Stainless Steel Firewood Stove",
@@ -142,7 +145,8 @@ async function main() {
   }
 
   // Create products
-  for (const product of products) {
+  for (let i = 0; i < products.length; i++) {
+    const product = products[i];
     const category = await prisma.category.findUnique({ where: { slug: product.category } });
     
     if (!category) {
@@ -155,11 +159,11 @@ async function main() {
     const created = await prisma.product.create({
       data: {
         name: product.name,
-        slug: `${slug}-${Date.now()}`,
+        slug: `${slug}-${i + 1}`,
         description: product.description,
         price: product.price,
         basePrice: product.basePrice,
-        comparePrice: product.price * 1.3,
+        comparePrice: product.price * COMPARE_PRICE_MULTIPLIER,
         brand: "SurvivalGear",
         categoryId: category.id,
         active: true,
