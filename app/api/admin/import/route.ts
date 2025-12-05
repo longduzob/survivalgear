@@ -2,6 +2,11 @@ import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { calculateSellingPrice } from "@/lib/pricing";
 
+// Constants for product import
+const COMPARE_PRICE_MULTIPLIER = 1.3;
+const DEFAULT_VARIANT_PRICE = 0;
+const DEFAULT_VARIANT_STOCK = 100;
+
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
@@ -21,10 +26,18 @@ export async function POST(request: NextRequest) {
         continue;
       }
 
-      // Generate slug
-      const slug = name.toLowerCase()
+      // Generate base slug
+      let slug = name.toLowerCase()
         .replace(/[^a-z0-9]+/g, '-')
         .replace(/(^-|-$)/g, '');
+
+      // Ensure slug uniqueness
+      let uniqueSlug = slug;
+      let counter = 1;
+      while (await prisma.product.findUnique({ where: { slug: uniqueSlug } })) {
+        uniqueSlug = `${slug}-${counter}`;
+        counter++;
+      }
 
       // Calculate selling price with margin
       const sellingPrice = calculateSellingPrice(price);
@@ -56,11 +69,11 @@ export async function POST(request: NextRequest) {
       const product = await prisma.product.create({
         data: {
           name,
-          slug: `${slug}-${Date.now()}`,
+          slug: uniqueSlug,
           description: description || '',
           price: sellingPrice,
           basePrice: price,
-          comparePrice: sellingPrice * 1.3,
+          comparePrice: sellingPrice * COMPARE_PRICE_MULTIPLIER,
           brand: brand || undefined,
           categoryId: categoryRecord.id,
           active: true,
@@ -75,8 +88,8 @@ export async function POST(request: NextRequest) {
             create: (variants || []).map((v: { name: string; value: string }) => ({
               name: v.name,
               value: v.value,
-              price: 0,
-              stock: 100,
+              price: DEFAULT_VARIANT_PRICE,
+              stock: DEFAULT_VARIANT_STOCK,
             })),
           },
         },
