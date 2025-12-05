@@ -4,7 +4,7 @@ import { prisma } from "@/lib/prisma";
 export async function GET(request: Request) {
   try {
     const url = new URL(request.url);
-    const category = url.searchParams.get("category"); // slug optionnel
+    const category = url.searchParams.get("category"); // slug optional
 
     const where: any = {};
     if (category) {
