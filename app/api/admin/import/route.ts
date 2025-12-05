@@ -1,12 +1,22 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { prisma } from "@/lib/prisma";
-import { scrapeAliExpress, slugify, validateProductData } from "@/lib/scraper";
+import { scrapeAliExpress, slugify, validateProductData, createProductData, type ScrapedProduct } from "@/lib/scraper";
 import { calculateSellingPrice, calculateMarginPercentage } from "@/lib/pricing";
+import { downloadProductImages, isValidImageUrl } from "@/lib/imageDownloader";
+
+interface ImportInput {
+  url?: string;
+  productData?: Partial<ScrapedProduct>;
+}
 
 /**
  * POST /api/admin/import
- * Import products from AliExpress URLs
+ * Import products from AliExpress URLs or structured data
+ * 
+ * Accepts two formats:
+ * 1. { urls: string[] } - Attempt to scrape from URLs (limited success due to bot protection)
+ * 2. { products: Array<{ url?: string, productData: ScrapedProduct }> } - Direct data import (recommended)
  */
 export async function POST(request: NextRequest) {
   try {
@@ -22,28 +32,50 @@ export async function POST(request: NextRequest) {
     // }
 
     const body = await request.json();
-    const { urls } = body;
+    const { urls, products } = body;
 
-    if (!Array.isArray(urls) || urls.length === 0) {
+    let inputs: ImportInput[] = [];
+
+    // Handle legacy URLs format
+    if (urls && Array.isArray(urls)) {
+      if (urls.length === 0) {
+        return NextResponse.json(
+          { error: "URLs array must not be empty" },
+          { status: 400 }
+        );
+      }
+      inputs = urls.map(url => ({ url }));
+    }
+    // Handle new products format with structured data
+    else if (products && Array.isArray(products)) {
+      if (products.length === 0) {
+        return NextResponse.json(
+          { error: "Products array must not be empty" },
+          { status: 400 }
+        );
+      }
+      inputs = products;
+    }
+    else {
       return NextResponse.json(
-        { error: "URLs array is required and must not be empty" },
+        { error: "Either 'urls' or 'products' array is required" },
         { status: 400 }
       );
     }
 
-    // Limit number of URLs to prevent abuse
-    if (urls.length > 50) {
+    // Limit number of imports to prevent abuse
+    if (inputs.length > 50) {
       return NextResponse.json(
-        { error: "Maximum 50 URLs allowed per import" },
+        { error: "Maximum 50 products allowed per import" },
         { status: 400 }
       );
     }
 
     const results = [];
 
-    // Process each URL
-    for (const url of urls) {
-      const result = await processProductImport(url);
+    // Process each input
+    for (const input of inputs) {
+      const result = await processProductImport(input);
       results.push(result);
     }
 
@@ -68,19 +100,32 @@ export async function POST(request: NextRequest) {
 /**
  * Process a single product import
  */
-async function processProductImport(url: string) {
+async function processProductImport(input: ImportInput) {
+  const sourceUrl = input.url || 'manual-import';
+  
   // Create import log entry
   const importLog = await prisma.importLog.create({
     data: {
-      sourceUrl: url,
+      sourceUrl,
       status: "PENDING",
     },
   });
 
   try {
-    // Scrape product data
-    const scrapedData = await scrapeAliExpress(url);
-    const productData = validateProductData(scrapedData);
+    // Get product data either from scraping or direct input
+    let scrapedData: ScrapedProduct;
+    
+    if (input.productData) {
+      // Use provided structured data (recommended approach)
+      scrapedData = validateProductData(input.productData);
+    } else if (input.url) {
+      // Attempt to scrape from URL (will likely fail due to bot protection)
+      scrapedData = await scrapeAliExpress(input.url);
+    } else {
+      throw new Error('Either url or productData is required');
+    }
+    
+    const productData = scrapedData;
 
     // Calculate pricing
     const basePrice = productData.price;
@@ -93,6 +138,17 @@ async function processProductImport(url: string) {
     while (await prisma.product.findUnique({ where: { slug } })) {
       slug = `${slugify(productData.name)}-${counter}`;
       counter++;
+    }
+
+    // Download and save images locally
+    let imageUrls = productData.images || [];
+    const validImageUrls = imageUrls.filter(url => isValidImageUrl(url));
+    
+    let localImagePaths: string[] = [];
+    if (validImageUrls.length > 0) {
+      console.log(`Downloading ${validImageUrls.length} images for product ${slug}...`);
+      localImagePaths = await downloadProductImages(validImageUrls, slug);
+      console.log(`Successfully processed images for ${slug}`);
     }
 
     // Get or create default category
@@ -129,22 +185,37 @@ async function processProductImport(url: string) {
         brand: productData.brand || "Generic",
         price: sellingPrice,
         basePrice,
-        sourceUrl: url,
+        sourceUrl,
         categoryId: category.id,
         stock: 100, // Default stock
+        weight: productData.weight,
         active: true,
         featured: false,
       },
     });
 
-    // Create product images
-    if (productData.images && productData.images.length > 0) {
+    // Create product images with local paths
+    if (localImagePaths.length > 0) {
       await prisma.productImage.createMany({
-        data: productData.images.map((imageUrl, index) => ({
+        data: localImagePaths.map((imagePath, index) => ({
           productId: product.id,
-          url: imageUrl,
+          url: imagePath,
           alt: productData.name,
           order: index,
+        })),
+      });
+    }
+
+    // Create product variants if provided
+    if (productData.variants && productData.variants.length > 0) {
+      await prisma.productVariant.createMany({
+        data: productData.variants.map(variant => ({
+          productId: product.id,
+          name: variant.name,
+          value: variant.value,
+          price: variant.price,
+          stock: variant.stock || 100,
+          sku: variant.sku,
         })),
       });
     }
@@ -163,7 +234,7 @@ async function processProductImport(url: string) {
 
     return {
       success: true,
-      url,
+      url: sourceUrl,
       product: {
         id: product.id,
         name: product.name,
@@ -171,6 +242,8 @@ async function processProductImport(url: string) {
         basePrice,
         sellingPrice,
         margin,
+        imagesDownloaded: localImagePaths.length,
+        variantsCreated: productData.variants?.length || 0,
       },
     };
   } catch (error) {
@@ -188,7 +261,7 @@ async function processProductImport(url: string) {
 
     return {
       success: false,
-      url,
+      url: sourceUrl,
       error: errorMessage,
     };
   }
