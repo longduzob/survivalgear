@@ -36,6 +36,7 @@ Site e-commerce **Next.js 14+** de matériel outdoor/survie en dropshipping, ins
 - ✅ Dashboard admin pour gérer produits et commandes
 - ✅ CRUD produits complet
 - ✅ Gestion des stocks et variantes
+- ✅ **Import automatique depuis AliExpress** avec calcul de prix dynamique
 
 ## 🛠️ Stack Technique
 
@@ -108,39 +109,41 @@ Ouvrez [http://localhost:3000](http://localhost:3000) dans votre navigateur.
 
 ## 🤖 Import de Produits
 
-Le projet inclut un outil Python pour automatiser l'import de produits depuis AliExpress et Hipobuy.
+Le projet offre **deux méthodes** pour importer des produits depuis AliExpress :
 
-### Installation de l'outil
+### Méthode 1 : Interface Admin Web (Recommandée ✨)
+
+**Nouvelle fonctionnalité !** Importez directement depuis le dashboard admin :
+
+1. Connectez-vous en tant qu'admin
+2. Allez sur `/admin/import`
+3. Collez vos liens AliExpress (un par ligne)
+4. Cliquez sur "Importer"
+5. Les produits sont automatiquement créés avec :
+   - Prix calculé avec marge dynamique
+   - Images importées
+   - Log complet de l'import
+
+**Pricing automatique** :
+- €0-10 : ×3.0 (ex: 5€ → 14.99€)
+- €10-30 : ×2.5 (ex: 20€ → 49.99€)
+- €30-100 : ×2.0 (ex: 45€ → 89.99€)
+- €100+ : ×1.5-1.7
+
+Voir [docs/PRODUCT_IMPORT.md](docs/PRODUCT_IMPORT.md) pour la documentation complète.
+
+### Méthode 2 : Outil Python (Avancé)
+
+Pour des imports en masse ou personnalisés :
 
 ```bash
 cd tools/product-importer
 pip install -r requirements.txt
 ```
 
-### Utilisation
-
-1. Créez un fichier `links.txt` avec une URL par ligne :
-```
-https://www.aliexpress.com/item/...
-https://www.hipobuy.com/product/...
-```
-
-2. Lancez l'import :
-```bash
-python importer.py
-```
-
-3. Importez dans la base de données :
-```bash
-cd ../..
-node tools/product-importer/import-to-db.js
-```
-
-Les produits seront automatiquement :
-- Téléchargés avec toutes leurs images
-- Prix ajustés (×2.5 + arrondi à .99)
-- Variantes extraites
-- Importés dans PostgreSQL
+1. Créez un fichier `links.txt` avec une URL par ligne
+2. Lancez l'import : `python importer.py`
+3. Importez dans la base : `node import-to-db.js`
 
 Voir [tools/product-importer/README.md](tools/product-importer/README.md) pour plus de détails.
 
@@ -202,7 +205,9 @@ vercel env pull
 │   └── CookieConsent.tsx
 ├── lib/                   # Utilitaires
 │   ├── prisma.ts         # Client Prisma
-│   └── shipping.ts       # Calcul frais de port
+│   ├── shipping.ts       # Calcul frais de port
+│   ├── pricing.ts        # Calcul de prix dynamique
+│   └── scraper.ts        # Utilitaires de scraping
 ├── prisma/
 │   └── schema.prisma     # Schéma de base de données
 ├── public/

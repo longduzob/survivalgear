@@ -105,6 +105,8 @@ model Product {
   weight      Float?
   featured    Boolean  @default(false)
   active      Boolean  @default(true)
+  sourceUrl   String?  // Original URL from import (AliExpress, etc.)
+  basePrice   Float?   // Original price before margin calculation
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
@@ -213,4 +215,23 @@ model Wishlist {
   createdAt DateTime @default(now())
 
   @@unique([userId, productId])
+}
+
+enum ImportStatus {
+  SUCCESS
+  FAILED
+  PENDING
+}
+
+model ImportLog {
+  id          String       @id @default(cuid())
+  sourceUrl   String
+  productName String?
+  basePrice   Float?
+  sellingPrice Float?
+  margin      Float?       // Margin percentage
+  status      ImportStatus @default(PENDING)
+  errorMessage String?     @db.Text
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
 }
