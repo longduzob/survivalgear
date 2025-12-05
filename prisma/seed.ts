@@ -14,7 +14,7 @@ async function main() {
     },
     {
       name: 'Sacs à Dos',
-      slug: 'sacs-dos',
+      slug: 'sacs-a-dos',
       description: 'Sacs pour toutes vos aventures, du trekking à la randonnée',
     },
     {
