@@ -152,11 +152,19 @@ function parseAliExpressHtml(html: string, productId: string): ScrapedProduct | 
     if (jsonLdMatch) {
       const data = JSON.parse(jsonLdMatch[1]);
       if (data['@type'] === 'Product') {
+        // Handle images safely - can be array, string, or undefined
+        let images: string[] = [];
+        if (Array.isArray(data.image)) {
+          images = data.image.filter((img: any) => img && typeof img === 'string');
+        } else if (data.image && typeof data.image === 'string') {
+          images = [data.image];
+        }
+        
         return {
           name: data.name || `Product ${productId}`,
           description: data.description || '',
           price: parseFloat(data.offers?.price) || 0,
-          images: Array.isArray(data.image) ? data.image : [data.image],
+          images,
           brand: data.brand?.name,
         };
       }

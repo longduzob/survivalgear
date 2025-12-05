@@ -6,8 +6,7 @@
 import fs from 'fs/promises';
 import path from 'path';
 import { createWriteStream } from 'fs';
-import { Readable } from 'stream';
-import { finished } from 'stream/promises';
+import { pipeline } from 'stream/promises';
 
 /**
  * Download an image from URL and save it locally
@@ -51,9 +50,9 @@ export async function downloadAndSaveImage(
       throw new Error('Response body is null');
     }
 
-    // Save image to file
-    const fileStream = createWriteStream(filepath);
-    await finished(Readable.fromWeb(response.body as any).pipe(fileStream));
+    // Save image to file using arrayBuffer approach (more compatible)
+    const buffer = Buffer.from(await response.arrayBuffer());
+    await fs.writeFile(filepath, buffer);
 
     // Return public URL path
     return `/products/${productSlug}/${filename}`;

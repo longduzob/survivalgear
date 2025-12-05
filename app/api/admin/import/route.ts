@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { prisma } from "@/lib/prisma";
-import { scrapeAliExpress, slugify, validateProductData, createProductData, type ScrapedProduct } from "@/lib/scraper";
+import { scrapeAliExpress, slugify, validateProductData, type ScrapedProduct } from "@/lib/scraper";
 import { calculateSellingPrice, calculateMarginPercentage } from "@/lib/pricing";
 import { downloadProductImages, isValidImageUrl } from "@/lib/imageDownloader";
 
