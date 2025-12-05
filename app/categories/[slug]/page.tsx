@@ -103,13 +103,7 @@ export default async function CategoryPage({
                   <span className="text-gray-600 ml-2">produits disponibles</span>
                 </p>
               </div>
-              <select className="border-2 border-gray-300 rounded-xl px-5 py-3 text-sm font-semibold focus:border-primary focus:outline-none transition-smooth bg-white shadow-sm">
-                <option>Pertinence</option>
-                <option>Prix croissant</option>
-                <option>Prix décroissant</option>
-                <option>Nouveautés</option>
-                <option>Meilleures ventes</option>
-              </select>
+              {/* TODO: Implement sorting functionality */}
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">

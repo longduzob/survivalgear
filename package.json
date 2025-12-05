@@ -12,7 +12,7 @@
     "seed": "tsx prisma/seed.ts"
   },
   "prisma": {
-    "seed": "npm run seed"
+    "seed": "tsx prisma/seed.ts"
   },
   "keywords": [],
   "author": "",

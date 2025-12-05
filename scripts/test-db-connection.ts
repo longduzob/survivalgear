@@ -56,7 +56,8 @@ async function main() {
       
       console.log('\nSample products:');
       products.forEach(product => {
-        console.log(`  - ${product.name} (${product.price}€) - ${product.category.name}`);
+        const categoryName = product.category?.name || 'No category';
+        console.log(`  - ${product.name} (${product.price}€) - ${categoryName}`);
       });
     }
 
