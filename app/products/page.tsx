@@ -1,33 +1,19 @@
-import { notFound } from "next/navigation";
 import ProductCard from "@/components/ProductCard";
 import FilterSidebar from "@/components/FilterSidebar";
 import { prisma } from "@/lib/prisma";
 
 export const dynamic = 'force-dynamic';
 
-async function getCategoryBySlug(slug: string) {
-  try {
-    return await prisma.category.findUnique({
-      where: { slug },
-    });
-  } catch (error) {
-    console.error('Failed to fetch category:', error);
-    return null;
-  }
-}
-
-async function getProductsByCategory(categoryId: string) {
+async function getAllProducts() {
   try {
     const dbProducts = await prisma.product.findMany({
-      where: {
-        categoryId,
-        active: true,
-      },
+      where: { active: true },
       include: {
         images: {
           orderBy: { order: 'asc' },
         },
         variants: true,
+        category: true,
       },
       orderBy: { createdAt: 'desc' },
     });
@@ -55,18 +41,8 @@ async function getProductsByCategory(categoryId: string) {
   }
 }
 
-export default async function CategoryPage({
-  params,
-}: {
-  params: { slug: string };
-}) {
-  const category = await getCategoryBySlug(params.slug);
-
-  if (!category) {
-    notFound();
-  }
-
-  const products = await getProductsByCategory(category.id);
+export default async function ProductsPage() {
+  const products = await getAllProducts();
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-background-light to-white">
@@ -76,10 +52,12 @@ export default async function CategoryPage({
         <div className="container mx-auto px-4 relative z-10">
           <div className="max-w-3xl">
             <div className="inline-block mb-4 px-4 py-2 bg-white/10 backdrop-blur-sm rounded-full border border-white/20">
-              <span className="text-accent font-semibold">Collection Premium</span>
+              <span className="text-accent font-semibold">Tous nos produits</span>
             </div>
-            <h1 className="text-5xl md:text-6xl font-bold mb-4 leading-tight">{category.name}</h1>
-            <p className="text-xl md:text-2xl text-gray-100 leading-relaxed">{category.description}</p>
+            <h1 className="text-5xl md:text-6xl font-bold mb-4 leading-tight">Notre Catalogue</h1>
+            <p className="text-xl md:text-2xl text-gray-100 leading-relaxed">
+              Découvrez notre gamme complète d'équipements outdoor et survie
+            </p>
           </div>
         </div>
       </div>
@@ -113,8 +91,8 @@ export default async function CategoryPage({
                 ))
               ) : (
                 <div className="col-span-1 sm:col-span-2 lg:col-span-3 text-center py-12">
-                  <p className="text-gray-600 text-lg mb-2">Aucun produit disponible dans cette catégorie.</p>
-                  <p className="text-gray-500 text-sm">Revenez bientôt pour découvrir nos nouveautés !</p>
+                  <p className="text-gray-600 text-lg mb-2">Aucun produit disponible pour le moment.</p>
+                  <p className="text-gray-500 text-sm">Revenez bientôt pour découvrir notre sélection !</p>
                 </div>
               )}
             </div>
@@ -126,6 +104,3 @@ export default async function CategoryPage({
     </div>
   );
 }
-
-// Note: generateStaticParams is removed since we use force-dynamic for real-time data
-// Category routes will be generated dynamically at runtime
