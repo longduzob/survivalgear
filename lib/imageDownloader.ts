@@ -102,11 +102,33 @@ export function isValidImageUrl(url: string): boolean {
   try {
     const urlObj = new URL(url);
     const pathname = urlObj.pathname.toLowerCase();
+    const hostname = urlObj.hostname.toLowerCase();
     const imageExtensions = ['.jpg', '.jpeg', '.png', '.gif', '.webp', '.avif'];
     
-    return imageExtensions.some(ext => pathname.includes(ext)) || 
-           urlObj.hostname.includes('alicdn.com') || // AliExpress CDN
-           urlObj.hostname.includes('aliexpress.com');
+    // Check if it's an image file
+    const hasImageExtension = imageExtensions.some(ext => pathname.includes(ext));
+    
+    // Check if it's from a trusted CDN
+    // Use exact match or proper subdomain check to prevent bypass
+    const trustedDomains = [
+      'alicdn.com',
+      'ae01.alicdn.com',
+      'ae02.alicdn.com',
+      'ae03.alicdn.com',
+      'ae04.alicdn.com',
+      'ae05.alicdn.com',
+      'aliexpress.com',
+      'www.aliexpress.com',
+      'images.unsplash.com',
+      'unsplash.com',
+    ];
+    
+    // Check if hostname exactly matches or is a direct subdomain
+    const isTrustedDomain = trustedDomains.some(domain => {
+      return hostname === domain || hostname.endsWith('.' + domain);
+    });
+    
+    return hasImageExtension || isTrustedDomain;
   } catch {
     return false;
   }
