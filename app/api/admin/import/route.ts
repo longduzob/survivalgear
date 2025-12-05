@@ -96,19 +96,28 @@ async function processProductImport(url: string) {
     }
 
     // Get or create default category
+    // Try to find the category from scraped data, or use a default
+    const categorySlug = productData.category || "survie-navigation";
     let category = await prisma.category.findFirst({
-      where: { slug: productData.category || "outdoor-equipment" },
+      where: { slug: categorySlug },
     });
 
     if (!category) {
-      // Create default category if it doesn't exist
-      category = await prisma.category.create({
-        data: {
-          name: "Outdoor Equipment",
-          slug: "outdoor-equipment",
-          description: "General outdoor and survival equipment",
-        },
+      // If category doesn't exist, use the "Survie & Navigation" category as fallback
+      category = await prisma.category.findFirst({
+        where: { slug: "survie-navigation" },
       });
+      
+      // If even the default doesn't exist, create it
+      if (!category) {
+        category = await prisma.category.create({
+          data: {
+            name: "Survie & Navigation",
+            slug: "survie-navigation",
+            description: "Équipements de survie et navigation pour explorateurs",
+          },
+        });
+      }
     }
 
     // Create product

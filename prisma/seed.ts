@@ -5,7 +5,7 @@ const prisma = new PrismaClient();
 async function main() {
   console.log('Starting seed...');
 
-  // Create default categories
+  // Create default categories (slugs match Header.tsx navigation)
   const categories = [
     {
       name: 'Tentes & Abris',
