@@ -1,33 +1,19 @@
-import { notFound } from "next/navigation";
 import ProductCard from "@/components/ProductCard";
 import FilterSidebar from "@/components/FilterSidebar";
 import { prisma } from "@/lib/prisma";
 
 export const dynamic = 'force-dynamic';
 
-async function getCategoryBySlug(slug: string) {
-  try {
-    return await prisma.category.findUnique({
-      where: { slug },
-    });
-  } catch (error) {
-    console.error('Failed to fetch category:', error);
-    return null;
-  }
-}
-
-async function getProductsByCategory(categoryId: string) {
+async function getAllProducts() {
   try {
     return await prisma.product.findMany({
-      where: {
-        categoryId,
-        active: true,
-      },
+      where: { active: true },
       include: {
         images: {
           orderBy: { order: 'asc' },
         },
         variants: true,
+        category: true,
       },
       orderBy: { createdAt: 'desc' },
     });
@@ -37,18 +23,8 @@ async function getProductsByCategory(categoryId: string) {
   }
 }
 
-export default async function CategoryPage({
-  params,
-}: {
-  params: { slug: string };
-}) {
-  const category = await getCategoryBySlug(params.slug);
-
-  if (!category) {
-    notFound();
-  }
-
-  const products = await getProductsByCategory(category.id);
+export default async function ProductsPage() {
+  const products = await getAllProducts();
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-background-light to-white">
@@ -58,10 +34,12 @@ export default async function CategoryPage({
         <div className="container mx-auto px-4 relative z-10">
           <div className="max-w-3xl">
             <div className="inline-block mb-4 px-4 py-2 bg-white/10 backdrop-blur-sm rounded-full border border-white/20">
-              <span className="text-accent font-semibold">Collection Premium</span>
+              <span className="text-accent font-semibold">Tous nos produits</span>
             </div>
-            <h1 className="text-5xl md:text-6xl font-bold mb-4 leading-tight">{category.name}</h1>
-            <p className="text-xl md:text-2xl text-gray-100 leading-relaxed">{category.description}</p>
+            <h1 className="text-5xl md:text-6xl font-bold mb-4 leading-tight">Notre Catalogue</h1>
+            <p className="text-xl md:text-2xl text-gray-100 leading-relaxed">
+              Découvrez notre gamme complète d'équipements outdoor et survie
+            </p>
           </div>
         </div>
       </div>
@@ -101,52 +79,35 @@ export default async function CategoryPage({
                 ))
               ) : (
                 <div className="col-span-1 sm:col-span-2 lg:col-span-3 text-center py-12">
-                  <p className="text-gray-600 text-lg mb-2">Aucun produit disponible dans cette catégorie.</p>
-                  <p className="text-gray-500 text-sm">Revenez bientôt pour découvrir nos nouveautés !</p>
+                  <p className="text-gray-600 text-lg mb-2">Aucun produit disponible pour le moment.</p>
+                  <p className="text-gray-500 text-sm">Revenez bientôt pour découvrir notre sélection !</p>
                 </div>
               )}
             </div>
 
             {/* Pagination */}
-            <div className="mt-16 flex justify-center">
-              <nav className="flex items-center gap-2">
-                <button className="px-5 py-3 border-2 border-gray-300 rounded-xl hover:bg-gray-50 font-semibold transition-smooth flex items-center gap-2">
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-                  </svg>
-                  Précédent
-                </button>
-                <button className="px-5 py-3 bg-primary text-white rounded-xl font-bold shadow-md">1</button>
-                <button className="px-5 py-3 border-2 border-gray-300 rounded-xl hover:bg-gray-50 font-semibold transition-smooth">
-                  2
-                </button>
-                <button className="px-5 py-3 border-2 border-gray-300 rounded-xl hover:bg-gray-50 font-semibold transition-smooth">
-                  3
-                </button>
-                <button className="px-5 py-3 border-2 border-gray-300 rounded-xl hover:bg-gray-50 font-semibold transition-smooth flex items-center gap-2">
-                  Suivant
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                  </svg>
-                </button>
-              </nav>
-            </div>
+            {products.length > 0 && (
+              <div className="mt-16 flex justify-center">
+                <nav className="flex items-center gap-2">
+                  <button className="px-5 py-3 border-2 border-gray-300 rounded-xl hover:bg-gray-50 font-semibold transition-smooth flex items-center gap-2">
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                    </svg>
+                    Précédent
+                  </button>
+                  <button className="px-5 py-3 bg-primary text-white rounded-xl font-bold shadow-md">1</button>
+                  <button className="px-5 py-3 border-2 border-gray-300 rounded-xl hover:bg-gray-50 font-semibold transition-smooth">
+                    Suivant
+                    <svg className="w-5 h-5 inline ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                    </svg>
+                  </button>
+                </nav>
+              </div>
+            )}
           </div>
         </div>
       </div>
     </div>
   );
-}
-
-// Generate static params for known categories
-export async function generateStaticParams() {
-  try {
-    const categories = await prisma.category.findMany();
-    return categories.map((category) => ({
-      slug: category.slug,
-    }));
-  } catch (error) {
-    console.error('Failed to generate static params:', error);
-    return [];
-  }
 }

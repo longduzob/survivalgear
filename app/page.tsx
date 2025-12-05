@@ -1,31 +1,44 @@
 import Image from "next/image";
 import Link from "next/link";
 import ProductCard from "@/components/ProductCard";
+import { prisma } from "@/lib/prisma";
 
-export default function Home() {
-  // Mock data - will be replaced with real data from database
-  const categories = [
-    { id: 1, name: "Tentes & Abris", slug: "tentes-abris", image: "/placeholder-tent.jpg" },
-    { id: 2, name: "Sacs à Dos", slug: "sacs-dos", image: "/placeholder-backpack.jpg" },
-    { id: 3, name: "Outils & Couteaux", slug: "outils-couteaux", image: "/placeholder-knife.jpg" },
-    { id: 4, name: "Éclairage", slug: "eclairage", image: "/placeholder-light.jpg" },
-  ];
+export const dynamic = 'force-dynamic';
 
-  const featuredProducts = [
-    {
-      id: "1",
-      name: "Tente 2 Places Ultra-Légère",
-      slug: "tente-2-places-ultra-legere",
-      price: 79.99,
-      comparePrice: 129.99,
-      brand: "OutdoorPro",
-      images: [{ url: "/placeholder-product.jpg", alt: "Tente 2 places" }],
-      variants: [
-        { name: "Color", value: "Green" },
-        { name: "Color", value: "Orange" },
-      ],
-    },
-  ];
+async function getCategories() {
+  try {
+    return await prisma.category.findMany({
+      take: 4,
+      orderBy: { name: 'asc' },
+    });
+  } catch (error) {
+    console.error('Failed to fetch categories:', error);
+    return [];
+  }
+}
+
+async function getFeaturedProducts() {
+  try {
+    return await prisma.product.findMany({
+      where: { active: true },
+      include: {
+        images: {
+          orderBy: { order: 'asc' },
+        },
+        variants: true,
+      },
+      take: 8,
+      orderBy: { createdAt: 'desc' },
+    });
+  } catch (error) {
+    console.error('Failed to fetch products:', error);
+    return [];
+  }
+}
+
+export default async function Home() {
+  const categories = await getCategories();
+  const products = await getFeaturedProducts();
 
   return (
     <div>
@@ -113,32 +126,38 @@ export default function Home() {
             </p>
           </div>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-            {categories.map((category) => (
-              <Link
-                key={category.id}
-                href={`/categories/${category.slug}`}
-                className="group hover-lift"
-              >
-                <div className="relative aspect-square bg-gradient-to-br from-primary-dark to-primary rounded-2xl overflow-hidden shadow-medium">
-                  {/* Pattern overlay */}
-                  <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PHBhdHRlcm4gaWQ9ImEiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCI+PHBhdGggZD0iTTAgMGg2MHY2MEgweiIgZmlsbD0ibm9uZSIvPjxwYXRoIGQ9Ik0zMCAzMG0tMjAgMGEyMCAyMCAwIDEgMCA0MCAwYTIwIDIwIDAgMSAwLTQwIDAiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIwLjUiIG9wYWNpdHk9IjAuMSIgZmlsbD0ibm9uZSIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNhKSIvPjwvc3ZnPg==')] opacity-40"></div>
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent group-hover:from-black/70 transition-all duration-300" />
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="text-center transform group-hover:scale-110 transition-transform duration-300">
-                      <span className="text-white font-bold text-xl drop-shadow-lg">
-                        {category.name}
-                      </span>
+            {categories.length > 0 ? (
+              categories.map((category) => (
+                <Link
+                  key={category.id}
+                  href={`/categories/${category.slug}`}
+                  className="group hover-lift"
+                >
+                  <div className="relative aspect-square bg-gradient-to-br from-primary-dark to-primary rounded-2xl overflow-hidden shadow-medium">
+                    {/* Pattern overlay */}
+                    <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PHBhdHRlcm4gaWQ9ImEiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCI+PHBhdGggZD0iTTAgMGg2MHY2MEgweiIgZmlsbD0ibm9uZSIvPjxwYXRoIGQ9Ik0zMCAzMG0tMjAgMGEyMCAyMCAwIDEgMCA0MCAwYTIwIDIwIDAgMSAwLTQwIDAiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIwLjUiIG9wYWNpdHk9IjAuMSIgZmlsbD0ibm9uZSIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNhKSIvPjwvc3ZnPg==')] opacity-40"></div>
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent group-hover:from-black/70 transition-all duration-300" />
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <div className="text-center transform group-hover:scale-110 transition-transform duration-300">
+                        <span className="text-white font-bold text-xl drop-shadow-lg">
+                          {category.name}
+                        </span>
+                      </div>
+                    </div>
+                    {/* Icon overlay */}
+                    <div className="absolute top-4 right-4 w-12 h-12 bg-white/10 rounded-full backdrop-blur-sm flex items-center justify-center group-hover:bg-accent/80 transition-all duration-300">
+                      <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                      </svg>
                     </div>
                   </div>
-                  {/* Icon overlay */}
-                  <div className="absolute top-4 right-4 w-12 h-12 bg-white/10 rounded-full backdrop-blur-sm flex items-center justify-center group-hover:bg-accent/80 transition-all duration-300">
-                    <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                    </svg>
-                  </div>
-                </div>
-              </Link>
-            ))}
+                </Link>
+              ))
+            ) : (
+              <div className="col-span-2 md:col-span-4 text-center py-8 text-gray-600">
+                <p>Aucune catégorie disponible pour le moment.</p>
+              </div>
+            )}
           </div>
         </div>
       </section>
@@ -153,9 +172,16 @@ export default function Home() {
             </p>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-            {featuredProducts.map((product) => (
-              <ProductCard key={product.id} product={product} />
-            ))}
+            {products.length > 0 ? (
+              products.map((product) => (
+                <ProductCard key={product.id} product={product} />
+              ))
+            ) : (
+              <div className="col-span-1 sm:col-span-2 lg:col-span-4 text-center py-12 text-gray-600">
+                <p className="text-lg mb-2">Aucun produit disponible pour le moment.</p>
+                <p className="text-sm">Revenez bientôt pour découvrir notre sélection !</p>
+              </div>
+            )}
           </div>
           <div className="text-center mt-12">
             <Link
