@@ -5,11 +5,33 @@ import { prisma } from "@/lib/prisma";
 
 export const dynamic = 'force-dynamic';
 
+const categoryDefaults: Record<string, { name: string; description: string }> = {
+  'tentes-abris': { name: 'Tentes & Abris', description: 'Équipement de camping et abris pour vos aventures en pleine nature' },
+  'sacs-a-dos': { name: 'Sacs à Dos', description: 'Sacs pour toutes vos aventures, du trekking à la randonnée' },
+  'outils-couteaux': { name: 'Outils & Couteaux', description: 'Outils de survie essentiels pour les situations extrêmes' },
+  'eclairage': { name: 'Éclairage', description: 'Lampes et solutions d\'éclairage pour l\'outdoor' },
+  'cuisine-eau': { name: 'Cuisine & Eau', description: 'Matériel de cuisine et purification d\'eau pour le camping' },
+  'survie-navigation': { name: 'Survie & Navigation', description: 'Équipements de survie et navigation pour explorateurs' },
+};
+
 async function getCategoryBySlug(slug: string) {
   try {
-    return await prisma.category.findUnique({
+    let category = await prisma.category.findUnique({
       where: { slug },
     });
+    
+    // Auto-create category if it doesn't exist but is a known category
+    if (!category && categoryDefaults[slug]) {
+      category = await prisma.category.create({
+        data: {
+          slug,
+          name: categoryDefaults[slug].name,
+          description: categoryDefaults[slug].description,
+        },
+      });
+    }
+    
+    return category;
   } catch (error) {
     console.error('Failed to fetch category:', error);
     return null;
