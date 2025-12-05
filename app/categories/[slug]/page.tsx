@@ -125,30 +125,7 @@ export default async function CategoryPage({
               )}
             </div>
 
-            {/* Pagination */}
-            <div className="mt-16 flex justify-center">
-              <nav className="flex items-center gap-2">
-                <button className="px-5 py-3 border-2 border-gray-300 rounded-xl hover:bg-gray-50 font-semibold transition-smooth flex items-center gap-2">
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-                  </svg>
-                  Précédent
-                </button>
-                <button className="px-5 py-3 bg-primary text-white rounded-xl font-bold shadow-md">1</button>
-                <button className="px-5 py-3 border-2 border-gray-300 rounded-xl hover:bg-gray-50 font-semibold transition-smooth">
-                  2
-                </button>
-                <button className="px-5 py-3 border-2 border-gray-300 rounded-xl hover:bg-gray-50 font-semibold transition-smooth">
-                  3
-                </button>
-                <button className="px-5 py-3 border-2 border-gray-300 rounded-xl hover:bg-gray-50 font-semibold transition-smooth flex items-center gap-2">
-                  Suivant
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                  </svg>
-                </button>
-              </nav>
-            </div>
+            {/* Pagination - TODO: Implement when product count exceeds page limit */}
           </div>
         </div>
       </div>
@@ -156,15 +133,5 @@ export default async function CategoryPage({
   );
 }
 
-// Generate static params for known categories
-export async function generateStaticParams() {
-  try {
-    const categories = await prisma.category.findMany();
-    return categories.map((category) => ({
-      slug: category.slug,
-    }));
-  } catch (error) {
-    console.error('Failed to generate static params:', error);
-    return [];
-  }
-}
+// Note: generateStaticParams is removed since we use force-dynamic for real-time data
+// Category routes will be generated dynamically at runtime
