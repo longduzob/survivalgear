@@ -1,0 +1,55 @@
+{
+  "products": [
+    {
+      "name": "Tente de survie 2 personnes",
+      "price": 45.50,
+      "description": "Tente légère et résistante, parfaite pour les situations d'urgence et le camping. Imperméable et facile à monter.",
+      "images": [
+        "https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?w=800",
+        "https://images.unsplash.com/photo-1478720568477-152d9b164e26?w=800"
+      ],
+      "brand": "OutdoorPro",
+      "category": "tentes-abris",
+      "variants": [
+        {
+          "name": "Couleur",
+          "value": "Vert"
+        },
+        {
+          "name": "Couleur",
+          "value": "Orange"
+        }
+      ]
+    },
+    {
+      "name": "Kit de premiers secours complet",
+      "price": 29.99,
+      "description": "Kit de premiers secours complet avec tout le nécessaire pour les urgences en extérieur. Compact et léger.",
+      "images": [
+        "https://images.unsplash.com/photo-1603398938378-e54eab446dde?w=800"
+      ],
+      "brand": "MediCare",
+      "category": "premiers-secours"
+    },
+    {
+      "name": "Couteau de survie multifonction",
+      "price": 35.00,
+      "description": "Couteau de survie avec lame en acier inoxydable, pierre à feu intégrée et étui de protection.",
+      "images": [
+        "https://images.unsplash.com/photo-1593078165999-f14c4c4b3e37?w=800"
+      ],
+      "brand": "BushCraft",
+      "category": "outils-couteaux",
+      "variants": [
+        {
+          "name": "Taille",
+          "value": "Standard"
+        },
+        {
+          "name": "Taille",
+          "value": "Compact"
+        }
+      ]
+    }
+  ]
+}
