@@ -18,7 +18,7 @@ async function getCategoryBySlug(slug: string) {
 
 async function getProductsByCategory(categoryId: string) {
   try {
-    return await prisma.product.findMany({
+    const dbProducts = await prisma.product.findMany({
       where: {
         categoryId,
         active: true,
@@ -31,6 +31,24 @@ async function getProductsByCategory(categoryId: string) {
       },
       orderBy: { createdAt: 'desc' },
     });
+
+    // Transform database products to match ProductCard expected format
+    return dbProducts.map(product => ({
+      id: product.id,
+      name: product.name,
+      slug: product.slug,
+      price: product.price,
+      comparePrice: product.comparePrice ?? undefined,
+      brand: product.brand ?? undefined,
+      images: product.images.map(img => ({
+        url: img.url,
+        alt: img.alt ?? undefined,
+      })),
+      variants: product.variants.map(v => ({
+        name: v.name,
+        value: v.value,
+      })),
+    }));
   } catch (error) {
     console.error('Failed to fetch products:', error);
     return [];
