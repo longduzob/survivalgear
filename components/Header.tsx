@@ -9,7 +9,7 @@ export default function Header() {
 
   const categories = [
     { name: "Tentes & Abris", slug: "tentes-abris" },
-    { name: "Sacs à Dos", slug: "sacs-dos" },
+    { name: "Sacs à Dos", slug: "sacs-a-dos" },
     { name: "Outils & Couteaux", slug: "outils-couteaux" },
     { name: "Éclairage", slug: "eclairage" },
     { name: "Cuisine & Eau", slug: "cuisine-eau" },
