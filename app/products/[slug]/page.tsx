@@ -41,12 +41,16 @@ export default async function ProductPage({
 
   // Group variants by type
   const colorVariants = product.variants
-    .filter((v) => v.name.toLowerCase() === 'color' || v.name.toLowerCase() === 'couleur')
-    .map((v) => v.value);
+    ? product.variants
+        .filter((v) => v.name.toLowerCase() === 'color' || v.name.toLowerCase() === 'couleur')
+        .map((v) => v.value)
+    : [];
   
   const sizeVariants = product.variants
-    .filter((v) => v.name.toLowerCase() === 'size' || v.name.toLowerCase() === 'taille')
-    .map((v) => v.value);
+    ? product.variants
+        .filter((v) => v.name.toLowerCase() === 'size' || v.name.toLowerCase() === 'taille')
+        .map((v) => v.value)
+    : [];
 
   return (
     <div className="min-h-screen bg-background-light">
@@ -140,9 +144,9 @@ export default async function ProductPage({
               <div className="mb-8">
                 <p className="font-bold text-gray-900 mb-4">Couleurs disponibles:</p>
                 <div className="flex gap-3 flex-wrap">
-                  {colorVariants.map((color, idx) => (
+                  {colorVariants.map((color) => (
                     <div
-                      key={idx}
+                      key={color}
                       className="px-4 py-2 border-2 border-gray-300 rounded-xl font-semibold text-gray-700 bg-white"
                     >
                       {color}
@@ -157,9 +161,9 @@ export default async function ProductPage({
               <div className="mb-8">
                 <p className="font-bold text-gray-900 mb-4">Tailles disponibles:</p>
                 <div className="flex gap-3 flex-wrap">
-                  {sizeVariants.map((size, idx) => (
+                  {sizeVariants.map((size) => (
                     <div
-                      key={idx}
+                      key={size}
                       className="px-4 py-2 border-2 border-gray-300 rounded-xl font-semibold text-gray-700 bg-white"
                     >
                       {size}
