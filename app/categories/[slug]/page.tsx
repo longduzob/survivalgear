@@ -29,10 +29,10 @@ async function getCategoryAndProducts(slug: string) {
       take: 200,
     });
 
-    // Sort images by order field in JavaScript
+    // Sort images by order field in JavaScript (non-mutating)
     const productsWithSortedImages = products.map((product) => ({
       ...product,
-      images: product.images.sort((a, b) => a.order - b.order),
+      images: [...product.images].sort((a, b) => a.order - b.order),
     }));
 
     return { category, products: productsWithSortedImages, error: null };
