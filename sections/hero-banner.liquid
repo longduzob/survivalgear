@@ -1,0 +1,61 @@
+<div class="hero-section" 
+     style="background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), 
+             {% if section.settings.background_image %} 
+               url('{{ section.settings.background_image | img_url: '2000x' }}')
+             {% else %}
+               url('{{ settings.demo_images.hero_banner }}')
+             {% endif %};">
+  
+  <div class="hero-content">
+    <h1>{{ section.settings.title }}</h1>
+    <p>{{ section.settings.subtitle }}</p>
+    
+    {% if section.settings.button_text != blank %}
+      <a href="{{ section.settings.button_link }}" class="hero-button">
+        {{ section.settings.button_text }}
+      </a>
+    {% endif %}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Bannière Hero",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "background_image",
+      "label": "Image de fond"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Titre",
+      "default": "ÉQUIPEMENT DE SURVIE PROFESSIONNEL"
+    },
+    {
+      "type": "text",
+      "id": "subtitle",
+      "label": "Sous-titre",
+      "default": "Gear testé en conditions extrêmes pour vos aventures"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Texte du bouton",
+      "default": "Découvrir la collection"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Lien du bouton"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Bannière Hero",
+      "category": "Hero"
+    }
+  ]
+}
+{% endschema %}

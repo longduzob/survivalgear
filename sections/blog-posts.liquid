@@ -1,0 +1,65 @@
+<div class="blog-posts">
+  {% if section.settings.title != blank %}
+    <h2 class="section-title">{{ section.settings.title }}</h2>
+  {% endif %}
+  
+  <div class="posts-grid">
+    {% assign blog = blogs[section.settings.blog] %}
+    {% if blog != blank %}
+      {% for article in blog.articles limit: section.settings.limit %}
+        <article class="post-card">
+          <a href="{{ article.url }}">
+            {% if article.image %}
+              <div class="post-image">
+                <img src="{{ article.image | img_url: '600x' }}" 
+                     alt="{{ article.title }}"
+                     loading="lazy">
+              </div>
+            {% endif %}
+            
+            <div class="post-content">
+              <h3 class="post-title">{{ article.title }}</h3>
+              <div class="post-excerpt">
+                {{ article.excerpt_or_content | strip_html | truncatewords: 25 }}
+              </div>
+            </div>
+          </a>
+        </article>
+      {% endfor %}
+    {% endif %}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Articles de blog",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Titre",
+      "default": "CONSEILS & ACTUALITÉS"
+    },
+    {
+      "type": "blog",
+      "id": "blog",
+      "label": "Blog"
+    },
+    {
+      "type": "range",
+      "id": "limit",
+      "min": 2,
+      "max": 6,
+      "step": 1,
+      "label": "Nombre d'articles",
+      "default": 3
+    }
+  ],
+  "presets": [
+    {
+      "name": "Articles de blog",
+      "category": "Blog"
+    }
+  ]
+}
+{% endschema %}

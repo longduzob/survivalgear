@@ -1,0 +1,39 @@
+<footer class="footer">
+  <div class="footer-main">
+    <div class="footer-newsletter">
+      <h3>Restez préparés</h3>
+      <p>Recevez nos conseils de survie et offres exclusives</p>
+      <form class="newsletter-form">
+        <input type="email" placeholder="Votre email" required>
+        <button type="submit">S'abonner</button>
+      </form>
+    </div>
+    
+    <div class="footer-links">
+      <div class="footer-column">
+        <h4>Boutique</h4>
+        <ul>
+          <li><a href="/collections/all">Tous les produits</a></li>
+          <li><a href="/pages/guides">Guides d'achat</a></li>
+        </ul>
+      </div>
+      
+      <div class="footer-column">
+        <h4>Contact</h4>
+        <p>📞 +33 1 23 45 67 89</p>
+        <p>✉️ contact@survivalgear.com</p>
+      </div>
+    </div>
+  </div>
+  
+  <div class="footer-bottom">
+    <p>&copy; {{ "now" | date: "%Y" }} Survival Gear Pro. Tous droits réservés.</p>
+  </div>
+</footer>
+
+{% schema %}
+{
+  "name": "Pied de page",
+  "settings": []
+}
+{% endschema %}

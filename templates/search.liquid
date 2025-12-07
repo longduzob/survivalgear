@@ -1,0 +1,30 @@
+{% layout none %}
+{% capture results %}
+  {% for item in search.results %}
+    {% assign item_type = item.object_type %}
+    
+    {% if item_type == 'product' %}
+      {
+        "title": {{ item.title | json }},
+        "url": {{ item.url | json }},
+        "image": {{ item.featured_image | img_url: '200x' | json }},
+        "price": {{ item.price | money | json }},
+        "type": "product"
+      }
+    {% elsif item_type == 'article' %}
+      {
+        "title": {{ item.title | json }},
+        "url": {{ item.url | json }},
+        "type": "article"
+      }
+    {% endif %}
+    
+    {% unless forloop.last %},{% endunless %}
+  {% endfor %}
+{% endcapture %}
+
+{
+  "results_count": {{ search.results_count }},
+  "query": {{ search.terms | json }},
+  "results": [{{ results }}]
+}

@@ -1,0 +1,59 @@
+<div class="kit-builder">
+  <div class="kit-builder-header">
+    <h2>{{ section.settings.title }}</h2>
+    <p>{{ section.settings.subtitle }}</p>
+  </div>
+  
+  <div class="builder-controls">
+    <div class="control-group">
+      <label for="activity-select">Activité principale:</label>
+      <select id="activity-select">
+        <option value="hiking">Randonnée journée</option>
+        <option value="camping">Camping 2-3 jours</option>
+        <option value="survival">Survie extrême</option>
+      </select>
+    </div>
+    
+    <button id="generate-kit" class="builder-button">
+      {{ section.settings.button_text }}
+    </button>
+  </div>
+  
+  <div class="kit-results" id="kit-results">
+    <div class="empty-state">
+      <p>Sélectionnez vos critères et générez votre kit personnalisé</p>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Kit Builder",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Titre",
+      "default": "Configurez votre kit de survie"
+    },
+    {
+      "type": "text",
+      "id": "subtitle",
+      "label": "Sous-titre",
+      "default": "Sélectionnez vos critères pour obtenir une liste d'équipement personnalisée"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Texte du bouton",
+      "default": "Générer mon kit"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Kit Builder",
+      "category": "Fonctionnalités"
+    }
+  ]
+}
+{% endschema %}
