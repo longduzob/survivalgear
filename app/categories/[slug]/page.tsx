@@ -38,10 +38,14 @@ async function getCategoryAndProducts(slug: string) {
     return { category, products: productsWithSortedImages, error: null };
   } catch (error) {
     console.error("Error fetching category and products:", error);
+    // Only expose sanitized error info to avoid information disclosure
+    const errorMessage = process.env.DEBUG_PAGES === "true" 
+      ? (error instanceof Error ? error.message : "Unknown error")
+      : "Database connection error";
     return {
       category: null,
       products: [],
-      error: error instanceof Error ? error.message : "Unknown error",
+      error: errorMessage,
     };
   }
 }
