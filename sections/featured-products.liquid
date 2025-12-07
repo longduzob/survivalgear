@@ -1,0 +1,48 @@
+<div class="featured-products">
+  {% if section.settings.title != blank %}
+    <h2 class="section-title">{{ section.settings.title }}</h2>
+  {% endif %}
+  
+  <div class="products-grid">
+    {% assign collection = collections[section.settings.collection] %}
+    {% if collection != blank %}
+      {% for product in collection.products limit: section.settings.limit %}
+        {% include 'product-card' with product %}
+      {% endfor %}
+    {% endif %}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Produits en vedette",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Titre",
+      "default": "NOS PRODUITS PHARES"
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Collection"
+    },
+    {
+      "type": "range",
+      "id": "limit",
+      "min": 2,
+      "max": 12,
+      "step": 1,
+      "label": "Nombre de produits",
+      "default": 8
+    }
+  ],
+  "presets": [
+    {
+      "name": "Produits en vedette",
+      "category": "Produits"
+    }
+  ]
+}
+{% endschema %}

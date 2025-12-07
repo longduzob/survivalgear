@@ -1,0 +1,56 @@
+{
+  "general": {
+    "title": "Survival Gear Pro",
+    "currency": "EUR",
+    "cart": "Panier",
+    "search": "Rechercher",
+    "account": "Mon compte"
+  },
+  "header": {
+    "topbar_message": "⚠️ Équipement de survie - Livraison offerte à partir de 150€",
+    "shop": "Boutique",
+    "about": "À propos",
+    "contact": "Contact"
+  },
+  "footer": {
+    "newsletter_title": "Restez préparés",
+    "newsletter_text": "Recevez nos conseils de survie et offres exclusives",
+    "subscribe": "S'abonner",
+    "shop": "Boutique",
+    "information": "Informations",
+    "contact": "Contact",
+    "copyright": "Tous droits réservés"
+  },
+  "products": {
+    "add_to_cart": "Ajouter au panier",
+    "out_of_stock": "Rupture de stock",
+    "view_product": "Voir le produit",
+    "from": "À partir de",
+    "sale": "Promo",
+    "new": "Nouveau"
+  },
+  "cart": {
+    "title": "Votre panier",
+    "empty": "Votre panier est vide",
+    "continue_shopping": "Continuer mes achats",
+    "update": "Mettre à jour",
+    "checkout": "Passer la commande",
+    "subtotal": "Sous-total",
+    "total": "Total",
+    "shipping": "Livraison",
+    "shipping_calculated": "Calculée à l'étape suivante"
+  },
+  "collection": {
+    "filter_by": "Filtrer par",
+    "sort_by": "Trier par",
+    "showing": "Affichage de",
+    "products": "produits"
+  },
+  "contact": {
+    "title": "Contactez-nous",
+    "name": "Nom",
+    "email": "Email",
+    "message": "Message",
+    "send": "Envoyer"
+  }
+}

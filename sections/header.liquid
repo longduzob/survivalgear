@@ -1,0 +1,97 @@
+<header class="header" data-section-id="{{ section.id }}">
+  <div class="header-top-bar" style="background: {{ section.settings.topbar_bg }}; color: {{ section.settings.topbar_text_color }};">
+    <p>{{ section.settings.topbar_text }}</p>
+    <button class="close-topbar">&times;</button>
+  </div>
+
+  <div class="header-main">
+    <div class="header-logo">
+      <a href="/">
+        {% if section.settings.logo %}
+          <img src="{{ section.settings.logo | img_url: '300x' }}" 
+               alt="{{ shop.name }}" 
+               width="{{ section.settings.logo_width }}"
+               loading="lazy">
+        {% else %}
+          <h1>{{ shop.name }}</h1>
+        {% endif %}
+      </a>
+    </div>
+
+    <nav class="header-nav" role="navigation">
+      <ul class="main-menu">
+        {% for link in linklists[section.settings.menu].links %}
+          <li class="menu-item">
+            <a href="{{ link.url }}">{{ link.title }}</a>
+          </li>
+        {% endfor %}
+      </ul>
+    </nav>
+
+    <div class="header-actions">
+      {% if settings.enable_dark_mode %}
+        <button class="theme-toggle" aria-label="Changer de thème">☀️</button>
+      {% endif %}
+      
+      <a href="/account" class="header-icon">👤</a>
+      
+      <div class="header-cart">
+        <a href="/cart" class="header-icon">
+          🛒
+          <span class="cart-count">{{ cart.item_count }}</span>
+        </a>
+      </div>
+      
+      <button class="mobile-menu-toggle">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+{% schema %}
+{
+  "name": "En-tête",
+  "settings": [
+    {
+      "type": "text",
+      "id": "topbar_text",
+      "label": "Texte barre supérieure",
+      "default": "⚠️ Équipement de survie - Livraison offerte à partir de 150€"
+    },
+    {
+      "type": "color",
+      "id": "topbar_bg",
+      "label": "Couleur fond barre supérieure",
+      "default": "#2C5530"
+    },
+    {
+      "type": "color",
+      "id": "topbar_text_color",
+      "label": "Couleur texte barre supérieure",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "Logo"
+    },
+    {
+      "type": "range",
+      "id": "logo_width",
+      "min": 50,
+      "max": 250,
+      "step": 10,
+      "unit": "px",
+      "label": "Largeur du logo",
+      "default": 150
+    },
+    {
+      "type": "link_list",
+      "id": "menu",
+      "label": "Menu principal",
+      "default": "main-menu"
+    }
+  ]
+}
+{% endschema %}

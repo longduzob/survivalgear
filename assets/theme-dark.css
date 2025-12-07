@@ -1,0 +1,35 @@
+/* ============================================
+   DARK MODE - SURVIVAL GEAR PRO
+   ============================================ */
+
+body.dark-mode {
+  --primary-color: #4CAF50;
+  --secondary-color: #FFC107;
+  --background-color: #1a1a1a;
+  background-color: #1a1a1a;
+  color: #e0e0e0;
+}
+
+body.dark-mode .header-main {
+  background: #2a2a2a;
+}
+
+body.dark-mode .product-card {
+  background: #2a2a2a;
+  border-color: #3a3a3a;
+}
+
+body.dark-mode .menu-item a,
+body.dark-mode .header-icon {
+  color: #e0e0e0;
+}
+
+body.dark-mode h1,
+body.dark-mode h2,
+body.dark-mode h3 {
+  color: #ffffff;
+}
+
+body.dark-mode .product-title {
+  color: #e0e0e0;
+}

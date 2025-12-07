@@ -1,0 +1,131 @@
+<div class="product-page">
+  <div class="product-images">
+    {% for image in product.images %}
+      <img src="{{ image | img_url: '800x' }}" alt="{{ image.alt }}" loading="lazy">
+    {% endfor %}
+  </div>
+  
+  <div class="product-info">
+    <h1>{{ product.title }}</h1>
+    <div class="product-price">{{ product.price | money }}</div>
+    
+    <!-- Spécifications techniques -->
+    <div class="product-specs">
+      {% if settings.show_weight and product.metafields.custom.weight %}
+        <div class="spec"><strong>Poids:</strong> {{ product.metafields.custom.weight }}</div>
+      {% endif %}
+      
+      {% if settings.show_dimensions and product.metafields.custom.dimensions %}
+        <div class="spec"><strong>Dimensions:</strong> {{ product.metafields.custom.dimensions }}</div>
+      {% endif %}
+      
+      {% if settings.show_material and product.metafields.custom.material %}
+        <div class="spec"><strong>Matériau:</strong> {{ product.metafields.custom.material }}</div>
+      {% endif %}
+      
+      {% if settings.show_waterproof and product.metafields.custom.waterproof %}
+        <div class="spec"><strong>Étanchéité:</strong> {{ product.metafields.custom.waterproof }}</div>
+      {% endif %}
+    </div>
+    
+    <!-- Apps compatibles -->
+    {% if settings.enable_wishlist %}
+      {% include 'app-blocks' with 'wishlist' %}
+    {% endif %}
+    
+    <!-- Formulaire d'achat -->
+    <form action="/cart/add" method="post" class="product-form">
+      <select name="id" class="variant-selector">
+        {% for variant in product.variants %}
+          <option value="{{ variant.id }}">{{ variant.title }} - {{ variant.price | money }}</option>
+        {% endfor %}
+      </select>
+      
+      <input type="number" name="quantity" value="1" min="1">
+      <button type="submit">Ajouter au panier</button>
+    </form>
+    
+    <!-- Description -->
+    <div class="product-description">
+      {{ product.description }}
+    </div>
+    
+    <!-- Avis produits -->
+    {% if settings.enable_reviews %}
+      {% include 'app-blocks' with 'reviews' %}
+    {% endif %}
+  </div>
+</div>
+
+<style>
+  .product-page {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    padding: 40px;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+  
+  .product-specs {
+    background: #f8f8f8;
+    padding: 20px;
+    border-radius: 8px;
+    margin: 20px 0;
+  }
+  
+  .spec {
+    margin: 10px 0;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .product-form {
+    margin: 30px 0;
+  }
+  
+  .variant-selector, .product-form input[type="number"] {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .product-form button {
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 15px 30px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    width: 100%;
+    transition: background 0.3s;
+  }
+  
+  .product-form button:hover {
+    background: color-mix(in srgb, var(--primary-color) 90%, black);
+  }
+  
+  @media (max-width: 768px) {
+    .product-page {
+      grid-template-columns: 1fr;
+      padding: 20px;
+    }
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Gestion des variantes
+    const variantSelector = document.querySelector('.variant-selector');
+    
+    if (variantSelector) {
+      variantSelector.addEventListener('change', function() {
+        // Mettre à jour l'image, le prix, etc.
+        console.log('Variant changed:', this.value);
+      });
+    }
+  });
+</script>

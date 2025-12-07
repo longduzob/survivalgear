@@ -1,0 +1,55 @@
+{% assign product = product %}
+<div class="product-card" 
+     data-weight="{{ product.metafields.custom.weight | remove: 'g' | default: 0 }}"
+     data-price="{{ product.price | money_without_currency }}">
+  
+  <a href="{{ product.url }}">
+    <div class="product-image">
+      <img src="{{ product.featured_image | img_url: '400x' }}" 
+           alt="{{ product.title }}"
+           loading="lazy">
+      
+      {% if product.compare_at_price > product.price %}
+        <div class="product-badge sale">
+          -{{ product.compare_at_price | minus: product.price | times: 100 | divided_by: product.compare_at_price | round }}%
+        </div>
+      {% endif %}
+      
+      {% if product.tags contains 'new' %}
+        <div class="product-badge new">Nouveau</div>
+      {% endif %}
+    </div>
+    
+    <div class="product-info">
+      <h3 class="product-title">{{ product.title }}</h3>
+      
+      <div class="product-vendor">{{ product.vendor }}</div>
+      
+      <div class="product-price">
+        {% if product.compare_at_price > product.price %}
+          <span class="compare-price">{{ product.compare_at_price | money }}</span>
+        {% endif %}
+        <span class="current-price">{{ product.price | money }}</span>
+      </div>
+      
+      {% if product.metafields.custom.weight %}
+        <div class="product-weight">⚖️ {{ product.metafields.custom.weight }}</div>
+      {% endif %}
+    </div>
+  </a>
+  
+  <div class="product-actions">
+    {% if settings.enable_wishlist %}
+      <button class="wishlist-btn" data-product-id="{{ product.id }}">♡</button>
+    {% endif %}
+    
+    {% if product.available %}
+      <form action="/cart/add" method="post" class="quick-add-form">
+        <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+        <button type="submit" class="quick-add-btn">Ajouter</button>
+      </form>
+    {% else %}
+      <button class="notify-btn" disabled>Indisponible</button>
+    {% endif %}
+  </div>
+</div>

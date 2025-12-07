@@ -1,0 +1,50 @@
+{% comment %}
+  Snippet pour l'intégration d'apps tierces
+  Usage: {% include 'app-blocks' with 'reviews' %}
+{% endcomment %}
+
+{% case include %}
+  {% when 'reviews' %}
+    {% if settings.enable_reviews and product.metafields.reviews.rating_count > 0 %}
+      <div class="app-reviews">
+        <h3>Avis clients</h3>
+        <div class="review-summary">
+          <div class="rating-stars">
+            {% assign rating = product.metafields.reviews.rating.value %}
+            {% for i in (1..5) %}
+              {% if i <= rating %}★{% else %}☆{% endif %}
+            {% endfor %}
+            <span class="rating-value">{{ rating | round: 1 }}</span>
+          </div>
+          <div class="rating-count">
+            Basé sur {{ product.metafields.reviews.rating_count }} avis
+          </div>
+        </div>
+      </div>
+    {% endif %}
+
+  {% when 'wishlist' %}
+    {% if settings.enable_wishlist %}
+      <div class="app-wishlist">
+        <button class="wishlist-toggle" data-product-id="{{ product.id }}">
+          <span class="wishlist-icon">♡</span>
+          <span class="wishlist-text">Ajouter à ma liste</span>
+        </button>
+      </div>
+    {% endif %}
+
+  {% when 'currency' %}
+    {% if settings.enable_currency %}
+      <div class="app-currency">
+        <div class="currency-selector">
+          <label for="currency-select">Devise:</label>
+          <select id="currency-select" class="currency-switcher">
+            <option value="EUR">€ EUR</option>
+            <option value="USD">$ USD</option>
+            <option value="GBP">£ GBP</option>
+          </select>
+        </div>
+      </div>
+    {% endif %}
+
+{% endcase %}

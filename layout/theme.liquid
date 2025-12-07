@@ -1,0 +1,66 @@
+<!doctype html>
+<html class="no-js" lang="{{ request.locale.iso_code }}">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  
+  <!-- Titre et métadonnées -->
+  <title>{{ page_title }}</title>
+  {% if page_description %}
+    <meta name="description" content="{{ page_description | escape }}">
+  {% endif %}
+  
+  <!-- CSS -->
+  {{ 'theme.css' | asset_url | stylesheet_tag }}
+  {% if settings.enable_dark_mode %}
+    {{ 'theme-dark.css' | asset_url | stylesheet_tag }}
+  {% endif %}
+  
+  <!-- JS -->
+  <script src="{{ 'global.js' | asset_url }}" defer="defer"></script>
+  
+  <!-- Header Shopify -->
+  {{ content_for_header }}
+  
+  <style>
+    :root {
+      --primary-color: {{ settings.primary_color }};
+      --secondary-color: {{ settings.secondary_color }};
+      --background-color: {{ settings.background_color }};
+    }
+  </style>
+</head>
+
+<body class="template-{{ template.name }} {% if settings.enable_dark_mode %}dark-mode-available{% endif %}">
+  
+  <!-- Header -->
+  {% section 'header' %}
+  
+  <!-- Contenu principal -->
+  <main id="MainContent">
+    {{ content_for_layout }}
+  </main>
+  
+  <!-- Footer -->
+  {% section 'footer' %}
+  
+  <!-- Scripts additionnels -->
+  <script>
+    // Theme settings
+    window.themeSettings = {
+      enableDarkMode: {{ settings.enable_dark_mode | json }},
+      enableReviews: {{ settings.enable_reviews | json }},
+      enableWishlist: {{ settings.enable_wishlist | json }},
+      enableCurrency: {{ settings.enable_currency | json }}
+    };
+    
+    // Cart data
+    window.cartData = {
+      itemCount: {{ cart.item_count | json }},
+      totalPrice: {{ cart.total_price | json }},
+      currency: {{ cart.currency.iso_code | json }}
+    };
+  </script>
+</body>
+</html>

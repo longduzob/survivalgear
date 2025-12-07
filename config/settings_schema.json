@@ -1,0 +1,160 @@
+[
+  {
+    "name": "theme_info",
+    "theme_name": "SurvivalGear Pro",
+    "theme_version": "1.0.0",
+    "theme_author": "Survival Expert",
+    "theme_documentation_url": "https://help.shopify.com/",
+    "theme_support_url": "https://support.shopify.com/"
+  },
+  {
+    "name": "Header",
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "logo",
+        "label": "Logo de la boutique"
+      },
+      {
+        "type": "range",
+        "id": "logo_width",
+        "min": 50,
+        "max": 250,
+        "step": 10,
+        "unit": "px",
+        "label": "Largeur du logo",
+        "default": 150
+      },
+      {
+        "type": "link_list",
+        "id": "menu",
+        "label": "Menu principal",
+        "default": "main-menu"
+      },
+      {
+        "type": "text",
+        "id": "topbar_text",
+        "label": "Texte barre supérieure",
+        "default": "⚠️ Équipement de survie - Livraison offerte à partir de 150€"
+      },
+      {
+        "type": "color",
+        "id": "topbar_bg",
+        "label": "Couleur fond barre supérieure",
+        "default": "#2C5530"
+      },
+      {
+        "type": "color",
+        "id": "topbar_text_color",
+        "label": "Couleur texte barre supérieure",
+        "default": "#FFFFFF"
+      },
+      {
+        "type": "image_picker",
+        "id": "megamenu_image",
+        "label": "Image megamenu"
+      },
+      {
+        "type": "text",
+        "id": "megamenu_text",
+        "label": "Texte megamenu",
+        "default": "Équipement testé en conditions extrêmes"
+      }
+    ]
+  },
+  {
+    "name": "Couleurs",
+    "settings": [
+      {
+        "type": "color",
+        "id": "primary_color",
+        "label": "Couleur principale",
+        "default": "#2C5530"
+      },
+      {
+        "type": "color",
+        "id": "secondary_color",
+        "label": "Couleur secondaire",
+        "default": "#E3B505"
+      },
+      {
+        "type": "color",
+        "id": "background_color",
+        "label": "Couleur de fond",
+        "default": "#F5F5F5"
+      },
+      {
+        "type": "color",
+        "id": "dark_primary",
+        "label": "Couleur primaire (dark mode)",
+        "default": "#4CAF50"
+      }
+    ]
+  },
+  {
+    "name": "Produits",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "show_weight",
+        "label": "Afficher le poids du produit",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "show_dimensions",
+        "label": "Afficher les dimensions",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "show_material",
+        "label": "Afficher le matériau",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "show_waterproof",
+        "label": "Afficher l'étanchéité",
+        "default": true
+      }
+    ]
+  },
+  {
+    "name": "Optimisations",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Mode sombre/clair"
+      },
+      {
+        "type": "checkbox",
+        "id": "enable_dark_mode",
+        "label": "Activer le mode sombre",
+        "default": true
+      },
+      {
+        "type": "header",
+        "content": "Compatibilité apps"
+      },
+      {
+        "type": "checkbox",
+        "id": "enable_reviews",
+        "label": "Afficher les avis produits",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "enable_wishlist",
+        "label": "Activer la liste de souhaits",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "enable_currency",
+        "label": "Activer convertisseur devise",
+        "default": true
+      }
+    ]
+  }
+]

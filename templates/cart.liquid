@@ -1,0 +1,60 @@
+<div class="cart-page">
+  <h1>Votre panier</h1>
+  
+  {% if cart.item_count > 0 %}
+    <form action="/cart" method="post">
+      <div class="cart-items">
+        {% for item in cart.items %}
+          <div class="cart-item">
+            <img src="{{ item.image | img_url: '150x' }}" 
+                 alt="{{ item.title }}" 
+                 loading="lazy">
+            
+            <div class="item-details">
+              <a href="{{ item.url }}">{{ item.title }}</a>
+              <div class="item-variant">{{ item.variant.title }}</div>
+              <div class="item-price">{{ item.price | money }}</div>
+            </div>
+            
+            <div class="item-quantity">
+              <input type="number" 
+                     name="updates[]" 
+                     value="{{ item.quantity }}" 
+                     min="0"
+                     data-line="{{ forloop.index }}">
+            </div>
+            
+            <div class="item-total">{{ item.line_price | money }}</div>
+            
+            <a href="/cart/change?line={{ forloop.index }}&quantity=0" 
+               class="remove-item"
+               data-remove-item>×</a>
+          </div>
+        {% endfor %}
+      </div>
+      
+      <div class="cart-summary">
+        <div class="summary-row">
+          <span>Sous-total:</span>
+          <span>{{ cart.total_price | money }}</span>
+        </div>
+        
+        <div class="summary-row total">
+          <span>Total:</span>
+          <span>{{ cart.total_price | money }}</span>
+        </div>
+        
+        <div class="cart-actions">
+          <a href="/collections/all" class="button secondary">Continuer mes achats</a>
+          <button type="submit" name="update" class="button">Mettre à jour</button>
+          <button type="submit" name="checkout" class="button primary">Passer la commande</button>
+        </div>
+      </div>
+    </form>
+  {% else %}
+    <div class="empty-cart">
+      <p>Votre panier est vide</p>
+      <a href="/collections/all" class="button primary">Découvrir nos produits</a>
+    </div>
+  {% endif %}
+</div>
