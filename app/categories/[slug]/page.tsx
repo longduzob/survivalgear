@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import { prisma } from "@/lib/prisma";
+import RetryButton from "./retry-button";
 
 export const dynamic = "force-dynamic";
 
@@ -70,18 +71,7 @@ export default async function CategoryPage({ params }: Props) {
           >
             Retour à l'accueil
           </a>
-          <button
-            onClick={() => window.location.reload()}
-            style={{
-              padding: "8px 16px",
-              background: "#f5f5f5",
-              border: "1px solid #ddd",
-              borderRadius: 4,
-              cursor: "pointer",
-            }}
-          >
-            Réessayer
-          </button>
+          <RetryButton />
         </div>
         {process.env.DEBUG_PAGES === "true" && (
           <details style={{ marginTop: 24, padding: 12, background: "#f5f5f5", borderRadius: 4 }}>
