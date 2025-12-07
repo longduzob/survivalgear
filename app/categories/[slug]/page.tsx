@@ -1,153 +1,75 @@
 import { notFound } from "next/navigation";
-import ProductCard from "@/components/ProductCard";
-import FilterSidebar from "@/components/FilterSidebar";
 import { prisma } from "@/lib/prisma";
 
-export const dynamic = 'force-dynamic';
+export const dynamic = "force-dynamic"; // force la récupération runtime
 
-const categoryDefaults: Record<string, { name: string; description: string }> = {
-  'tentes-abris': { name: 'Tentes & Abris', description: 'Équipement de camping et abris pour vos aventures en pleine nature' },
-  'sacs-a-dos': { name: 'Sacs à Dos', description: 'Sacs pour toutes vos aventures, du trekking à la randonnée' },
-  'outils-couteaux': { name: 'Outils & Couteaux', description: 'Outils de survie essentiels pour les situations extrêmes' },
-  'eclairage': { name: 'Éclairage', description: 'Lampes et solutions d\'éclairage pour l\'outdoor' },
-  'cuisine-eau': { name: 'Cuisine & Eau', description: 'Matériel de cuisine et purification d\'eau pour le camping' },
-  'survie-navigation': { name: 'Survie & Navigation', description: 'Équipements de survie et navigation pour explorateurs' },
+type Props = {
+  params: { slug: string };
 };
 
-async function getCategoryBySlug(slug: string) {
-  try {
-    let category = await prisma.category.findUnique({
-      where: { slug },
-    });
-    
-    // Auto-create category if it doesn't exist but is a known category
-    if (!category && categoryDefaults[slug]) {
-      category = await prisma.category.create({
-        data: {
-          slug,
-          name: categoryDefaults[slug].name,
-          description: categoryDefaults[slug].description,
-        },
-      });
-    }
-    
-    return category;
-  } catch (error) {
-    console.error('Failed to fetch category:', error);
-    return null;
-  }
+async function getCategoryAndProducts(slug: string) {
+  const category = await prisma.category.findUnique({
+    where: { slug },
+    select: { id: true, name: true, slug: true, description: true },
+  });
+
+  if (!category) return { category: null, products: [] };
+
+  const products = await prisma.product.findMany({
+    where: {
+      categoryId: category.id,
+      active: true,
+      stock: { gt: 0 },
+    },
+    orderBy: { id: "desc" },
+    include: { images: { orderBy: { order: "asc" } } },
+    take: 200,
+  });
+
+  return { category, products };
 }
 
-async function getProductsByCategory(categoryId: string) {
-  try {
-    const dbProducts = await prisma.product.findMany({
-      where: {
-        categoryId,
-        active: true,
-      },
-      include: {
-        images: {
-          orderBy: { order: 'asc' },
-        },
-        variants: true,
-      },
-      orderBy: { createdAt: 'desc' },
-    });
-
-    // Transform database products to match ProductCard expected format
-    return dbProducts.map(product => ({
-      id: product.id,
-      name: product.name,
-      slug: product.slug,
-      price: product.price,
-      comparePrice: product.comparePrice ?? undefined,
-      brand: product.brand ?? undefined,
-      images: product.images.map(img => ({
-        url: img.url,
-        alt: img.alt ?? undefined,
-      })),
-      variants: product.variants.map(v => ({
-        name: v.name,
-        value: v.value,
-      })),
-    }));
-  } catch (error) {
-    console.error('Failed to fetch products:', error);
-    return [];
-  }
-}
-
-export default async function CategoryPage({
-  params,
-}: {
-  params: { slug: string };
-}) {
-  const category = await getCategoryBySlug(params.slug);
+export default async function CategoryPage({ params }: Props) {
+  const slug = params.slug;
+  const { category, products } = await getCategoryAndProducts(slug);
 
   if (!category) {
-    notFound();
+    // Retourne 404 si la catégorie n'existe vraiment pas
+    return notFound();
   }
 
-  const products = await getProductsByCategory(category.id);
-
   return (
-    <div className="min-h-screen bg-gradient-to-b from-background-light to-white">
-      {/* Hero Section */}
-      <div className="relative bg-gradient-to-br from-primary-dark via-primary to-primary-light text-white py-20 overflow-hidden">
-        <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PHBhdHRlcm4gaWQ9ImEiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCI+PHBhdGggZD0iTTAgMGg2MHY2MEgweiIgZmlsbD0ibm9uZSIvPjxwYXRoIGQ9Ik0zMCAzMG0tMjAgMGEyMCAyMCAwIDEgMCA0MCAwYTIwIDIwIDAgMSAwLTQwIDAiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIwLjUiIG9wYWNpdHk9IjAuMSIgZmlsbD0ibm9uZSIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNhKSIvPjwvc3ZnPg==')] opacity-30"></div>
-        <div className="container mx-auto px-4 relative z-10">
-          <div className="max-w-3xl">
-            <div className="inline-block mb-4 px-4 py-2 bg-white/10 backdrop-blur-sm rounded-full border border-white/20">
-              <span className="text-accent font-semibold">Collection Premium</span>
-            </div>
-            <h1 className="text-5xl md:text-6xl font-bold mb-4 leading-tight">{category.name}</h1>
-            <p className="text-xl md:text-2xl text-gray-100 leading-relaxed">{category.description}</p>
-          </div>
-        </div>
-      </div>
+    <main style={{ padding: 24 }}>
+      <h1>{category.name}</h1>
+      <p>{category.description}</p>
 
-      {/* Main Content */}
-      <div className="container mx-auto px-4 py-12">
-        <div className="flex flex-col lg:flex-row gap-8">
-          {/* Sidebar Filters */}
-          <aside className="w-full lg:w-72 flex-shrink-0">
-            <div className="bg-white rounded-2xl shadow-medium p-6 sticky top-24">
-              <FilterSidebar />
-            </div>
-          </aside>
+      <h2>Produits ({products.length})</h2>
 
-          {/* Products Grid */}
-          <div className="flex-1">
-            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-8 gap-4">
-              <div>
-                <p className="text-gray-900 text-lg">
-                  <span className="font-bold text-2xl text-primary">{products.length}</span>
-                  <span className="text-gray-600 ml-2">produits disponibles</span>
-                </p>
-              </div>
-              {/* TODO: Implement sorting functionality */}
-            </div>
+      {products.length === 0 ? (
+        <p>Aucun produit pour cette catégorie.</p>
+      ) : (
+        <ul style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, 240px)", gap: 16, listStyle: "none", padding: 0 }}>
+          {products.map((p) => (
+            <li key={p.id} style={{ border: "1px solid #eee", padding: 12, borderRadius: 8 }}>
+              <a href={`/products/${p.slug}`} style={{ textDecoration: "none", color: "inherit" }}>
+                {p.images?.[0] ? (
+                  <img src={p.images[0].url} alt={p.name} width={220} height={220} style={{ objectFit: "cover", display: "block", marginBottom: 8 }} />
+                ) : (
+                  <div style={{ width: 220, height: 220, background: "#f0f0f0", marginBottom: 8 }} />
+                )}
+                <div style={{ fontWeight: 700 }}>{p.name}</div>
+                <div style={{ color: "#666" }}>{p.price} €</div>
+              </a>
+            </li>
+          ))}
+        </ul>
+      )}
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-              {products.length > 0 ? (
-                products.map((product) => (
-                  <ProductCard key={product.id} product={product} />
-                ))
-              ) : (
-                <div className="col-span-1 sm:col-span-2 lg:col-span-3 text-center py-12">
-                  <p className="text-gray-600 text-lg mb-2">Aucun produit disponible dans cette catégorie.</p>
-                  <p className="text-gray-500 text-sm">Revenez bientôt pour découvrir nos nouveautés !</p>
-                </div>
-              )}
-            </div>
-
-            {/* Pagination - TODO: Implement when product count exceeds page limit */}
-          </div>
-        </div>
-      </div>
-    </div>
+      {/* DEBUG : donne un aperçu rapide (supprime après debug) */}
+      <details style={{ marginTop: 24 }}>
+        <summary>Debug data (products JSON)</summary>
+        <pre style={{ whiteSpace: "pre-wrap", maxHeight: 400, overflow: "auto" }}>{JSON.stringify(products, null, 2)}</pre>
+      </details>
+    </main>
   );
 }
-
-// Note: generateStaticParams is removed since we use force-dynamic for real-time data
-// Category routes will be generated dynamically at runtime
