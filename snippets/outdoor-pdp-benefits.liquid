@@ -1,0 +1,53 @@
+{%- comment -%}
+  PDP Benefits Bullets
+  - Highlights key benefits near the CTA
+
+  Usage:
+    {% render 'outdoor-pdp-benefits', block: block %}
+{%- endcomment -%}
+
+{%- liquid
+  assign enable_benefits = block.settings.enable_pdp_benefits | default: true
+  assign has_benefits = false
+  if block.settings.pdp_benefit_1 != blank
+    assign has_benefits = true
+  elsif block.settings.pdp_benefit_2 != blank
+    assign has_benefits = true
+  elsif block.settings.pdp_benefit_3 != blank
+    assign has_benefits = true
+  endif
+-%}
+
+{%- if enable_benefits and has_benefits -%}
+  <div class="outdoor-pdp-benefits" data-pdp-benefits>
+    {% if block.settings.pdp_benefits_title != blank %}
+      <p class="outdoor-pdp-benefits__title">{{ block.settings.pdp_benefits_title }}</p>
+    {% endif %}
+    <ul class="outdoor-pdp-benefits__list" role="list">
+      {%- if block.settings.pdp_benefit_1 != blank -%}
+        <li class="outdoor-pdp-benefits__item">
+          <span class="outdoor-pdp-benefits__icon" aria-hidden="true">
+            {{ 'icon-checkmark.svg' | inline_asset_content }}
+          </span>
+          <span>{{ block.settings.pdp_benefit_1 }}</span>
+        </li>
+      {%- endif -%}
+      {%- if block.settings.pdp_benefit_2 != blank -%}
+        <li class="outdoor-pdp-benefits__item">
+          <span class="outdoor-pdp-benefits__icon" aria-hidden="true">
+            {{ 'icon-checkmark.svg' | inline_asset_content }}
+          </span>
+          <span>{{ block.settings.pdp_benefit_2 }}</span>
+        </li>
+      {%- endif -%}
+      {%- if block.settings.pdp_benefit_3 != blank -%}
+        <li class="outdoor-pdp-benefits__item">
+          <span class="outdoor-pdp-benefits__icon" aria-hidden="true">
+            {{ 'icon-checkmark.svg' | inline_asset_content }}
+          </span>
+          <span>{{ block.settings.pdp_benefit_3 }}</span>
+        </li>
+      {%- endif -%}
+    </ul>
+  </div>
+{%- endif -%}

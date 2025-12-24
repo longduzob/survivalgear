@@ -28,10 +28,11 @@
     {% render 'outdoor-stock-urgency', product: product, block: block %}
     {% render 'outdoor-free-shipping-badge', product: product, block: block %}
     {% render 'tripadvisor-badge' %}
+    {% render 'outdoor-pdp-trust-badges', block: block %}
+    {% render 'outdoor-pdp-why-us', block: block %}
     {% render 'outdoor-faq-accordion', block: block %}
     {% render 'outdoor-product-cross-sell', product: product, block: block %}
     {% render 'outdoor-sticky-atc', product: product, block: block %}
-    {% render 'outdoor-pdp-trust-badges', block: block %}
   {% endcapture %}
 
   {% render 'group', children: children, settings: block_settings, shopify_attributes: block.shopify_attributes %}
@@ -594,6 +595,58 @@
       "id": "trust_badge_4_subtext",
       "label": "Badge 4 - Sous-texte",
       "default": "7j/7 disponible"
+    },
+    {
+      "type": "header",
+      "content": "🎯 CRO - Pourquoi nous ?"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_pdp_why_us",
+      "label": "Afficher le bloc \"Pourquoi nous ?\"",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "pdp_why_us_heading",
+      "label": "Titre",
+      "default": "Pourquoi nous ?"
+    },
+    {
+      "type": "text",
+      "id": "pdp_why_us_title_1",
+      "label": "Point 1 - Titre",
+      "default": "Qualité premium"
+    },
+    {
+      "type": "text",
+      "id": "pdp_why_us_text_1",
+      "label": "Point 1 - Texte",
+      "default": "Matériaux robustes et finitions haut de gamme."
+    },
+    {
+      "type": "text",
+      "id": "pdp_why_us_title_2",
+      "label": "Point 2 - Titre",
+      "default": "Testé sur le terrain"
+    },
+    {
+      "type": "text",
+      "id": "pdp_why_us_text_2",
+      "label": "Point 2 - Texte",
+      "default": "Validé par des passionnés d'outdoor."
+    },
+    {
+      "type": "text",
+      "id": "pdp_why_us_title_3",
+      "label": "Point 3 - Titre",
+      "default": "SAV réactif"
+    },
+    {
+      "type": "text",
+      "id": "pdp_why_us_text_3",
+      "label": "Point 3 - Texte",
+      "default": "Une équipe dédiée 7j/7."
     },
     {
       "type": "header",
