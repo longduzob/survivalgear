@@ -28,6 +28,8 @@
     {% render 'outdoor-stock-urgency', product: product, block: block %}
     {% render 'outdoor-free-shipping-badge', product: product, block: block %}
     {% render 'tripadvisor-badge' %}
+    {% render 'outdoor-faq-accordion', block: block %}
+    {% render 'outdoor-product-cross-sell', product: product, block: block %}
     {% render 'outdoor-sticky-atc', product: product, block: block %}
     {% render 'outdoor-pdp-trust-badges', block: block %}
   {% endcapture %}
@@ -643,6 +645,52 @@
       "id": "free_shipping_text",
       "label": "Texte personnalisé (optionnel)",
       "default": "Livraison GRATUITE pour ce produit"
+    },
+    {
+      "type": "header",
+      "content": "🎯 CRO - FAQ Accordion"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_faq_accordion",
+      "label": "Afficher la FAQ",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "faq_title",
+      "label": "Titre de la section",
+      "default": "Questions fréquentes"
+    },
+    {
+      "type": "header",
+      "content": "🎯 CRO - Cross-Sell"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_cross_sell",
+      "label": "Afficher les produits complémentaires",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "cross_sell_title",
+      "label": "Titre de la section",
+      "default": "Complétez votre équipement"
+    },
+    {
+      "type": "collection",
+      "id": "cross_sell_collection",
+      "label": "Collection de produits complémentaires"
+    },
+    {
+      "type": "range",
+      "id": "cross_sell_limit",
+      "label": "Nombre de produits",
+      "min": 2,
+      "max": 8,
+      "step": 1,
+      "default": 4
     }
   ],
   "presets": [
