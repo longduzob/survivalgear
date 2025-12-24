@@ -2284,5 +2284,77 @@
         "default": "equal-width-buttons"
       }
     ]
+  },
+  {
+    "name": "Outdoor Header",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Announcement Bar Countdown"
+      },
+      {
+        "type": "checkbox",
+        "id": "enable_outdoor_announcement",
+        "label": "Enable outdoor announcement bar",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "announcement_countdown_enabled",
+        "label": "Enable countdown timer",
+        "default": true
+      },
+      {
+        "type": "text",
+        "id": "announcement_countdown_end_date",
+        "label": "Countdown end date",
+        "default": "2024-12-31T23:59:59",
+        "info": "Format: YYYY-MM-DDTHH:MM:SS (ex: 2024-12-31T23:59:59)"
+      },
+      {
+        "type": "text",
+        "id": "announcement_countdown_text",
+        "label": "Countdown prefix text",
+        "default": "🔥 Livraison GRATUITE - Plus que"
+      },
+      {
+        "type": "header",
+        "content": "Rotating Messages"
+      },
+      {
+        "type": "text",
+        "id": "announcement_message_1",
+        "label": "Message 1",
+        "default": "Équipement outdoor premium - Livraison gratuite dès 50€"
+      },
+      {
+        "type": "text",
+        "id": "announcement_message_2",
+        "label": "Message 2",
+        "default": "🛡️ Garantie 2 ans sur tous nos produits"
+      },
+      {
+        "type": "text",
+        "id": "announcement_message_3",
+        "label": "Message 3",
+        "default": "🌲 Fabriqué en Europe - Qualité professionnelle"
+      },
+      {
+        "type": "header",
+        "content": "Appearance"
+      },
+      {
+        "type": "color",
+        "id": "announcement_bg_color",
+        "label": "Background color",
+        "default": "#2d5016"
+      },
+      {
+        "type": "color",
+        "id": "announcement_text_color",
+        "label": "Text color",
+        "default": "#ffffff"
+      }
+    ]
   }
 ]

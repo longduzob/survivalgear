@@ -1,0 +1,189 @@
+{%- comment -%}
+  Outdoor Announcement Bar with Countdown
+  
+  Barre d'annonce premium avec countdown dynamique :
+  - Countdown temps réel (heures:minutes:secondes)
+  - Messages rotatifs avec priorités
+  - Design outdoor premium
+  - Mobile optimisé
+  
+  Usage:
+    {% render 'outdoor-announcement-countdown', settings: settings %}
+  
+  Settings required:
+    - enable_outdoor_announcement (checkbox)
+    - announcement_countdown_enabled (checkbox)
+    - announcement_countdown_end_date (text, format: "2024-12-31T23:59:59")
+    - announcement_countdown_text (text)
+    - announcement_message_1, announcement_message_2, announcement_message_3
+    - announcement_bg_color, announcement_text_color
+{%- endcomment -%}
+
+{%- liquid
+  assign enable_announcement = settings.enable_outdoor_announcement | default: true
+  assign countdown_enabled = settings.announcement_countdown_enabled | default: true
+  assign countdown_end = settings.announcement_countdown_end_date | default: ""
+  assign countdown_text = settings.announcement_countdown_text | default: "🔥 Livraison GRATUITE - Plus que"
+  
+  assign message_1 = settings.announcement_message_1 | default: "Équipement outdoor premium - Livraison gratuite dès 50€"
+  assign message_2 = settings.announcement_message_2 | default: "🛡️ Garantie 2 ans sur tous nos produits"
+  assign message_3 = settings.announcement_message_3 | default: "🌲 Fabriqué en Europe - Qualité professionnelle"
+  
+  assign bg_color = settings.announcement_bg_color | default: "#2d5016"
+  assign text_color = settings.announcement_text_color | default: "#ffffff"
+-%}
+
+{%- if enable_announcement -%}
+<outdoor-announcement-countdown class="outdoor-announcement" style="background-color: {{ bg_color }}; color: {{ text_color }};">
+  <div class="outdoor-announcement__container">
+    {%- if countdown_enabled and countdown_end != blank -%}
+      <div class="outdoor-announcement__countdown-wrapper" data-countdown-end="{{ countdown_end }}">
+        <span class="outdoor-announcement__countdown-text">{{ countdown_text }}</span>
+        <div class="outdoor-announcement__countdown">
+          <div class="outdoor-announcement__time-block">
+            <span class="outdoor-announcement__time-value" data-hours>00</span>
+            <span class="outdoor-announcement__time-label">h</span>
+          </div>
+          <span class="outdoor-announcement__time-separator">:</span>
+          <div class="outdoor-announcement__time-block">
+            <span class="outdoor-announcement__time-value" data-minutes>00</span>
+            <span class="outdoor-announcement__time-label">m</span>
+          </div>
+          <span class="outdoor-announcement__time-separator">:</span>
+          <div class="outdoor-announcement__time-block">
+            <span class="outdoor-announcement__time-value" data-seconds>00</span>
+            <span class="outdoor-announcement__time-label">s</span>
+          </div>
+        </div>
+      </div>
+    {%- endif -%}
+    
+    <div class="outdoor-announcement__messages">
+      {%- if message_1 != blank -%}
+        <div class="outdoor-announcement__message" data-message="1">{{ message_1 }}</div>
+      {%- endif -%}
+      {%- if message_2 != blank -%}
+        <div class="outdoor-announcement__message" data-message="2">{{ message_2 }}</div>
+      {%- endif -%}
+      {%- if message_3 != blank -%}
+        <div class="outdoor-announcement__message" data-message="3">{{ message_3 }}</div>
+      {%- endif -%}
+    </div>
+    
+    <button class="outdoor-announcement__close" aria-label="Fermer l'annonce">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+        <path d="M12 4L4 12M4 4L12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+    </button>
+  </div>
+</outdoor-announcement-countdown>
+
+<script>
+class OutdoorAnnouncementCountdown extends HTMLElement {
+  constructor() {
+    super();
+    this.countdownWrapper = this.querySelector('.outdoor-announcement__countdown-wrapper');
+    this.messages = this.querySelectorAll('.outdoor-announcement__message');
+    this.closeButton = this.querySelector('.outdoor-announcement__close');
+    this.currentMessageIndex = 0;
+    this.messageInterval = null;
+    this.countdownInterval = null;
+    
+    this.init();
+  }
+  
+  init() {
+    // Check if announcement was closed
+    if (sessionStorage.getItem('outdoor-announcement-closed') === 'true') {
+      this.style.display = 'none';
+      return;
+    }
+    
+    // Close button
+    if (this.closeButton) {
+      this.closeButton.addEventListener('click', () => this.close());
+    }
+    
+    // Start countdown if enabled
+    if (this.countdownWrapper) {
+      const endDate = this.countdownWrapper.dataset.countdownEnd;
+      if (endDate) {
+        this.startCountdown(endDate);
+      }
+    }
+    
+    // Start rotating messages
+    if (this.messages.length > 0) {
+      this.rotateMessages();
+    }
+  }
+  
+  startCountdown(endDateStr) {
+    const updateCountdown = () => {
+      const now = new Date().getTime();
+      const end = new Date(endDateStr).getTime();
+      const distance = end - now;
+      
+      if (distance < 0) {
+        // Countdown finished
+        if (this.countdownInterval) {
+          clearInterval(this.countdownInterval);
+        }
+        if (this.countdownWrapper) {
+          this.countdownWrapper.style.display = 'none';
+        }
+        return;
+      }
+      
+      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+      
+      const hoursEl = this.querySelector('[data-hours]');
+      const minutesEl = this.querySelector('[data-minutes]');
+      const secondsEl = this.querySelector('[data-seconds]');
+      
+      if (hoursEl) hoursEl.textContent = String(hours).padStart(2, '0');
+      if (minutesEl) minutesEl.textContent = String(minutes).padStart(2, '0');
+      if (secondsEl) secondsEl.textContent = String(seconds).padStart(2, '0');
+    };
+    
+    updateCountdown();
+    this.countdownInterval = setInterval(updateCountdown, 1000);
+  }
+  
+  rotateMessages() {
+    if (this.messages.length <= 1) return;
+    
+    // Show first message
+    this.messages[0].classList.add('outdoor-announcement__message--active');
+    
+    // Rotate every 5 seconds
+    this.messageInterval = setInterval(() => {
+      // Hide current
+      this.messages[this.currentMessageIndex].classList.remove('outdoor-announcement__message--active');
+      
+      // Next message
+      this.currentMessageIndex = (this.currentMessageIndex + 1) % this.messages.length;
+      
+      // Show next
+      this.messages[this.currentMessageIndex].classList.add('outdoor-announcement__message--active');
+    }, 5000);
+  }
+  
+  close() {
+    sessionStorage.setItem('outdoor-announcement-closed', 'true');
+    this.style.display = 'none';
+  }
+  
+  disconnectedCallback() {
+    if (this.messageInterval) clearInterval(this.messageInterval);
+    if (this.countdownInterval) clearInterval(this.countdownInterval);
+  }
+}
+
+if (!customElements.get('outdoor-announcement-countdown')) {
+  customElements.define('outdoor-announcement-countdown', OutdoorAnnouncementCountdown);
+}
+</script>
+{%- endif -%}
