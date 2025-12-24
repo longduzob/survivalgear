@@ -2617,5 +2617,184 @@
         "default": "Produits premium"
       }
     ]
+  },
+  {
+    "name": "Outdoor Footer",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Footer Trust Section"
+      },
+      {
+        "type": "checkbox",
+        "id": "enable_footer_trust_section",
+        "label": "Enable footer trust section",
+        "default": true
+      },
+      {
+        "type": "text",
+        "id": "footer_trust_title",
+        "label": "Trust section title",
+        "default": "Pourquoi nous choisir ?"
+      },
+      {
+        "type": "header",
+        "content": "Trust Badge 1"
+      },
+      {
+        "type": "text",
+        "id": "footer_trust_badge_1_title",
+        "label": "Badge 1 title",
+        "default": "Qualité Premium"
+      },
+      {
+        "type": "textarea",
+        "id": "footer_trust_badge_1_text",
+        "label": "Badge 1 text",
+        "default": "Équipement professionnel testé en conditions extrêmes"
+      },
+      {
+        "type": "header",
+        "content": "Trust Badge 2"
+      },
+      {
+        "type": "text",
+        "id": "footer_trust_badge_2_title",
+        "label": "Badge 2 title",
+        "default": "Garantie 2 Ans"
+      },
+      {
+        "type": "textarea",
+        "id": "footer_trust_badge_2_text",
+        "label": "Badge 2 text",
+        "default": "SAV réactif et remplacement gratuit en cas de défaut"
+      },
+      {
+        "type": "header",
+        "content": "Trust Badge 3"
+      },
+      {
+        "type": "text",
+        "id": "footer_trust_badge_3_title",
+        "label": "Badge 3 title",
+        "default": "Livraison Express"
+      },
+      {
+        "type": "textarea",
+        "id": "footer_trust_badge_3_text",
+        "label": "Badge 3 text",
+        "default": "Expédition sous 24h, livraison gratuite dès 50€"
+      },
+      {
+        "type": "header",
+        "content": "Trust Badge 4"
+      },
+      {
+        "type": "text",
+        "id": "footer_trust_badge_4_title",
+        "label": "Badge 4 title",
+        "default": "Paiement Sécurisé"
+      },
+      {
+        "type": "textarea",
+        "id": "footer_trust_badge_4_text",
+        "label": "Badge 4 text",
+        "default": "SSL & cryptage 256-bit, toutes cartes acceptées"
+      },
+      {
+        "type": "header",
+        "content": "Trust Badge 5"
+      },
+      {
+        "type": "text",
+        "id": "footer_trust_badge_5_title",
+        "label": "Badge 5 title",
+        "default": "Support Expert"
+      },
+      {
+        "type": "textarea",
+        "id": "footer_trust_badge_5_text",
+        "label": "Badge 5 text",
+        "default": "Conseillers outdoor disponibles 7j/7"
+      },
+      {
+        "type": "header",
+        "content": "Trust Badge 6"
+      },
+      {
+        "type": "text",
+        "id": "footer_trust_badge_6_title",
+        "label": "Badge 6 title",
+        "default": "Fabriqué en Europe"
+      },
+      {
+        "type": "textarea",
+        "id": "footer_trust_badge_6_text",
+        "label": "Badge 6 text",
+        "default": "Production locale, matériaux éco-responsables"
+      },
+      {
+        "type": "header",
+        "content": "Payment Methods"
+      },
+      {
+        "type": "text",
+        "id": "footer_payments_title",
+        "label": "Payments title",
+        "default": "Moyens de paiement acceptés"
+      },
+      {
+        "type": "header",
+        "content": "Social Proof Numbers"
+      },
+      {
+        "type": "text",
+        "id": "footer_proof_1_number",
+        "label": "Proof 1 number",
+        "default": "15 000+"
+      },
+      {
+        "type": "text",
+        "id": "footer_proof_1_label",
+        "label": "Proof 1 label",
+        "default": "Clients satisfaits"
+      },
+      {
+        "type": "text",
+        "id": "footer_proof_2_number",
+        "label": "Proof 2 number",
+        "default": "4.8★"
+      },
+      {
+        "type": "text",
+        "id": "footer_proof_2_label",
+        "label": "Proof 2 label",
+        "default": "Note moyenne"
+      },
+      {
+        "type": "text",
+        "id": "footer_proof_3_number",
+        "label": "Proof 3 number",
+        "default": "98%"
+      },
+      {
+        "type": "text",
+        "id": "footer_proof_3_label",
+        "label": "Proof 3 label",
+        "default": "Taux satisfaction"
+      },
+      {
+        "type": "text",
+        "id": "footer_proof_4_number",
+        "label": "Proof 4 number",
+        "default": "24h"
+      },
+      {
+        "type": "text",
+        "id": "footer_proof_4_label",
+        "label": "Proof 4 label",
+        "default": "Expédition moyenne"
+      }
+    ]
   }
 ]
