@@ -1,0 +1,244 @@
+/* ================================================
+   OUTDOOR ANNOUNCEMENT COUNTDOWN - HEADER PREMIUM
+   ================================================ */
+
+/* Announcement Bar Container */
+.outdoor-announcement {
+  position: relative;
+  width: 100%;
+  background: linear-gradient(135deg, var(--outdoor-green, #2d5016) 0%, #3a6b1e 100%);
+  color: #ffffff;
+  font-size: 14px;
+  line-height: 1.4;
+  z-index: 100;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.outdoor-announcement__container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding: 10px 20px;
+  max-width: 1400px;
+  margin: 0 auto;
+  position: relative;
+}
+
+/* Countdown Wrapper */
+.outdoor-announcement__countdown-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-weight: 600;
+}
+
+.outdoor-announcement__countdown-text {
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+}
+
+/* Countdown Timer */
+.outdoor-announcement__countdown {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: rgba(255, 255, 255, 0.15);
+  padding: 4px 10px;
+  border-radius: 6px;
+  backdrop-filter: blur(10px);
+}
+
+.outdoor-announcement__time-block {
+  display: flex;
+  align-items: baseline;
+  gap: 2px;
+}
+
+.outdoor-announcement__time-value {
+  font-size: 16px;
+  font-weight: 700;
+  font-family: 'Courier New', monospace;
+  color: var(--outdoor-gold, #d4af37);
+  min-width: 20px;
+  text-align: center;
+}
+
+.outdoor-announcement__time-label {
+  font-size: 11px;
+  font-weight: 500;
+  opacity: 0.9;
+}
+
+.outdoor-announcement__time-separator {
+  font-size: 16px;
+  font-weight: 700;
+  opacity: 0.7;
+  margin: 0 2px;
+}
+
+/* Messages Carousel */
+.outdoor-announcement__messages {
+  position: relative;
+  flex: 1;
+  max-width: 600px;
+  text-align: center;
+  min-height: 20px;
+  overflow: hidden;
+}
+
+.outdoor-announcement__message {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+  pointer-events: none;
+  font-size: 14px;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding: 0 10px;
+}
+
+.outdoor-announcement__message--active {
+  position: relative;
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+/* Close Button */
+.outdoor-announcement__close {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  color: currentColor;
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.7;
+  transition: opacity 0.2s ease;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+}
+
+.outdoor-announcement__close:hover {
+  opacity: 1;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.outdoor-announcement__close svg {
+  width: 16px;
+  height: 16px;
+}
+
+/* Mobile Responsive */
+@media screen and (max-width: 768px) {
+  .outdoor-announcement__container {
+    flex-direction: column;
+    gap: 8px;
+    padding: 8px 40px 8px 20px;
+  }
+  
+  .outdoor-announcement__countdown-wrapper {
+    font-size: 13px;
+    gap: 8px;
+  }
+  
+  .outdoor-announcement__countdown-text {
+    font-size: 13px;
+  }
+  
+  .outdoor-announcement__time-value {
+    font-size: 14px;
+    min-width: 18px;
+  }
+  
+  .outdoor-announcement__time-label {
+    font-size: 10px;
+  }
+  
+  .outdoor-announcement__messages {
+    max-width: 100%;
+  }
+  
+  .outdoor-announcement__message {
+    font-size: 12px;
+    white-space: normal;
+    line-height: 1.3;
+  }
+  
+  .outdoor-announcement__close {
+    right: 8px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .outdoor-announcement__container {
+    padding: 6px 36px 6px 12px;
+  }
+  
+  .outdoor-announcement__countdown-wrapper {
+    flex-direction: column;
+    gap: 4px;
+    text-align: center;
+  }
+  
+  .outdoor-announcement__countdown {
+    padding: 3px 8px;
+  }
+  
+  .outdoor-announcement__time-value {
+    font-size: 13px;
+  }
+}
+
+/* Animations */
+@keyframes pulse-gold {
+  0%, 100% {
+    color: var(--outdoor-gold, #d4af37);
+  }
+  50% {
+    color: #f0c040;
+  }
+}
+
+.outdoor-announcement__time-value {
+  animation: pulse-gold 2s ease-in-out infinite;
+}
+
+/* Sticky Announcement (optional) */
+.outdoor-announcement--sticky {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .outdoor-announcement {
+    border-bottom-color: rgba(255, 255, 255, 0.05);
+  }
+  
+  .outdoor-announcement__countdown {
+    background: rgba(0, 0, 0, 0.2);
+  }
+}
+
+/* Print styles */
+@media print {
+  .outdoor-announcement {
+    display: none;
+  }
+}
