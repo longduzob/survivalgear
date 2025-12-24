@@ -25,6 +25,8 @@
       </a>
     </div>
     {% content_for 'blocks' %}
+    {% render 'outdoor-stock-urgency', product: product, block: block %}
+    {% render 'outdoor-free-shipping-badge', product: product, block: block %}
     {% render 'tripadvisor-badge' %}
     {% render 'outdoor-sticky-atc', product: product, block: block %}
     {% render 'outdoor-pdp-trust-badges', block: block %}
@@ -590,6 +592,57 @@
       "id": "trust_badge_4_subtext",
       "label": "Badge 4 - Sous-texte",
       "default": "7j/7 disponible"
+    },
+    {
+      "type": "header",
+      "content": "🎯 CRO - Stock Urgency"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_stock_urgency",
+      "label": "Afficher l'urgence stock bas",
+      "default": true,
+      "info": "Affiche un message quand le stock est inférieur au seuil"
+    },
+    {
+      "type": "range",
+      "id": "stock_urgency_threshold",
+      "label": "Seuil d'alerte stock",
+      "min": 1,
+      "max": 20,
+      "step": 1,
+      "default": 5,
+      "info": "Afficher l'alerte si stock ≤ cette valeur"
+    },
+    {
+      "type": "text",
+      "id": "stock_urgency_text",
+      "label": "Texte personnalisé (optionnel)",
+      "info": "Utiliser {count} pour le nombre. Ex: 'Plus que {count} disponibles !'"
+    },
+    {
+      "type": "header",
+      "content": "🎯 CRO - Free Shipping Badge"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_free_shipping_badge",
+      "label": "Afficher badge livraison gratuite",
+      "default": true,
+      "info": "Affiche si le prix du produit ≥ seuil"
+    },
+    {
+      "type": "number",
+      "id": "free_shipping_threshold",
+      "label": "Seuil livraison gratuite (centimes)",
+      "default": 5000,
+      "info": "50€ = 5000 centimes"
+    },
+    {
+      "type": "text",
+      "id": "free_shipping_text",
+      "label": "Texte personnalisé (optionnel)",
+      "default": "Livraison GRATUITE pour ce produit"
     }
   ],
   "presets": [
