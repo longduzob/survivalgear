@@ -1,0 +1,137 @@
+{%- comment -%}
+  Outdoor Premium Footer Trust Section
+  
+  Mega section de confiance premium pour footer :
+  - Trust badges 6-8 items
+  - Payment methods
+  - Certifications
+  - Social proof numbers
+  
+  Usage:
+    {% render 'outdoor-footer-trust' %}
+{%- endcomment -%}
+
+{%- liquid
+  assign enable_footer_trust = settings.enable_footer_trust_section | default: true
+-%}
+
+{%- if enable_footer_trust -%}
+<div class="outdoor-footer-trust">
+  <div class="outdoor-footer-trust__container">
+    
+    {%- comment -%} Trust Badges Grid {%- endcomment -%}
+    <div class="outdoor-footer-trust__badges">
+      <h3 class="outdoor-footer-trust__title">{{ settings.footer_trust_title | default: "Pourquoi nous choisir ?" }}</h3>
+      
+      <div class="outdoor-footer-trust__badges-grid">
+        <div class="outdoor-footer-trust-badge">
+          <svg class="outdoor-footer-trust-badge__icon" width="32" height="32" viewBox="0 0 32 32" fill="none">
+            <path d="M16 4L21.5 9.5L28 10.5L22 16.5L23.5 23L16 19.5L8.5 23L10 16.5L4 10.5L10.5 9.5L16 4Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <div class="outdoor-footer-trust-badge__content">
+            <h4 class="outdoor-footer-trust-badge__title">{{ settings.footer_trust_badge_1_title | default: "Qualité Premium" }}</h4>
+            <p class="outdoor-footer-trust-badge__text">{{ settings.footer_trust_badge_1_text | default: "Équipement professionnel testé en conditions extrêmes" }}</p>
+          </div>
+        </div>
+        
+        <div class="outdoor-footer-trust-badge">
+          <svg class="outdoor-footer-trust-badge__icon" width="32" height="32" viewBox="0 0 32 32" fill="none">
+            <path d="M16 28C22.6274 28 28 22.6274 28 16C28 9.37258 22.6274 4 16 4C9.37258 4 4 9.37258 4 16C4 22.6274 9.37258 28 16 28Z" stroke="currentColor" stroke-width="2"/>
+            <path d="M12 16L15 19L21 13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <div class="outdoor-footer-trust-badge__content">
+            <h4 class="outdoor-footer-trust-badge__title">{{ settings.footer_trust_badge_2_title | default: "Garantie 2 Ans" }}</h4>
+            <p class="outdoor-footer-trust-badge__text">{{ settings.footer_trust_badge_2_text | default: "SAV réactif et remplacement gratuit en cas de défaut" }}</p>
+          </div>
+        </div>
+        
+        <div class="outdoor-footer-trust-badge">
+          <svg class="outdoor-footer-trust-badge__icon" width="32" height="32" viewBox="0 0 32 32" fill="none">
+            <path d="M8 16L4 20V26H10L14 22" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M14 10L10 6L16 4L28 16L24 20L14 10Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <div class="outdoor-footer-trust-badge__content">
+            <h4 class="outdoor-footer-trust-badge__title">{{ settings.footer_trust_badge_3_title | default: "Livraison Express" }}</h4>
+            <p class="outdoor-footer-trust-badge__text">{{ settings.footer_trust_badge_3_text | default: "Expédition sous 24h, livraison gratuite dès 50€" }}</p>
+          </div>
+        </div>
+        
+        <div class="outdoor-footer-trust-badge">
+          <svg class="outdoor-footer-trust-badge__icon" width="32" height="32" viewBox="0 0 32 32" fill="none">
+            <rect x="5" y="8" width="22" height="18" rx="2" stroke="currentColor" stroke-width="2"/>
+            <path d="M5 13H27M11 17H13M16 17H21" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+          <div class="outdoor-footer-trust-badge__content">
+            <h4 class="outdoor-footer-trust-badge__title">{{ settings.footer_trust_badge_4_title | default: "Paiement Sécurisé" }}</h4>
+            <p class="outdoor-footer-trust-badge__text">{{ settings.footer_trust_badge_4_text | default: "SSL & cryptage 256-bit, toutes cartes acceptées" }}</p>
+          </div>
+        </div>
+        
+        <div class="outdoor-footer-trust-badge">
+          <svg class="outdoor-footer-trust-badge__icon" width="32" height="32" viewBox="0 0 32 32" fill="none">
+            <path d="M16 22V16M16 10H16.02M28 16C28 22.6274 22.6274 28 16 28C9.37258 28 4 22.6274 4 16C4 9.37258 9.37258 4 16 4C22.6274 4 28 9.37258 28 16Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <div class="outdoor-footer-trust-badge__content">
+            <h4 class="outdoor-footer-trust-badge__title">{{ settings.footer_trust_badge_5_title | default: "Support Expert" }}</h4>
+            <p class="outdoor-footer-trust-badge__text">{{ settings.footer_trust_badge_5_text | default: "Conseillers outdoor disponibles 7j/7" }}</p>
+          </div>
+        </div>
+        
+        <div class="outdoor-footer-trust-badge">
+          <svg class="outdoor-footer-trust-badge__icon" width="32" height="32" viewBox="0 0 32 32" fill="none">
+            <path d="M6 10L16 4L26 10V20C26 20 23 28 16 28C9 28 6 20 6 20V10Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M12 16L15 19L21 13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <div class="outdoor-footer-trust-badge__content">
+            <h4 class="outdoor-footer-trust-badge__title">{{ settings.footer_trust_badge_6_title | default: "Fabriqué en Europe" }}</h4>
+            <p class="outdoor-footer-trust-badge__text">{{ settings.footer_trust_badge_6_text | default: "Production locale, matériaux éco-responsables" }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    {%- comment -%} Payment Methods {%- endcomment -%}
+    <div class="outdoor-footer-trust__payments">
+      <h4 class="outdoor-footer-trust__payments-title">{{ settings.footer_payments_title | default: "Moyens de paiement acceptés" }}</h4>
+      <div class="outdoor-footer-trust__payments-grid">
+        <div class="outdoor-footer-trust__payment-icon">
+          <svg width="40" height="26" viewBox="0 0 40 26" fill="none"><rect width="40" height="26" rx="3" fill="#EB001B"/><rect x="15" y="5" width="10" height="16" fill="#FF5F00"/><circle cx="15" cy="13" r="8" fill="#F79E1B"/></svg>
+        </div>
+        <div class="outdoor-footer-trust__payment-icon">
+          <svg width="40" height="26" viewBox="0 0 40 26" fill="none"><rect width="40" height="26" rx="3" fill="#0070BA"/><text x="20" y="18" font-size="12" fill="white" text-anchor="middle" font-weight="bold">VISA</text></svg>
+        </div>
+        <div class="outdoor-footer-trust__payment-icon">
+          <svg width="40" height="26" viewBox="0 0 40 26" fill="none"><rect width="40" height="26" rx="3" fill="#00579F"/><circle cx="12" cy="13" r="6" fill="#EB001B"/><circle cx="28" cy="13" r="6" fill="#F79E1B"/></svg>
+        </div>
+        <div class="outdoor-footer-trust__payment-icon">
+          <svg width="40" height="26" viewBox="0 0 40 26" fill="none"><rect width="40" height="26" rx="3" fill="#006FCF"/><text x="20" y="18" font-size="8" fill="white" text-anchor="middle" font-weight="bold">AMEX</text></svg>
+        </div>
+        <div class="outdoor-footer-trust__payment-icon">
+          <svg width="40" height="26" viewBox="0 0 40 26" fill="none"><rect width="40" height="26" rx="3" fill="#5433FF"/><text x="20" y="18" font-size="10" fill="white" text-anchor="middle" font-weight="bold">SHOP PAY</text></svg>
+        </div>
+      </div>
+    </div>
+    
+    {%- comment -%} Social Proof Numbers {%- endcomment -%}
+    <div class="outdoor-footer-trust__social-proof">
+      <div class="outdoor-footer-trust__proof-item">
+        <div class="outdoor-footer-trust__proof-number">{{ settings.footer_proof_1_number | default: "15 000+" }}</div>
+        <div class="outdoor-footer-trust__proof-label">{{ settings.footer_proof_1_label | default: "Clients satisfaits" }}</div>
+      </div>
+      <div class="outdoor-footer-trust__proof-item">
+        <div class="outdoor-footer-trust__proof-number">{{ settings.footer_proof_2_number | default: "4.8★" }}</div>
+        <div class="outdoor-footer-trust__proof-label">{{ settings.footer_proof_2_label | default: "Note moyenne" }}</div>
+      </div>
+      <div class="outdoor-footer-trust__proof-item">
+        <div class="outdoor-footer-trust__proof-number">{{ settings.footer_proof_3_number | default: "98%" }}</div>
+        <div class="outdoor-footer-trust__proof-label">{{ settings.footer_proof_3_label | default: "Taux satisfaction" }}</div>
+      </div>
+      <div class="outdoor-footer-trust__proof-item">
+        <div class="outdoor-footer-trust__proof-number">{{ settings.footer_proof_4_number | default: "24h" }}</div>
+        <div class="outdoor-footer-trust__proof-label">{{ settings.footer_proof_4_label | default: "Expédition moyenne" }}</div>
+      </div>
+    </div>
+    
+  </div>
+</div>
+{%- endif -%}
