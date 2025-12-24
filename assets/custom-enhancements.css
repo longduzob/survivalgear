@@ -244,3 +244,98 @@ img {
 .lazy-image.loaded {
   opacity: 1;
 }
+
+/* ========================================
+   PREMIUM THEME POLISH (MAIN CONTENT ONLY)
+   ======================================== */
+
+main.content-for-layout {
+  background: linear-gradient(180deg, #f6f4ef 0%, #fbfaf7 45%, #f1f2ee 100%);
+  color: #1c1f1a;
+}
+
+main.content-for-layout :is(h1, h2, h3, h4, .h1, .h2, .h3, .h4) {
+  letter-spacing: -0.02em;
+}
+
+main.content-for-layout .hero__content-wrapper {
+  max-width: 540px;
+  padding: 28px 32px;
+  border-radius: 22px;
+  background: rgba(18, 23, 18, 0.52);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: 0 24px 50px rgba(10, 14, 9, 0.32);
+  backdrop-filter: blur(14px);
+}
+
+main.content-for-layout .hero__content-wrapper :is(p, .rte) {
+  color: rgba(255, 255, 255, 0.92);
+}
+
+main.content-for-layout .hero__content-wrapper :is(h1, h2, h3, .h1, .h2, .h3) {
+  color: #fdf8ec;
+  text-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+}
+
+main.content-for-layout .section-resource-list {
+  border-radius: 26px;
+  border: 1px solid rgba(26, 34, 20, 0.08);
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 22px 44px rgba(16, 24, 12, 0.1);
+  overflow: hidden;
+}
+
+main.content-for-layout .section-resource-list__header {
+  padding-bottom: 14px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+main.content-for-layout .product-card {
+  border-radius: 18px;
+  border: 1px solid rgba(22, 28, 18, 0.08);
+  background: #ffffff;
+  box-shadow: 0 14px 34px rgba(12, 18, 9, 0.08);
+  overflow: hidden;
+}
+
+main.content-for-layout .product-card__content {
+  padding: 16px 18px 20px;
+}
+
+main.content-for-layout .product-card :is(h4, .h4) {
+  font-weight: 600;
+}
+
+main.content-for-layout .button {
+  border-radius: 999px;
+  letter-spacing: 0.02em;
+}
+
+main.content-for-layout .button--primary {
+  background: linear-gradient(135deg, #1f3a1d 0%, #2b4f28 100%);
+  border: none;
+  box-shadow: 0 12px 28px rgba(16, 26, 12, 0.32);
+}
+
+main.content-for-layout .button--primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 16px 32px rgba(16, 26, 12, 0.38);
+}
+
+main.content-for-layout .button--secondary,
+main.content-for-layout .button-secondary {
+  border: 1px solid rgba(28, 36, 22, 0.2);
+  background: rgba(255, 255, 255, 0.92);
+  color: #1f2a1b;
+}
+
+@media (max-width: 768px) {
+  main.content-for-layout .hero__content-wrapper {
+    padding: 22px;
+    border-radius: 16px;
+  }
+
+  main.content-for-layout .section-resource-list {
+    border-radius: 18px;
+  }
+}
