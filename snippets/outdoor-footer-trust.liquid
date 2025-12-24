@@ -12,7 +12,7 @@
 {%- endcomment -%}
 
 {%- liquid
-  assign enable_footer_trust = settings.enable_footer_trust_section | default: true
+  assign enable_footer_trust = settings.enable_footer_trust_section | default: false
 -%}
 
 {%- if enable_footer_trust -%}

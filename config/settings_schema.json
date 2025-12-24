@@ -2437,13 +2437,13 @@
         "type": "checkbox",
         "id": "enable_outdoor_announcement",
         "label": "Enable outdoor announcement bar",
-        "default": true
+        "default": false
       },
       {
         "type": "checkbox",
         "id": "announcement_countdown_enabled",
         "label": "Enable countdown timer",
-        "default": true
+        "default": false
       },
       {
         "type": "text",
@@ -2532,7 +2532,7 @@
         "type": "checkbox",
         "id": "enable_hero_trust_badges",
         "label": "Enable hero trust badges",
-        "default": true
+        "default": false
       },
       {
         "type": "text",
@@ -2566,7 +2566,7 @@
         "type": "checkbox",
         "id": "enable_hero_stats",
         "label": "Enable hero stats",
-        "default": true
+        "default": false
       },
       {
         "type": "text",
@@ -2629,7 +2629,7 @@
         "type": "checkbox",
         "id": "enable_footer_trust_section",
         "label": "Enable footer trust section",
-        "default": true
+        "default": false
       },
       {
         "type": "text",
