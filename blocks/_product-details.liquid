@@ -26,6 +26,7 @@
     </div>
     {% content_for 'blocks' %}
     {% render 'tripadvisor-badge' %}
+    {% render 'outdoor-sticky-atc', product: product, block: block %}
   {% endcapture %}
 
   {% render 'group', children: children, settings: block_settings, shopify_attributes: block.shopify_attributes %}
@@ -447,6 +448,41 @@
       "id": "tripadvisor_location_id",
       "label": "TripAdvisor locationId",
       "info": "Trouve-le via le code widget TripAdvisor (Widgets)."
+    },
+    {
+      "type": "header",
+      "content": "🎯 CRO - Sticky Add-to-Cart (Mobile)"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_sticky_atc_mobile",
+      "label": "Activer Sticky ATC mobile",
+      "default": true,
+      "info": "Affiche un bouton d'ajout au panier sticky sur mobile (< 1024px)"
+    },
+    {
+      "type": "color",
+      "id": "sticky_atc_bg_color",
+      "label": "Couleur fond",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "sticky_atc_text_color",
+      "label": "Couleur texte",
+      "default": "#1a1a1a"
+    },
+    {
+      "type": "color",
+      "id": "sticky_atc_button_bg",
+      "label": "Couleur bouton",
+      "default": "#2d5016"
+    },
+    {
+      "type": "color",
+      "id": "sticky_atc_button_text",
+      "label": "Couleur texte bouton",
+      "default": "#ffffff"
     }
   ],
   "presets": [

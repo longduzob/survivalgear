@@ -1,0 +1,220 @@
+/**
+ * OUTDOOR STICKY ADD-TO-CART (MOBILE)
+ * 
+ * Barre sticky en bas de l'écran sur mobile/tablet
+ * - S'affiche au scroll vers le bas (> 300px)
+ * - Se masque au scroll vers le haut
+ * - Animations smooth
+ * - Touch-friendly (height: 64px)
+ */
+
+.outdoor-sticky-atc {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 999;
+  background: var(--sticky-atc-bg, #ffffff);
+  color: var(--sticky-atc-text, #1a1a1a);
+  box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.12);
+  transform: translateY(100%);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: transform;
+}
+
+.outdoor-sticky-atc.is-visible {
+  transform: translateY(0);
+}
+
+.outdoor-sticky-atc__container {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  max-width: 100%;
+  height: 64px;
+}
+
+/**
+ * Image thumbnail
+ */
+.outdoor-sticky-atc__image {
+  flex-shrink: 0;
+  width: 48px;
+  height: 48px;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #f5f5f0;
+}
+
+.outdoor-sticky-atc__image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/**
+ * Price
+ */
+.outdoor-sticky-atc__price {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex-shrink: 0;
+}
+
+.outdoor-sticky-atc__price-compare {
+  font-size: 13px;
+  color: #999;
+  text-decoration: line-through;
+  line-height: 1.2;
+}
+
+.outdoor-sticky-atc__price-current {
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--sticky-atc-text, #1a1a1a);
+}
+
+.outdoor-sticky-atc__price--sale {
+  color: #c41e3a;
+}
+
+/**
+ * Add to Cart Button
+ */
+.outdoor-sticky-atc__button {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 48px;
+  padding: 0 20px;
+  background: var(--sticky-atc-btn-bg, #2d5016);
+  color: var(--sticky-atc-btn-text, #ffffff);
+  border: none;
+  border-radius: 24px;
+  font-size: 15px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.outdoor-sticky-atc__button:active {
+  transform: scale(0.98);
+}
+
+.outdoor-sticky-atc__button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.outdoor-sticky-atc__button-icon {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+}
+
+.outdoor-sticky-atc__button-text {
+  white-space: nowrap;
+}
+
+/**
+ * Button States
+ */
+
+/* Loading */
+.outdoor-sticky-atc__button.is-loading {
+  pointer-events: none;
+}
+
+.outdoor-sticky-atc__button.is-loading .outdoor-sticky-atc__button-icon {
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Success */
+.outdoor-sticky-atc__button.is-success {
+  background: #28a745;
+  pointer-events: none;
+}
+
+.outdoor-sticky-atc__button.is-success .outdoor-sticky-atc__button-icon {
+  animation: checkmark 0.4s ease;
+}
+
+@keyframes checkmark {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+}
+
+/* Error */
+.outdoor-sticky-atc__button.is-error {
+  background: #dc3545;
+  animation: shake 0.4s ease;
+}
+
+@keyframes shake {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-4px);
+  }
+  75% {
+    transform: translateX(4px);
+  }
+}
+
+/**
+ * Tablet
+ */
+@media (min-width: 768px) {
+  .outdoor-sticky-atc__container {
+    padding: 12px 32px;
+  }
+  
+  .outdoor-sticky-atc__image {
+    width: 56px;
+    height: 56px;
+  }
+  
+  .outdoor-sticky-atc__button {
+    max-width: 300px;
+  }
+}
+
+/**
+ * Desktop - Hide
+ */
+@media (min-width: 1025px) {
+  .outdoor-sticky-atc {
+    display: none !important;
+  }
+}
+
+/**
+ * Safe area (iPhone notch)
+ */
+@supports (padding-bottom: env(safe-area-inset-bottom)) {
+  .outdoor-sticky-atc__container {
+    padding-bottom: calc(12px + env(safe-area-inset-bottom));
+  }
+}
