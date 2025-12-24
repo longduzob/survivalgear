@@ -272,6 +272,8 @@
   {% endif %}
 </header-component>
 
+{% render 'outdoor-header-trust-bar', section: section %}
+
 <script
   src="{{ 'header.js' | asset_url }}"
   type="module"
@@ -890,6 +892,58 @@
     {
       "type": "header",
       "content": "t:content.appearance"
+    },
+    {
+      "type": "header",
+      "content": "Bandeau de confiance"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_header_trust_bar",
+      "label": "Afficher le bandeau de confiance",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "header_trust_item_1",
+      "label": "Message 1",
+      "default": "+12 000 clients satisfaits"
+    },
+    {
+      "type": "text",
+      "id": "header_trust_item_2",
+      "label": "Message 2",
+      "default": "Livraison rapide 48h"
+    },
+    {
+      "type": "text",
+      "id": "header_trust_item_3",
+      "label": "Message 3",
+      "default": "Retours 30 jours"
+    },
+    {
+      "type": "text",
+      "id": "header_trust_item_4",
+      "label": "Message 4",
+      "default": "Paiement sécurisé"
+    },
+    {
+      "type": "checkbox",
+      "id": "header_trust_show_social_proof",
+      "label": "Afficher la preuve sociale",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "header_trust_rating",
+      "label": "Note moyenne",
+      "default": "4.8/5"
+    },
+    {
+      "type": "text",
+      "id": "header_trust_reviews",
+      "label": "Nombre d'avis",
+      "default": "Basé sur 1 240 avis"
     },
     {
       "type": "select",

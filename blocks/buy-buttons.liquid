@@ -118,6 +118,8 @@
             </div>
           {%- endif -%}
 
+          {% render 'outdoor-pdp-benefits', block: block %}
+
           {%- unless block_settings.gift_card_form and product.gift_card? -%}
             <span
               class="product-form-text__error hidden"
@@ -142,6 +144,8 @@
             can_add_to_cart: can_add_to_cart,
             form_obj: form
           %}
+
+          {% render 'outdoor-pdp-reassurance', block: block %}
         </div>
       {%- endform -%}
     </product-form-component>
@@ -520,6 +524,64 @@
     {
       "type": "paragraph",
       "content": "t:content.gift_card_form_description"
+    },
+    {
+      "type": "header",
+      "content": "🎯 CRO - Bénéfices & Réassurance"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_pdp_benefits",
+      "label": "Afficher les bénéfices (bullets)",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "pdp_benefits_title",
+      "label": "Titre (optionnel)",
+      "default": "Points forts"
+    },
+    {
+      "type": "text",
+      "id": "pdp_benefit_1",
+      "label": "Bénéfice 1",
+      "default": "Ultra léger, pensé pour l'aventure"
+    },
+    {
+      "type": "text",
+      "id": "pdp_benefit_2",
+      "label": "Bénéfice 2",
+      "default": "Matériaux résistants aux intempéries"
+    },
+    {
+      "type": "text",
+      "id": "pdp_benefit_3",
+      "label": "Bénéfice 3",
+      "default": "Testé sur le terrain"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_pdp_reassurance",
+      "label": "Afficher la réassurance",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "pdp_reassurance_1",
+      "label": "Réassurance 1",
+      "default": "Livraison rapide 24-48h"
+    },
+    {
+      "type": "text",
+      "id": "pdp_reassurance_2",
+      "label": "Réassurance 2",
+      "default": "Retours gratuits 30 jours"
+    },
+    {
+      "type": "text",
+      "id": "pdp_reassurance_3",
+      "label": "Réassurance 3",
+      "default": "Paiement 100% sécurisé"
     },
     {
       "type": "header",

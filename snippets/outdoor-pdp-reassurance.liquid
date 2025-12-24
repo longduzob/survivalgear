@@ -1,0 +1,48 @@
+{%- comment -%}
+  PDP Reassurance near CTA
+  - Delivery, returns, secure payment
+
+  Usage:
+    {% render 'outdoor-pdp-reassurance', block: block %}
+{%- endcomment -%}
+
+{%- liquid
+  assign enable_reassurance = block.settings.enable_pdp_reassurance | default: true
+  assign has_reassurance = false
+  if block.settings.pdp_reassurance_1 != blank
+    assign has_reassurance = true
+  elsif block.settings.pdp_reassurance_2 != blank
+    assign has_reassurance = true
+  elsif block.settings.pdp_reassurance_3 != blank
+    assign has_reassurance = true
+  endif
+-%}
+
+{%- if enable_reassurance and has_reassurance -%}
+  <div class="outdoor-pdp-reassurance" data-pdp-reassurance>
+    {%- if block.settings.pdp_reassurance_1 != blank -%}
+      <div class="outdoor-pdp-reassurance__item">
+        <span class="outdoor-pdp-reassurance__icon" aria-hidden="true">
+          {{ 'icon-checkmark.svg' | inline_asset_content }}
+        </span>
+        <span>{{ block.settings.pdp_reassurance_1 }}</span>
+      </div>
+    {%- endif -%}
+    {%- if block.settings.pdp_reassurance_2 != blank -%}
+      <div class="outdoor-pdp-reassurance__item">
+        <span class="outdoor-pdp-reassurance__icon" aria-hidden="true">
+          {{ 'icon-checkmark.svg' | inline_asset_content }}
+        </span>
+        <span>{{ block.settings.pdp_reassurance_2 }}</span>
+      </div>
+    {%- endif -%}
+    {%- if block.settings.pdp_reassurance_3 != blank -%}
+      <div class="outdoor-pdp-reassurance__item">
+        <span class="outdoor-pdp-reassurance__icon" aria-hidden="true">
+          {{ 'icon-checkmark.svg' | inline_asset_content }}
+        </span>
+        <span>{{ block.settings.pdp_reassurance_3 }}</span>
+      </div>
+    {%- endif -%}
+  </div>
+{%- endif -%}
