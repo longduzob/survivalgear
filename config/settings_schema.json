@@ -2497,5 +2497,125 @@
         "default": "#ffffff"
       }
     ]
+  },
+  {
+    "name": "Outdoor Homepage",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Hero Countdown Timer"
+      },
+      {
+        "type": "checkbox",
+        "id": "enable_hero_countdown",
+        "label": "Enable hero countdown timer",
+        "default": false
+      },
+      {
+        "type": "text",
+        "id": "hero_countdown_date",
+        "label": "Countdown end date",
+        "default": "2024-12-31T23:59:59",
+        "info": "Format: YYYY-MM-DDTHH:MM:SS"
+      },
+      {
+        "type": "text",
+        "id": "hero_countdown_label",
+        "label": "Countdown label",
+        "default": "Offre limitée - Plus que"
+      },
+      {
+        "type": "header",
+        "content": "Hero Trust Badges"
+      },
+      {
+        "type": "checkbox",
+        "id": "enable_hero_trust_badges",
+        "label": "Enable hero trust badges",
+        "default": true
+      },
+      {
+        "type": "text",
+        "id": "hero_trust_badge_1",
+        "label": "Trust badge 1",
+        "default": "Paiement 100% sécurisé"
+      },
+      {
+        "type": "text",
+        "id": "hero_trust_badge_2",
+        "label": "Trust badge 2",
+        "default": "Livraison rapide 24-48h"
+      },
+      {
+        "type": "text",
+        "id": "hero_trust_badge_3",
+        "label": "Trust badge 3",
+        "default": "Garantie 2 ans"
+      },
+      {
+        "type": "text",
+        "id": "hero_trust_badge_4",
+        "label": "Trust badge 4",
+        "default": "Fabriqué en Europe"
+      },
+      {
+        "type": "header",
+        "content": "Hero Stats"
+      },
+      {
+        "type": "checkbox",
+        "id": "enable_hero_stats",
+        "label": "Enable hero stats",
+        "default": true
+      },
+      {
+        "type": "text",
+        "id": "hero_stat_1_value",
+        "label": "Stat 1 value",
+        "default": "15 000+"
+      },
+      {
+        "type": "text",
+        "id": "hero_stat_1_label",
+        "label": "Stat 1 label",
+        "default": "Clients satisfaits"
+      },
+      {
+        "type": "text",
+        "id": "hero_stat_2_value",
+        "label": "Stat 2 value",
+        "default": "4.8/5"
+      },
+      {
+        "type": "text",
+        "id": "hero_stat_2_label",
+        "label": "Stat 2 label",
+        "default": "Note moyenne"
+      },
+      {
+        "type": "text",
+        "id": "hero_stat_3_value",
+        "label": "Stat 3 value",
+        "default": "98%"
+      },
+      {
+        "type": "text",
+        "id": "hero_stat_3_label",
+        "label": "Stat 3 label",
+        "default": "Satisfaction client"
+      },
+      {
+        "type": "text",
+        "id": "hero_stat_4_value",
+        "label": "Stat 4 value",
+        "default": "500+"
+      },
+      {
+        "type": "text",
+        "id": "hero_stat_4_label",
+        "label": "Stat 4 label",
+        "default": "Produits premium"
+      }
+    ]
   }
 ]

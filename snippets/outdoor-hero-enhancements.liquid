@@ -1,0 +1,165 @@
+{%- comment -%}
+  Outdoor Premium Hero Enhancement
+  
+  Composant premium pour hero section :
+  - Trust badges sous le hero
+  - Countdown timer urgence
+  - Video background natif
+  - CTA optimisé multi-niveaux
+  - Stats de confiance
+  
+  Usage:
+    {% render 'outdoor-hero-enhancements', section: section %}
+{%- endcomment -%}
+
+{%- liquid
+  assign enable_hero_trust = settings.enable_hero_trust_badges | default: true
+  assign enable_hero_stats = settings.enable_hero_stats | default: true
+  assign enable_hero_countdown = settings.enable_hero_countdown | default: false
+-%}
+
+<div class="outdoor-hero-enhancements">
+  {%- if enable_hero_countdown -%}
+    <div class="outdoor-hero-countdown">
+      <outdoor-hero-timer data-end-date="{{ settings.hero_countdown_date }}">
+        <div class="outdoor-hero-countdown__content">
+          <span class="outdoor-hero-countdown__label">{{ settings.hero_countdown_label | default: "Offre limitée - Plus que" }}</span>
+          <div class="outdoor-hero-countdown__timer">
+            <div class="outdoor-hero-countdown__unit">
+              <span class="outdoor-hero-countdown__value" data-days>00</span>
+              <span class="outdoor-hero-countdown__unit-label">j</span>
+            </div>
+            <span class="outdoor-hero-countdown__separator">:</span>
+            <div class="outdoor-hero-countdown__unit">
+              <span class="outdoor-hero-countdown__value" data-hours>00</span>
+              <span class="outdoor-hero-countdown__unit-label">h</span>
+            </div>
+            <span class="outdoor-hero-countdown__separator">:</span>
+            <div class="outdoor-hero-countdown__unit">
+              <span class="outdoor-hero-countdown__value" data-minutes>00</span>
+              <span class="outdoor-hero-countdown__unit-label">m</span>
+            </div>
+            <span class="outdoor-hero-countdown__separator">:</span>
+            <div class="outdoor-hero-countdown__unit">
+              <span class="outdoor-hero-countdown__value" data-seconds>00</span>
+              <span class="outdoor-hero-countdown__unit-label">s</span>
+            </div>
+          </div>
+        </div>
+      </outdoor-hero-timer>
+    </div>
+  {%- endif -%}
+  
+  {%- if enable_hero_trust -%}
+    <div class="outdoor-hero-trust-badges">
+      <div class="outdoor-hero-trust-badges__grid">
+        <div class="outdoor-hero-trust-badge">
+          <svg class="outdoor-hero-trust-badge__icon" width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <path d="M9 12L11 14L15 10M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <span class="outdoor-hero-trust-badge__text">{{ settings.hero_trust_badge_1 | default: "Paiement 100% sécurisé" }}</span>
+        </div>
+        
+        <div class="outdoor-hero-trust-badge">
+          <svg class="outdoor-hero-trust-badge__icon" width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <path d="M13 10V3L4 14H11L11 21L20 10L13 10Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <span class="outdoor-hero-trust-badge__text">{{ settings.hero_trust_badge_2 | default: "Livraison rapide 24-48h" }}</span>
+        </div>
+        
+        <div class="outdoor-hero-trust-badge">
+          <svg class="outdoor-hero-trust-badge__icon" width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <path d="M9 12L11 14L15 10M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <span class="outdoor-hero-trust-badge__text">{{ settings.hero_trust_badge_3 | default: "Garantie 2 ans" }}</span>
+        </div>
+        
+        <div class="outdoor-hero-trust-badge">
+          <svg class="outdoor-hero-trust-badge__icon" width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <path d="M3 9L12 2L21 9V20C21 20.5304 20.7893 21.0391 20.4142 21.4142C20.0391 21.7893 19.5304 22 19 22H5C4.46957 22 3.96086 21.7893 3.58579 21.4142C3.21071 21.0391 3 20.5304 3 20V9Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M9 22V12H15V22" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <span class="outdoor-hero-trust-badge__text">{{ settings.hero_trust_badge_4 | default: "Fabriqué en Europe" }}</span>
+        </div>
+      </div>
+    </div>
+  {%- endif -%}
+  
+  {%- if enable_hero_stats -%}
+    <div class="outdoor-hero-stats">
+      <div class="outdoor-hero-stats__grid">
+        <div class="outdoor-hero-stat">
+          <div class="outdoor-hero-stat__value">{{ settings.hero_stat_1_value | default: "15 000+" }}</div>
+          <div class="outdoor-hero-stat__label">{{ settings.hero_stat_1_label | default: "Clients satisfaits" }}</div>
+        </div>
+        
+        <div class="outdoor-hero-stat">
+          <div class="outdoor-hero-stat__value">{{ settings.hero_stat_2_value | default: "4.8/5" }}</div>
+          <div class="outdoor-hero-stat__label">{{ settings.hero_stat_2_label | default: "Note moyenne" }}</div>
+        </div>
+        
+        <div class="outdoor-hero-stat">
+          <div class="outdoor-hero-stat__value">{{ settings.hero_stat_3_value | default: "98%" }}</div>
+          <div class="outdoor-hero-stat__label">{{ settings.hero_stat_3_label | default: "Satisfaction client" }}</div>
+        </div>
+        
+        <div class="outdoor-hero-stat">
+          <div class="outdoor-hero-stat__value">{{ settings.hero_stat_4_value | default: "500+" }}</div>
+          <div class="outdoor-hero-stat__label">{{ settings.hero_stat_4_label | default: "Produits premium" }}</div>
+        </div>
+      </div>
+    </div>
+  {%- endif -%}
+</div>
+
+<script>
+class OutdoorHeroTimer extends HTMLElement {
+  constructor() {
+    super();
+    this.endDate = this.dataset.endDate;
+    this.interval = null;
+    this.init();
+  }
+  
+  init() {
+    if (!this.endDate) return;
+    this.updateCountdown();
+    this.interval = setInterval(() => this.updateCountdown(), 1000);
+  }
+  
+  updateCountdown() {
+    const now = new Date().getTime();
+    const end = new Date(this.endDate).getTime();
+    const distance = end - now;
+    
+    if (distance < 0) {
+      if (this.interval) clearInterval(this.interval);
+      this.style.display = 'none';
+      return;
+    }
+    
+    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+    
+    const daysEl = this.querySelector('[data-days]');
+    const hoursEl = this.querySelector('[data-hours]');
+    const minutesEl = this.querySelector('[data-minutes]');
+    const secondsEl = this.querySelector('[data-seconds]');
+    
+    if (daysEl) daysEl.textContent = String(days).padStart(2, '0');
+    if (hoursEl) hoursEl.textContent = String(hours).padStart(2, '0');
+    if (minutesEl) minutesEl.textContent = String(minutes).padStart(2, '0');
+    if (secondsEl) secondsEl.textContent = String(seconds).padStart(2, '0');
+  }
+  
+  disconnectedCallback() {
+    if (this.interval) clearInterval(this.interval);
+  }
+}
+
+if (!customElements.get('outdoor-hero-timer')) {
+  customElements.define('outdoor-hero-timer', OutdoorHeroTimer);
+}
+</script>
