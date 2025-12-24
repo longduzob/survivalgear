@@ -1,0 +1,131 @@
+{%- comment -%}
+  Free Shipping Progress Bar (Cart Drawer)
+  
+  Barre de progression vers la livraison gratuite :
+  - Calcul dynamique du montant restant
+  - Animation de progression
+  - Message conditionnel (proche / atteint)
+  - Update en temps réel sur cart change
+  
+  Usage:
+    {% render 'outdoor-cart-shipping-progress', settings: settings %}
+  
+  Settings required:
+    - enable_cart_shipping_progress (checkbox)
+    - cart_shipping_threshold (number in cents)
+{%- endcomment -%}
+
+{%- liquid
+  assign enable_progress = settings.enable_cart_shipping_progress | default: true
+  assign threshold = settings.cart_shipping_threshold | default: 5000
+  
+  assign cart_total = cart.total_price
+  assign remaining = threshold | minus: cart_total
+  assign percentage = cart_total | times: 100 | divided_by: threshold
+  
+  if percentage > 100
+    assign percentage = 100
+  endif
+-%}
+
+{%- if enable_progress -%}
+<div class="outdoor-cart-shipping-progress" data-shipping-progress data-threshold="{{ threshold }}">
+  <div class="outdoor-cart-shipping-progress__message" data-progress-message>
+    {%- if remaining > 0 -%}
+      Plus que <strong data-remaining-amount>{{ remaining | money }}</strong> pour la <strong>livraison gratuite</strong> ! 🚚
+    {%- else -%}
+      <strong>Félicitations !</strong> Livraison gratuite débloquée 🎉
+    {%- endif -%}
+  </div>
+  
+  <div class="outdoor-cart-shipping-progress__bar">
+    <div 
+      class="outdoor-cart-shipping-progress__fill" 
+      data-progress-fill
+      style="width: {{ percentage }}%;"
+    ></div>
+  </div>
+  
+  <div class="outdoor-cart-shipping-progress__percentage" data-progress-percentage>
+    {{ percentage }}%
+  </div>
+</div>
+
+<script>
+/**
+ * Cart Shipping Progress
+ * Updates on cart changes
+ */
+if (!customElements.get('outdoor-cart-shipping-progress')) {
+  class OutdoorCartShippingProgress extends HTMLElement {
+    constructor() {
+      super();
+      this.threshold = parseInt(this.dataset.threshold);
+      this.init();
+    }
+    
+    init() {
+      // Listen for cart updates
+      document.addEventListener('cart:updated', this.handleCartUpdate.bind(this));
+      
+      // Also listen for morphed sections (Shopify's cart update method)
+      const observer = new MutationObserver(() => this.checkAndUpdate());
+      observer.observe(this, { childList: true, subtree: true });
+    }
+    
+    handleCartUpdate(event) {
+      if (event.detail && event.detail.cart) {
+        this.updateProgress(event.detail.cart.total_price);
+      }
+    }
+    
+    checkAndUpdate() {
+      // Get current cart total from DOM
+      const cartTotalElement = document.querySelector('[data-cart-total]');
+      if (cartTotalElement) {
+        const total = parseInt(cartTotalElement.dataset.cartTotal) || 0;
+        this.updateProgress(total);
+      }
+    }
+    
+    updateProgress(cartTotal) {
+      const remaining = Math.max(0, this.threshold - cartTotal);
+      const percentage = Math.min(100, Math.round((cartTotal / this.threshold) * 100));
+      
+      // Update message
+      const messageEl = this.querySelector('[data-progress-message]');
+      if (messageEl) {
+        if (remaining > 0) {
+          messageEl.innerHTML = `Plus que <strong data-remaining-amount>${this.formatMoney(remaining)}</strong> pour la <strong>livraison gratuite</strong> ! 🚚`;
+        } else {
+          messageEl.innerHTML = `<strong>Félicitations !</strong> Livraison gratuite débloquée 🎉`;
+          messageEl.classList.add('is-unlocked');
+        }
+      }
+      
+      // Update progress bar
+      const fillEl = this.querySelector('[data-progress-fill]');
+      if (fillEl) {
+        fillEl.style.width = percentage + '%';
+        
+        // Add animation class
+        fillEl.classList.add('is-updating');
+        setTimeout(() => fillEl.classList.remove('is-updating'), 400);
+      }
+      
+      // Update percentage text
+      const percentageEl = this.querySelector('[data-progress-percentage]');
+      if (percentageEl) {
+        percentageEl.textContent = percentage + '%';
+      }
+    }
+    
+    formatMoney(cents) {
+      return `${(cents / 100).toFixed(2)}€`;
+    }
+  }
+  
+  customElements.define('outdoor-cart-shipping-progress', OutdoorCartShippingProgress);
+}
+</script>
+{%- endif -%}

@@ -1819,6 +1819,147 @@
         "step": 1,
         "unit": "px",
         "default": 0
+      },
+      {
+        "type": "header",
+        "content": "🎯 Outdoor Cart Premium"
+      },
+      {
+        "type": "checkbox",
+        "id": "enable_cart_shipping_progress",
+        "label": "Free shipping progress bar",
+        "default": true
+      },
+      {
+        "type": "number",
+        "id": "cart_shipping_threshold",
+        "label": "Free shipping threshold (cents)",
+        "default": 5000,
+        "info": "50€ = 5000 cents"
+      },
+      {
+        "type": "checkbox",
+        "id": "enable_cart_delivery_estimate",
+        "label": "Show delivery estimate",
+        "default": true
+      },
+      {
+        "type": "text",
+        "id": "cart_delivery_text",
+        "label": "Delivery text",
+        "default": "Livraison estimée : 2-4 jours ouvrés"
+      },
+      {
+        "type": "checkbox",
+        "id": "enable_cart_upsell",
+        "label": "Show upsell products",
+        "default": true
+      },
+      {
+        "type": "text",
+        "id": "cart_upsell_title",
+        "label": "Upsell section title",
+        "default": "Vous pourriez aussi aimer"
+      },
+      {
+        "type": "collection",
+        "id": "cart_upsell_collection",
+        "label": "Upsell collection"
+      },
+      {
+        "type": "range",
+        "id": "cart_upsell_limit",
+        "label": "Number of products",
+        "min": 2,
+        "max": 8,
+        "step": 1,
+        "default": 4
+      },
+      {
+        "type": "checkbox",
+        "id": "enable_cart_trust_badges",
+        "label": "Show trust badges",
+        "default": true
+      },
+      {
+        "type": "select",
+        "id": "cart_badge_1_icon",
+        "label": "Badge 1 - Icon",
+        "options": [
+          {"value": "shield", "label": "Shield"},
+          {"value": "check", "label": "Check"},
+          {"value": "lock", "label": "Lock"}
+        ],
+        "default": "shield"
+      },
+      {
+        "type": "text",
+        "id": "cart_badge_1_text",
+        "label": "Badge 1 - Text",
+        "default": "Paiement sécurisé"
+      },
+      {
+        "type": "select",
+        "id": "cart_badge_2_icon",
+        "label": "Badge 2 - Icon",
+        "options": [
+          {"value": "shield", "label": "Shield"},
+          {"value": "check", "label": "Check"},
+          {"value": "lock", "label": "Lock"}
+        ],
+        "default": "check"
+      },
+      {
+        "type": "text",
+        "id": "cart_badge_2_text",
+        "label": "Badge 2 - Text",
+        "default": "Garantie satisfait"
+      },
+      {
+        "type": "select",
+        "id": "cart_badge_3_icon",
+        "label": "Badge 3 - Icon",
+        "options": [
+          {"value": "shield", "label": "Shield"},
+          {"value": "check", "label": "Check"},
+          {"value": "lock", "label": "Lock"}
+        ],
+        "default": "lock"
+      },
+      {
+        "type": "text",
+        "id": "cart_badge_3_text",
+        "label": "Badge 3 - Text",
+        "default": "Données protégées"
+      },
+      {
+        "type": "select",
+        "id": "cart_badge_4_icon",
+        "label": "Badge 4 - Icon",
+        "options": [
+          {"value": "shield", "label": "Shield"},
+          {"value": "check", "label": "Check"},
+          {"value": "lock", "label": "Lock"}
+        ],
+        "default": "check"
+      },
+      {
+        "type": "text",
+        "id": "cart_badge_4_text",
+        "label": "Badge 4 - Text",
+        "default": "Livraison rapide"
+      },
+      {
+        "type": "checkbox",
+        "id": "enable_cart_promo_code",
+        "label": "Show promo code UI",
+        "default": true
+      },
+      {
+        "type": "text",
+        "id": "cart_promo_title",
+        "label": "Promo code title",
+        "default": "Code promo"
       }
     ]
   },

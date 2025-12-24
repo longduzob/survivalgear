@@ -1,0 +1,153 @@
+{%- comment -%}
+  Promo Code UI (Cart Drawer)
+  
+  Interface améliorée pour code promo :
+  - Collapsible accordion
+  - Form avec input + bouton
+  - Messages success/error
+  - Integration avec Shopify cart
+  
+  Usage:
+    {% render 'outdoor-cart-promo-code', settings: settings %}
+  
+  Settings required:
+    - enable_cart_promo_code (checkbox)
+    - cart_promo_title (text)
+{%- endcomment -%}
+
+{%- liquid
+  assign enable_promo = settings.enable_cart_promo_code | default: true
+  assign promo_title = settings.cart_promo_title | default: 'Code promo'
+-%}
+
+{%- if enable_promo -%}
+<div class="outdoor-cart-promo-code" data-promo-code>
+  <button 
+    type="button"
+    class="outdoor-cart-promo-code__toggle"
+    data-promo-toggle
+    aria-expanded="false"
+  >
+    <span>🎟️ {{ promo_title }}</span>
+    <svg class="outdoor-cart-promo-code__toggle-icon" width="20" height="20" viewBox="0 0 20 20" fill="none">
+      <path d="M5 7.5L10 12.5L15 7.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </button>
+  
+  <div class="outdoor-cart-promo-code__content" data-promo-content>
+    <form class="outdoor-cart-promo-code__form" data-promo-form action="{{ routes.cart_url }}/update" method="post">
+      <input 
+        type="text"
+        name="discount"
+        class="outdoor-cart-promo-code__input"
+        placeholder="Entrez votre code"
+        data-promo-input
+      >
+      <button 
+        type="submit"
+        class="outdoor-cart-promo-code__submit"
+        data-promo-submit
+      >
+        Appliquer
+      </button>
+    </form>
+    
+    <div class="outdoor-cart-promo-code__message" data-promo-message style="display:none;"></div>
+  </div>
+</div>
+
+<script>
+/**
+ * Promo Code UI
+ */
+if (!customElements.get('outdoor-cart-promo-code')) {
+  class OutdoorCartPromoCode extends HTMLElement {
+    constructor() {
+      super();
+      this.toggle = this.querySelector('[data-promo-toggle]');
+      this.content = this.querySelector('[data-promo-content]');
+      this.form = this.querySelector('[data-promo-form]');
+      this.input = this.querySelector('[data-promo-input]');
+      this.message = this.querySelector('[data-promo-message]');
+      this.isOpen = false;
+      
+      this.init();
+    }
+    
+    init() {
+      // Toggle accordion
+      this.toggle.addEventListener('click', () => this.toggleAccordion());
+      
+      // Form submit
+      this.form.addEventListener('submit', (e) => this.handleSubmit(e));
+    }
+    
+    toggleAccordion() {
+      this.isOpen = !this.isOpen;
+      
+      if (this.isOpen) {
+        this.classList.add('is-open');
+        this.toggle.setAttribute('aria-expanded', 'true');
+      } else {
+        this.classList.remove('is-open');
+        this.toggle.setAttribute('aria-expanded', 'false');
+      }
+    }
+    
+    async handleSubmit(e) {
+      e.preventDefault();
+      
+      const code = this.input.value.trim();
+      
+      if (!code) {
+        this.showMessage('Veuillez entrer un code promo', 'error');
+        return;
+      }
+      
+      // Disable form
+      this.input.disabled = true;
+      this.form.querySelector('[data-promo-submit]').disabled = true;
+      this.form.querySelector('[data-promo-submit]').textContent = '...';
+      
+      try {
+        // Apply discount via Shopify API
+        const response = await fetch('/discount/' + encodeURIComponent(code));
+        
+        if (response.redirected) {
+          // Shopify redirects on success
+          this.showMessage('Code appliqué avec succès ! 🎉', 'success');
+          
+          // Refresh cart
+          setTimeout(() => {
+            window.location.reload();
+          }, 1000);
+        } else {
+          throw new Error('Invalid code');
+        }
+        
+      } catch (error) {
+        this.showMessage('Code invalide ou expiré', 'error');
+        
+        // Re-enable form
+        this.input.disabled = false;
+        this.form.querySelector('[data-promo-submit]').disabled = false;
+        this.form.querySelector('[data-promo-submit]').textContent = 'Appliquer';
+      }
+    }
+    
+    showMessage(text, type) {
+      this.message.textContent = text;
+      this.message.className = `outdoor-cart-promo-code__message outdoor-cart-promo-code__message--${type}`;
+      this.message.style.display = 'block';
+      
+      // Hide after 5s
+      setTimeout(() => {
+        this.message.style.display = 'none';
+      }, 5000);
+    }
+  }
+  
+  customElements.define('outdoor-cart-promo-code', OutdoorCartPromoCode);
+}
+</script>
+{%- endif -%}
