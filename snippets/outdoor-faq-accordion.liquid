@@ -1,0 +1,154 @@
+{%- comment -%}
+  FAQ Accordion Component
+  
+  Accordion FAQ pour PDP :
+  - Questions/réponses repliables
+  - Animation smooth
+  - Schema JSON pour ajouter des Q/R
+  - Accessible (keyboard nav, ARIA)
+  
+  Usage:
+    {% render 'outdoor-faq-accordion', block: block %}
+  
+  Settings required:
+    - enable_faq_accordion (checkbox)
+    - faq_title (text)
+    - FAQ items via block.blocks (type: faq_item)
+{%- endcomment -%}
+
+{%- liquid
+  assign enable_faq = block.settings.enable_faq_accordion | default: true
+  assign faq_title = block.settings.faq_title | default: 'Questions fréquentes'
+-%}
+
+{%- if enable_faq -%}
+<div class="outdoor-faq-accordion" data-outdoor-faq>
+  {% if faq_title != blank %}
+    <h3 class="outdoor-faq-accordion__title">{{ faq_title }}</h3>
+  {% endif %}
+  
+  <div class="outdoor-faq-accordion__items">
+    {% for faq_block in block.blocks %}
+      {% if faq_block.type == 'faq_item' %}
+        <details class="outdoor-faq-item" data-faq-item {{ faq_block.shopify_attributes }}>
+          <summary class="outdoor-faq-item__question">
+            <span>{{ faq_block.settings.question }}</span>
+            <svg class="outdoor-faq-item__icon" width="20" height="20" viewBox="0 0 20 20" fill="none">
+              <path d="M5 7.5L10 12.5L15 7.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </summary>
+          
+          <div class="outdoor-faq-item__answer">
+            <div class="outdoor-faq-item__answer-content">
+              {{ faq_block.settings.answer }}
+            </div>
+          </div>
+        </details>
+      {% endif %}
+    {% endfor %}
+  </div>
+</div>
+{%- endif -%}
+
+<script>
+/**
+ * FAQ Accordion - Enhanced accessibility
+ */
+if (!customElements.get('outdoor-faq-accordion')) {
+  class OutdoorFaqAccordion extends HTMLElement {
+    constructor() {
+      super();
+      this.items = this.querySelectorAll('[data-faq-item]');
+      this.init();
+    }
+    
+    init() {
+      // Add smooth animations on toggle
+      this.items.forEach((item, index) => {
+        const summary = item.querySelector('summary');
+        const answer = item.querySelector('.outdoor-faq-item__answer');
+        
+        // Set unique IDs for accessibility
+        const questionId = `faq-q-${index}`;
+        const answerId = `faq-a-${index}`;
+        
+        summary.id = questionId;
+        answer.id = answerId;
+        summary.setAttribute('aria-controls', answerId);
+        
+        // Handle toggle
+        item.addEventListener('toggle', (e) => {
+          if (item.open) {
+            this.animateOpen(answer);
+            summary.setAttribute('aria-expanded', 'true');
+          } else {
+            summary.setAttribute('aria-expanded', 'false');
+          }
+        });
+        
+        // Close others when one opens (optional accordion behavior)
+        if (this.dataset.accordionMode === 'single') {
+          item.addEventListener('toggle', () => {
+            if (item.open) {
+              this.closeOthers(item);
+            }
+          });
+        }
+      });
+    }
+    
+    animateOpen(element) {
+      element.style.overflow = 'hidden';
+      const height = element.scrollHeight;
+      element.style.height = '0px';
+      
+      requestAnimationFrame(() => {
+        element.style.height = height + 'px';
+        element.style.transition = 'height 0.3s ease';
+        
+        setTimeout(() => {
+          element.style.height = 'auto';
+          element.style.overflow = 'visible';
+        }, 300);
+      });
+    }
+    
+    closeOthers(currentItem) {
+      this.items.forEach(item => {
+        if (item !== currentItem && item.open) {
+          item.open = false;
+        }
+      });
+    }
+  }
+  
+  customElements.define('outdoor-faq-accordion', OutdoorFaqAccordion);
+}
+</script>
+
+{% schema %}
+{
+  "name": "FAQ Item",
+  "class": "faq-item-block",
+  "blocks": [
+    {
+      "type": "faq_item",
+      "name": "Question / Réponse",
+      "settings": [
+        {
+          "type": "text",
+          "id": "question",
+          "label": "Question",
+          "default": "Quelle est la taille recommandée ?"
+        },
+        {
+          "type": "richtext",
+          "id": "answer",
+          "label": "Réponse",
+          "default": "<p>Consultez notre guide des tailles pour choisir la taille adaptée.</p>"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

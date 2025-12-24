@@ -1,0 +1,106 @@
+{%- comment -%}
+  Free Shipping Badge
+  
+  Affiche un badge "Livraison gratuite" sur le PDP :
+  - Conditionnel selon le prix du produit
+  - Design outdoor premium
+  - Icon camion
+  
+  Usage:
+    {% render 'outdoor-free-shipping-badge', product: product, block: block %}
+  
+  Settings required:
+    - enable_free_shipping_badge (checkbox)
+    - free_shipping_threshold (number in cents)
+    - free_shipping_text (text)
+{%- endcomment -%}
+
+{%- liquid
+  assign enable_badge = block.settings.enable_free_shipping_badge | default: true
+  assign threshold = block.settings.free_shipping_threshold | default: 5000
+  assign custom_text = block.settings.free_shipping_text
+  
+  assign current_variant = product.selected_or_first_available_variant
+  assign price = current_variant.price
+  assign qualifies = false
+  
+  if price >= threshold
+    assign qualifies = true
+  endif
+-%}
+
+{%- if enable_badge and qualifies -%}
+  <div class="outdoor-free-shipping-badge" data-free-shipping-badge data-threshold="{{ threshold }}">
+    <div class="outdoor-free-shipping-badge__content">
+      <svg class="outdoor-free-shipping-badge__icon" width="24" height="24" viewBox="0 0 24 24" fill="none">
+        <path d="M16 3H1V16H16V3Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M16 8H20L23 11V16H16V8Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M5.5 21C6.88071 21 8 19.8807 8 18.5C8 17.1193 6.88071 16 5.5 16C4.11929 16 3 17.1193 3 18.5C3 19.8807 4.11929 21 5.5 21Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M18.5 21C19.8807 21 21 19.8807 21 18.5C21 17.1193 19.8807 16 18.5 16C17.1193 16 16 17.1193 16 18.5C16 19.8807 17.1193 21 18.5 21Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      
+      <span class="outdoor-free-shipping-badge__text">
+        {% if custom_text != blank %}
+          {{ custom_text }}
+        {% else %}
+          <strong>Livraison GRATUITE</strong> pour ce produit
+        {% endif %}
+      </span>
+      
+      <svg class="outdoor-free-shipping-badge__check" width="20" height="20" viewBox="0 0 20 20" fill="none">
+        <circle cx="10" cy="10" r="9" fill="currentColor"/>
+        <path d="M6 10L9 13L14 7" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+  </div>
+{%- endif -%}
+
+<script>
+/**
+ * Free Shipping Badge - Update on variant change
+ */
+if (!customElements.get('outdoor-free-shipping-badge')) {
+  class OutdoorFreeShippingBadge extends HTMLElement {
+    constructor() {
+      super();
+      this.threshold = parseInt(this.dataset.threshold);
+      this.init();
+    }
+    
+    init() {
+      // Listen for variant changes
+      document.addEventListener('variant:change', this.handleVariantChange.bind(this));
+    }
+    
+    handleVariantChange(event) {
+      const { variant } = event.detail;
+      if (!variant) return;
+      
+      this.updateBadgeVisibility(variant);
+    }
+    
+    updateBadgeVisibility(variant) {
+      const price = variant.price;
+      const qualifies = price >= this.threshold;
+      
+      if (qualifies) {
+        this.show();
+      } else {
+        this.hide();
+      }
+    }
+    
+    show() {
+      this.style.display = 'block';
+      this.classList.add('is-visible');
+    }
+    
+    hide() {
+      this.style.display = 'none';
+      this.classList.remove('is-visible');
+    }
+  }
+  
+  customElements.define('outdoor-free-shipping-badge', OutdoorFreeShippingBadge);
+}
+</script>

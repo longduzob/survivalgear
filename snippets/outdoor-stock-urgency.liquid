@@ -1,0 +1,112 @@
+{%- comment -%}
+  Stock Urgency Indicator
+  
+  Affiche un message d'urgence quand le stock est bas :
+  - "Plus que X en stock !"
+  - Couleur orange/rouge
+  - Icon d'alerte
+  - Animation pulse
+  
+  Usage:
+    {% render 'outdoor-stock-urgency', product: product, block: block %}
+  
+  Settings required:
+    - enable_stock_urgency (checkbox)
+    - stock_urgency_threshold (range 1-20)
+    - stock_urgency_text (text)
+{%- endcomment -%}
+
+{%- liquid
+  assign enable_urgency = block.settings.enable_stock_urgency | default: true
+  assign threshold = block.settings.stock_urgency_threshold | default: 5
+  assign custom_text = block.settings.stock_urgency_text
+  
+  assign current_variant = product.selected_or_first_available_variant
+  assign inventory = current_variant.inventory_quantity
+  assign inventory_policy = current_variant.inventory_policy
+-%}
+
+{%- if enable_urgency and current_variant.available -%}
+  {%- comment -%} Only show if inventory tracked and below threshold {%- endcomment -%}
+  {%- if current_variant.inventory_management == 'shopify' and inventory > 0 and inventory <= threshold -%}
+    <div class="outdoor-stock-urgency" data-stock-urgency data-variant-id="{{ current_variant.id }}">
+      <div class="outdoor-stock-urgency__content">
+        <svg class="outdoor-stock-urgency__icon" width="20" height="20" viewBox="0 0 20 20" fill="none">
+          <path d="M10 6V10M10 14H10.01M19 10C19 14.9706 14.9706 19 10 19C5.02944 19 1 14.9706 1 10C1 5.02944 5.02944 1 10 1C14.9706 1 19 5.02944 19 10Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        
+        <span class="outdoor-stock-urgency__text" data-stock-count="{{ inventory }}">
+          {% if custom_text != blank %}
+            {{ custom_text | replace: '{count}', inventory }}
+          {% else %}
+            <strong>Attention !</strong> Plus que <strong>{{ inventory }}</strong> en stock
+          {% endif %}
+        </span>
+      </div>
+    </div>
+  {%- endif -%}
+{%- endif -%}
+
+<script>
+/**
+ * Stock Urgency - Update on variant change
+ */
+if (!customElements.get('outdoor-stock-urgency')) {
+  class OutdoorStockUrgency extends HTMLElement {
+    constructor() {
+      super();
+      this.variantId = this.dataset.variantId;
+      this.init();
+    }
+    
+    init() {
+      // Listen for variant changes
+      document.addEventListener('variant:change', this.handleVariantChange.bind(this));
+    }
+    
+    handleVariantChange(event) {
+      const { variant } = event.detail;
+      if (!variant) return;
+      
+      this.updateStockDisplay(variant);
+    }
+    
+    updateStockDisplay(variant) {
+      const threshold = parseInt('{{ threshold }}');
+      const inventory = variant.inventory_quantity;
+      const tracked = variant.inventory_management === 'shopify';
+      const available = variant.available;
+      
+      // Show/hide based on conditions
+      if (tracked && available && inventory > 0 && inventory <= threshold) {
+        this.show(inventory);
+      } else {
+        this.hide();
+      }
+    }
+    
+    show(count) {
+      const textElement = this.querySelector('[data-stock-count]');
+      if (textElement) {
+        const customText = '{{ custom_text }}';
+        if (customText) {
+          textElement.innerHTML = customText.replace('{count}', `<strong>${count}</strong>`);
+        } else {
+          textElement.innerHTML = `<strong>Attention !</strong> Plus que <strong>${count}</strong> en stock`;
+        }
+        textElement.dataset.stockCount = count;
+      }
+      
+      this.style.display = 'block';
+      this.classList.add('is-visible');
+    }
+    
+    hide() {
+      this.style.display = 'none';
+      this.classList.remove('is-visible');
+    }
+  }
+  
+  customElements.define('outdoor-stock-urgency', OutdoorStockUrgency);
+}
+</script>

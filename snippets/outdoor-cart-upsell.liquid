@@ -1,0 +1,151 @@
+{%- comment -%}
+  Cart Upsell Slider
+  
+  Slider de produits upsell dans le cart drawer :
+  - Produits complémentaires
+  - Quick add to cart
+  - Horizontal scroll
+  
+  Usage:
+    {% render 'outdoor-cart-upsell', settings: settings %}
+  
+  Settings required:
+    - enable_cart_upsell (checkbox)
+    - cart_upsell_title (text)
+    - cart_upsell_collection (collection)
+    - cart_upsell_limit (range)
+{%- endcomment -%}
+
+{%- liquid
+  assign enable_upsell = settings.enable_cart_upsell | default: true
+  assign upsell_title = settings.cart_upsell_title | default: 'Vous pourriez aussi aimer'
+  assign collection = settings.cart_upsell_collection
+  assign limit = settings.cart_upsell_limit | default: 4
+  
+  if collection
+    assign upsell_products = collection.products | where: 'available', true | limit: limit
+  endif
+-%}
+
+{%- if enable_upsell and upsell_products.size > 0 -%}
+<div class="outdoor-cart-upsell" data-cart-upsell>
+  {% if upsell_title != blank %}
+    <h3 class="outdoor-cart-upsell__title">{{ upsell_title }}</h3>
+  {% endif %}
+  
+  <div class="outdoor-cart-upsell__slider">
+    <div class="outdoor-cart-upsell__grid">
+      {% for product in upsell_products %}
+        <div class="outdoor-cart-upsell__item" data-product-id="{{ product.id }}">
+          <a href="{{ product.url }}" class="outdoor-cart-upsell__image-link">
+            {% if product.featured_image %}
+              <img 
+                src="{{ product.featured_image | image_url: width: 300 }}"
+                alt="{{ product.featured_image.alt | escape }}"
+                class="outdoor-cart-upsell__image"
+                loading="lazy"
+                width="300"
+                height="300"
+              >
+            {% endif %}
+          </a>
+          
+          <div class="outdoor-cart-upsell__info">
+            <h4 class="outdoor-cart-upsell__product-title">
+              <a href="{{ product.url }}">{{ product.title }}</a>
+            </h4>
+            
+            <div class="outdoor-cart-upsell__price">
+              {{ product.price | money }}
+            </div>
+            
+            {% if product.available %}
+              <button 
+                type="button"
+                class="outdoor-cart-upsell__quick-add"
+                data-quick-add-cart="{{ product.variants.first.id }}"
+              >
+                Ajouter
+              </button>
+            {% else %}
+              <button type="button" class="outdoor-cart-upsell__quick-add" disabled>
+                Épuisé
+              </button>
+            {% endif %}
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+<script>
+/**
+ * Cart Upsell Quick Add
+ */
+if (!customElements.get('outdoor-cart-upsell')) {
+  class OutdoorCartUpsell extends HTMLElement {
+    constructor() {
+      super();
+      this.quickAddButtons = this.querySelectorAll('[data-quick-add-cart]');
+      this.init();
+    }
+    
+    init() {
+      this.quickAddButtons.forEach(btn => {
+        btn.addEventListener('click', (e) => this.handleQuickAdd(e, btn));
+      });
+    }
+    
+    async handleQuickAdd(e, button) {
+      e.preventDefault();
+      
+      const variantId = button.dataset.quickAddCart;
+      
+      // Loading state
+      button.classList.add('is-loading');
+      button.disabled = true;
+      const originalText = button.textContent;
+      button.textContent = '...';
+      
+      try {
+        const response = await fetch('/cart/add.js', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ id: variantId, quantity: 1 })
+        });
+        
+        if (!response.ok) throw new Error('Failed');
+        
+        const data = await response.json();
+        
+        // Success
+        button.textContent = '✓ Ajouté';
+        
+        // Trigger cart refresh
+        document.dispatchEvent(new CustomEvent('cart:refresh'));
+        
+        // Reset after 2s
+        setTimeout(() => {
+          button.textContent = originalText;
+          button.disabled = false;
+          button.classList.remove('is-loading');
+        }, 2000);
+        
+      } catch (error) {
+        console.error('Error:', error);
+        button.textContent = 'Erreur';
+        
+        setTimeout(() => {
+          button.textContent = originalText;
+          button.disabled = false;
+          button.classList.remove('is-loading');
+        }, 2000);
+      }
+    }
+  }
+  
+  customElements.define('outdoor-cart-upsell', OutdoorCartUpsell);
+}
+</script>
+{%- endif -%}
