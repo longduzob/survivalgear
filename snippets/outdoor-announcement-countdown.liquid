@@ -20,8 +20,8 @@
 {%- endcomment -%}
 
 {%- liquid
-  assign enable_announcement = settings.enable_outdoor_announcement | default: true
-  assign countdown_enabled = settings.announcement_countdown_enabled | default: true
+  assign enable_announcement = settings.enable_outdoor_announcement | default: false
+  assign countdown_enabled = settings.announcement_countdown_enabled | default: false
   assign countdown_end = settings.announcement_countdown_end_date | default: ""
   assign countdown_text = settings.announcement_countdown_text | default: "🔥 Livraison GRATUITE - Plus que"
   

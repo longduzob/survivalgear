@@ -13,8 +13,8 @@
 {%- endcomment -%}
 
 {%- liquid
-  assign enable_hero_trust = settings.enable_hero_trust_badges | default: true
-  assign enable_hero_stats = settings.enable_hero_stats | default: true
+  assign enable_hero_trust = settings.enable_hero_trust_badges | default: false
+  assign enable_hero_stats = settings.enable_hero_stats | default: false
   assign enable_hero_countdown = settings.enable_hero_countdown | default: false
 -%}
 
