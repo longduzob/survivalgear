@@ -1,0 +1,93 @@
+{%- comment -%}
+  Header Trust Bar
+  - Configurable items + optional social proof
+  - Displayed under the main header
+
+  Usage:
+    {% render 'outdoor-header-trust-bar', section: section %}
+{%- endcomment -%}
+
+{%- liquid
+  assign enable_trust_bar = section.settings.enable_header_trust_bar | default: true
+  assign show_social = section.settings.header_trust_show_social_proof | default: false
+  assign trust_texts = ''
+  if section.settings.header_trust_item_1 != blank
+    assign trust_texts = trust_texts | append: '1'
+  endif
+  if section.settings.header_trust_item_2 != blank
+    assign trust_texts = trust_texts | append: '2'
+  endif
+  if section.settings.header_trust_item_3 != blank
+    assign trust_texts = trust_texts | append: '3'
+  endif
+  if section.settings.header_trust_item_4 != blank
+    assign trust_texts = trust_texts | append: '4'
+  endif
+-%}
+
+{%- if enable_trust_bar and trust_texts != blank -%}
+  <div class="outdoor-header-trust" data-header-trust>
+    <div class="outdoor-header-trust__inner">
+      <div class="outdoor-header-trust__items" role="list">
+        {%- if section.settings.header_trust_item_1 != blank -%}
+          <div class="outdoor-header-trust__item" role="listitem">
+            <span class="outdoor-header-trust__icon" aria-hidden="true">
+              {{ 'icon-checkmark.svg' | inline_asset_content }}
+            </span>
+            <span class="outdoor-header-trust__text">{{ section.settings.header_trust_item_1 }}</span>
+          </div>
+        {%- endif -%}
+        {%- if section.settings.header_trust_item_2 != blank -%}
+          <div class="outdoor-header-trust__item" role="listitem">
+            <span class="outdoor-header-trust__icon" aria-hidden="true">
+              {{ 'icon-checkmark.svg' | inline_asset_content }}
+            </span>
+            <span class="outdoor-header-trust__text">{{ section.settings.header_trust_item_2 }}</span>
+          </div>
+        {%- endif -%}
+        {%- if section.settings.header_trust_item_3 != blank -%}
+          <div class="outdoor-header-trust__item" role="listitem">
+            <span class="outdoor-header-trust__icon" aria-hidden="true">
+              {{ 'icon-checkmark.svg' | inline_asset_content }}
+            </span>
+            <span class="outdoor-header-trust__text">{{ section.settings.header_trust_item_3 }}</span>
+          </div>
+        {%- endif -%}
+        {%- if section.settings.header_trust_item_4 != blank -%}
+          <div class="outdoor-header-trust__item" role="listitem">
+            <span class="outdoor-header-trust__icon" aria-hidden="true">
+              {{ 'icon-checkmark.svg' | inline_asset_content }}
+            </span>
+            <span class="outdoor-header-trust__text">{{ section.settings.header_trust_item_4 }}</span>
+          </div>
+        {%- endif -%}
+      </div>
+
+      {%- if show_social and section.settings.header_trust_rating != blank -%}
+        <div class="outdoor-header-trust__social" aria-label="Preuve sociale">
+          <span class="outdoor-header-trust__stars" aria-hidden="true">
+            <svg width="16" height="16" viewBox="0 0 20 20" fill="none">
+              <path d="M10 1.5L12.6 6.7L18.3 7.4L14.1 11.4L15.2 17.1L10 14.2L4.8 17.1L5.9 11.4L1.7 7.4L7.4 6.7L10 1.5Z" fill="currentColor" />
+            </svg>
+            <svg width="16" height="16" viewBox="0 0 20 20" fill="none">
+              <path d="M10 1.5L12.6 6.7L18.3 7.4L14.1 11.4L15.2 17.1L10 14.2L4.8 17.1L5.9 11.4L1.7 7.4L7.4 6.7L10 1.5Z" fill="currentColor" />
+            </svg>
+            <svg width="16" height="16" viewBox="0 0 20 20" fill="none">
+              <path d="M10 1.5L12.6 6.7L18.3 7.4L14.1 11.4L15.2 17.1L10 14.2L4.8 17.1L5.9 11.4L1.7 7.4L7.4 6.7L10 1.5Z" fill="currentColor" />
+            </svg>
+            <svg width="16" height="16" viewBox="0 0 20 20" fill="none">
+              <path d="M10 1.5L12.6 6.7L18.3 7.4L14.1 11.4L15.2 17.1L10 14.2L4.8 17.1L5.9 11.4L1.7 7.4L7.4 6.7L10 1.5Z" fill="currentColor" />
+            </svg>
+            <svg width="16" height="16" viewBox="0 0 20 20" fill="none">
+              <path d="M10 1.5L12.6 6.7L18.3 7.4L14.1 11.4L15.2 17.1L10 14.2L4.8 17.1L5.9 11.4L1.7 7.4L7.4 6.7L10 1.5Z" fill="currentColor" />
+            </svg>
+          </span>
+          <span class="outdoor-header-trust__rating">{{ section.settings.header_trust_rating }}</span>
+          {%- if section.settings.header_trust_reviews != blank -%}
+            <span class="outdoor-header-trust__reviews">{{ section.settings.header_trust_reviews }}</span>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+{%- endif -%}

@@ -811,3 +811,164 @@
     display: none;
   }
 }
+
+/* ================================================
+   PDP ABOVE-THE-FOLD ENHANCEMENTS
+   ================================================ */
+
+.product-details h1 {
+  font-size: clamp(1.6rem, 2.4vw, 2.4rem);
+  font-weight: 700;
+  letter-spacing: 0.2px;
+  margin-bottom: 8px;
+}
+
+.product-details .price {
+  font-size: 1.4rem;
+  font-weight: 700;
+}
+
+.product-details .product-form-buttons .button {
+  border-radius: 999px;
+  font-weight: 700;
+  letter-spacing: 0.4px;
+}
+
+.product-details .product-form-buttons {
+  gap: 12px;
+}
+
+/* Variant picker micro-interactions */
+.variant-option__button-label {
+  border: 1px solid rgba(45, 80, 22, 0.18);
+  border-radius: 999px;
+  padding: 8px 14px;
+  transition: all 0.2s ease;
+  background: #fff;
+}
+
+.variant-option__button-label:hover {
+  border-color: rgba(45, 80, 22, 0.45);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+  transform: translateY(-1px);
+}
+
+.variant-option__button-label:has(input:checked) {
+  border-color: #2d5016;
+  background: rgba(45, 80, 22, 0.08);
+  box-shadow: 0 6px 16px rgba(45, 80, 22, 0.15);
+}
+
+.variant-option__button-label:has(input:focus-visible) {
+  outline: 2px solid rgba(45, 80, 22, 0.6);
+  outline-offset: 2px;
+}
+
+/* PDP benefits bullets */
+.outdoor-pdp-benefits {
+  background: rgba(45, 80, 22, 0.04);
+  border-radius: 12px;
+  padding: 12px 14px;
+}
+
+.outdoor-pdp-benefits__title {
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  margin-bottom: 8px;
+  color: #2d5016;
+}
+
+.outdoor-pdp-benefits__list {
+  display: grid;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 14px;
+}
+
+.outdoor-pdp-benefits__item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.outdoor-pdp-benefits__icon svg {
+  width: 14px;
+  height: 14px;
+  color: #2d5016;
+}
+
+/* PDP reassurance near CTA */
+.outdoor-pdp-reassurance {
+  display: grid;
+  gap: 6px;
+  font-size: 13px;
+  color: #2d3a25;
+}
+
+.outdoor-pdp-reassurance__item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.outdoor-pdp-reassurance__icon svg {
+  width: 16px;
+  height: 16px;
+  color: #2d5016;
+}
+
+/* Pourquoi nous */
+.outdoor-pdp-why-us {
+  margin-top: 24px;
+  padding: 16px;
+  border-radius: 16px;
+  background: rgba(248, 249, 245, 0.7);
+  border: 1px solid rgba(45, 80, 22, 0.08);
+}
+
+.outdoor-pdp-why-us__heading {
+  font-size: 18px;
+  margin-bottom: 12px;
+}
+
+.outdoor-pdp-why-us__grid {
+  display: grid;
+  gap: 12px;
+}
+
+.outdoor-pdp-why-us__card {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+}
+
+.outdoor-pdp-why-us__card strong {
+  display: block;
+  margin-bottom: 4px;
+}
+
+.outdoor-pdp-why-us__card p {
+  margin: 0;
+  font-size: 14px;
+  color: #39452f;
+}
+
+.outdoor-pdp-why-us__icon svg {
+  width: 18px;
+  height: 18px;
+  color: #2d5016;
+}
+
+@media (min-width: 768px) {
+  .outdoor-pdp-benefits__list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .outdoor-pdp-why-us__grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}

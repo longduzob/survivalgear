@@ -1,0 +1,67 @@
+{%- comment -%}
+  PDP "Pourquoi nous ?" block
+
+  Usage:
+    {% render 'outdoor-pdp-why-us', block: block %}
+{%- endcomment -%}
+
+{%- liquid
+  assign enable_why_us = block.settings.enable_pdp_why_us | default: true
+  assign has_points = false
+  if block.settings.pdp_why_us_title_1 != blank
+    assign has_points = true
+  elsif block.settings.pdp_why_us_title_2 != blank
+    assign has_points = true
+  elsif block.settings.pdp_why_us_title_3 != blank
+    assign has_points = true
+  endif
+-%}
+
+{%- if enable_why_us and has_points -%}
+  <div class="outdoor-pdp-why-us" data-pdp-why-us>
+    {% if block.settings.pdp_why_us_heading != blank %}
+      <h3 class="outdoor-pdp-why-us__heading">{{ block.settings.pdp_why_us_heading }}</h3>
+    {% endif %}
+    <div class="outdoor-pdp-why-us__grid">
+      {%- if block.settings.pdp_why_us_title_1 != blank -%}
+        <div class="outdoor-pdp-why-us__card">
+          <span class="outdoor-pdp-why-us__icon" aria-hidden="true">
+            {{ 'icon-checkmark.svg' | inline_asset_content }}
+          </span>
+          <div>
+            <strong>{{ block.settings.pdp_why_us_title_1 }}</strong>
+            {% if block.settings.pdp_why_us_text_1 != blank %}
+              <p>{{ block.settings.pdp_why_us_text_1 }}</p>
+            {% endif %}
+          </div>
+        </div>
+      {%- endif -%}
+      {%- if block.settings.pdp_why_us_title_2 != blank -%}
+        <div class="outdoor-pdp-why-us__card">
+          <span class="outdoor-pdp-why-us__icon" aria-hidden="true">
+            {{ 'icon-checkmark.svg' | inline_asset_content }}
+          </span>
+          <div>
+            <strong>{{ block.settings.pdp_why_us_title_2 }}</strong>
+            {% if block.settings.pdp_why_us_text_2 != blank %}
+              <p>{{ block.settings.pdp_why_us_text_2 }}</p>
+            {% endif %}
+          </div>
+        </div>
+      {%- endif -%}
+      {%- if block.settings.pdp_why_us_title_3 != blank -%}
+        <div class="outdoor-pdp-why-us__card">
+          <span class="outdoor-pdp-why-us__icon" aria-hidden="true">
+            {{ 'icon-checkmark.svg' | inline_asset_content }}
+          </span>
+          <div>
+            <strong>{{ block.settings.pdp_why_us_title_3 }}</strong>
+            {% if block.settings.pdp_why_us_text_3 != blank %}
+              <p>{{ block.settings.pdp_why_us_text_3 }}</p>
+            {% endif %}
+          </div>
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+{%- endif -%}
