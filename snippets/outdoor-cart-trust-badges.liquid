@@ -1,0 +1,105 @@
+{%- comment -%}
+  Cart Trust Badges
+  
+  Mini badges de confiance dans le footer du cart drawer :
+  - 2-4 badges compacts
+  - Icons + text
+  - Layout 2 colonnes
+  
+  Usage:
+    {% render 'outdoor-cart-trust-badges', settings: settings %}
+  
+  Settings required:
+    - enable_cart_trust_badges (checkbox)
+    - cart_badge_X_icon, cart_badge_X_text (x4)
+{%- endcomment -%}
+
+{%- liquid
+  assign enable_badges = settings.enable_cart_trust_badges | default: true
+-%}
+
+{%- if enable_badges -%}
+<div class="outdoor-cart-trust-badges">
+  <div class="outdoor-cart-trust-badges__grid">
+    {% if settings.cart_badge_1_text != blank %}
+      <div class="outdoor-cart-trust-badge">
+        <svg class="outdoor-cart-trust-badge__icon" width="20" height="20" viewBox="0 0 20 20" fill="none">
+          {% case settings.cart_badge_1_icon %}
+            {% when 'shield' %}
+              <path d="M10 2.5L3.75 5V9.375C3.75 13.75 6.875 17.75 10 18.75C13.125 17.75 16.25 13.75 16.25 9.375V5L10 2.5Z" stroke="currentColor" stroke-width="1.5"/>
+            {% when 'check' %}
+              <path d="M16.25 6.25L8.125 15L3.75 10.625" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            {% when 'lock' %}
+              <path d="M14.375 8.75H5.625C5.28 8.75 5 9.03 5 9.375V16.25C5 16.595 5.28 16.875 5.625 16.875H14.375C14.72 16.875 15 16.595 15 16.25V9.375C15 9.03 14.72 8.75 14.375 8.75Z" stroke="currentColor" stroke-width="1.5"/>
+              <path d="M7.5 8.75V6.25C7.5 5.42 7.83 4.625 8.41 4.04C8.995 3.455 9.795 3.125 10.625 3.125H11.25C12.08 3.125 12.88 3.455 13.465 4.04C14.045 4.625 14.375 5.42 14.375 6.25V8.75" stroke="currentColor" stroke-width="1.5"/>
+            {% else %}
+              <circle cx="10" cy="10" r="7" stroke="currentColor" stroke-width="1.5"/>
+              <path d="M7 10L9 12L13 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          {% endcase %}
+        </svg>
+        <span class="outdoor-cart-trust-badge__text">{{ settings.cart_badge_1_text }}</span>
+      </div>
+    {% endif %}
+    
+    {% if settings.cart_badge_2_text != blank %}
+      <div class="outdoor-cart-trust-badge">
+        <svg class="outdoor-cart-trust-badge__icon" width="20" height="20" viewBox="0 0 20 20" fill="none">
+          {% case settings.cart_badge_2_icon %}
+            {% when 'shield' %}
+              <path d="M10 2.5L3.75 5V9.375C3.75 13.75 6.875 17.75 10 18.75C13.125 17.75 16.25 13.75 16.25 9.375V5L10 2.5Z" stroke="currentColor" stroke-width="1.5"/>
+            {% when 'check' %}
+              <path d="M16.25 6.25L8.125 15L3.75 10.625" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            {% when 'lock' %}
+              <path d="M14.375 8.75H5.625C5.28 8.75 5 9.03 5 9.375V16.25C5 16.595 5.28 16.875 5.625 16.875H14.375C14.72 16.875 15 16.595 15 16.25V9.375C15 9.03 14.72 8.75 14.375 8.75Z" stroke="currentColor" stroke-width="1.5"/>
+              <path d="M7.5 8.75V6.25C7.5 5.42 7.83 4.625 8.41 4.04C8.995 3.455 9.795 3.125 10.625 3.125H11.25C12.08 3.125 12.88 3.455 13.465 4.04C14.045 4.625 14.375 5.42 14.375 6.25V8.75" stroke="currentColor" stroke-width="1.5"/>
+            {% else %}
+              <circle cx="10" cy="10" r="7" stroke="currentColor" stroke-width="1.5"/>
+              <path d="M7 10L9 12L13 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          {% endcase %}
+        </svg>
+        <span class="outdoor-cart-trust-badge__text">{{ settings.cart_badge_2_text }}</span>
+      </div>
+    {% endif %}
+    
+    {% if settings.cart_badge_3_text != blank %}
+      <div class="outdoor-cart-trust-badge">
+        <svg class="outdoor-cart-trust-badge__icon" width="20" height="20" viewBox="0 0 20 20" fill="none">
+          {% case settings.cart_badge_3_icon %}
+            {% when 'shield' %}
+              <path d="M10 2.5L3.75 5V9.375C3.75 13.75 6.875 17.75 10 18.75C13.125 17.75 16.25 13.75 16.25 9.375V5L10 2.5Z" stroke="currentColor" stroke-width="1.5"/>
+            {% when 'check' %}
+              <path d="M16.25 6.25L8.125 15L3.75 10.625" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            {% when 'lock' %}
+              <path d="M14.375 8.75H5.625C5.28 8.75 5 9.03 5 9.375V16.25C5 16.595 5.28 16.875 5.625 16.875H14.375C14.72 16.875 15 16.595 15 16.25V9.375C15 9.03 14.72 8.75 14.375 8.75Z" stroke="currentColor" stroke-width="1.5"/>
+              <path d="M7.5 8.75V6.25C7.5 5.42 7.83 4.625 8.41 4.04C8.995 3.455 9.795 3.125 10.625 3.125H11.25C12.08 3.125 12.88 3.455 13.465 4.04C14.045 4.625 14.375 5.42 14.375 6.25V8.75" stroke="currentColor" stroke-width="1.5"/>
+            {% else %}
+              <circle cx="10" cy="10" r="7" stroke="currentColor" stroke-width="1.5"/>
+              <path d="M7 10L9 12L13 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          {% endcase %}
+        </svg>
+        <span class="outdoor-cart-trust-badge__text">{{ settings.cart_badge_3_text }}</span>
+      </div>
+    {% endif %}
+    
+    {% if settings.cart_badge_4_text != blank %}
+      <div class="outdoor-cart-trust-badge">
+        <svg class="outdoor-cart-trust-badge__icon" width="20" height="20" viewBox="0 0 20 20" fill="none">
+          {% case settings.cart_badge_4_icon %}
+            {% when 'shield' %}
+              <path d="M10 2.5L3.75 5V9.375C3.75 13.75 6.875 17.75 10 18.75C13.125 17.75 16.25 13.75 16.25 9.375V5L10 2.5Z" stroke="currentColor" stroke-width="1.5"/>
+            {% when 'check' %}
+              <path d="M16.25 6.25L8.125 15L3.75 10.625" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            {% when 'lock' %}
+              <path d="M14.375 8.75H5.625C5.28 8.75 5 9.03 5 9.375V16.25C5 16.595 5.28 16.875 5.625 16.875H14.375C14.72 16.875 15 16.595 15 16.25V9.375C15 9.03 14.72 8.75 14.375 8.75Z" stroke="currentColor" stroke-width="1.5"/>
+              <path d="M7.5 8.75V6.25C7.5 5.42 7.83 4.625 8.41 4.04C8.995 3.455 9.795 3.125 10.625 3.125H11.25C12.08 3.125 12.88 3.455 13.465 4.04C14.045 4.625 14.375 5.42 14.375 6.25V8.75" stroke="currentColor" stroke-width="1.5"/>
+            {% else %}
+              <circle cx="10" cy="10" r="7" stroke="currentColor" stroke-width="1.5"/>
+              <path d="M7 10L9 12L13 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          {% endcase %}
+        </svg>
+        <span class="outdoor-cart-trust-badge__text">{{ settings.cart_badge_4_text }}</span>
+      </div>
+    {% endif %}
+  </div>
+</div>
+{%- endif -%}

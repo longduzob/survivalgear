@@ -102,17 +102,30 @@
             aria-label="{{ 'accessibility.cart' | t }}"
             style="--header-height: 60px;"
           >
+            {%- comment -%} Outdoor: Free shipping progress {%- endcomment -%}
+            <div style="padding: 16px 20px 0;">
+              {% render 'outdoor-cart-shipping-progress', settings: settings %}
+              {% render 'outdoor-cart-delivery-estimate', settings: settings %}
+              {% render 'outdoor-cart-promo-code', settings: settings %}
+            </div>
+            
             <scroll-hint
               class="cart-drawer__items"
             >
               {% render 'cart-products' %}
             </scroll-hint>
+            
+            {%- comment -%} Outdoor: Upsell slider {%- endcomment -%}
+            {% render 'outdoor-cart-upsell', settings: settings %}
 
             <div
               class="cart-drawer__summary"
             >
               {% render 'cart-summary' %}
             </div>
+            
+            {%- comment -%} Outdoor: Trust badges footer {%- endcomment -%}
+            {% render 'outdoor-cart-trust-badges', settings: settings %}
           </div>
         {%- endif -%}
       </cart-items-component>

@@ -1,0 +1,419 @@
+/**
+ * OUTDOOR CART DRAWER PREMIUM
+ * 
+ * Styles pour les composants premium du cart drawer :
+ * - Free shipping progress bar
+ * - Delivery estimate
+ * - Upsell slider
+ * - Trust badges
+ * - Promo code UI
+ */
+
+/**
+ * =============================================================================
+ * FREE SHIPPING PROGRESS BAR
+ * =============================================================================
+ */
+
+.outdoor-cart-shipping-progress {
+  padding: 16px 20px;
+  background: linear-gradient(135deg, #f5f9f5 0%, #e8f5e9 100%);
+  border-radius: 8px;
+  margin-bottom: 16px;
+}
+
+.outdoor-cart-shipping-progress__message {
+  font-size: 14px;
+  color: #1b5e20;
+  margin-bottom: 12px;
+  text-align: center;
+  line-height: 1.4;
+  transition: all 0.3s ease;
+}
+
+.outdoor-cart-shipping-progress__message strong {
+  font-weight: 700;
+  color: #2d5016;
+}
+
+.outdoor-cart-shipping-progress__message.is-unlocked {
+  color: #2d5016;
+  font-weight: 600;
+}
+
+.outdoor-cart-shipping-progress__bar {
+  position: relative;
+  height: 8px;
+  background: #c8e6c9;
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 8px;
+}
+
+.outdoor-cart-shipping-progress__fill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  background: linear-gradient(90deg, #4caf50 0%, #2d5016 100%);
+  border-radius: 4px;
+  transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.outdoor-cart-shipping-progress__fill.is-updating {
+  animation: pulse-fill 0.4s ease;
+}
+
+@keyframes pulse-fill {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.8;
+  }
+}
+
+.outdoor-cart-shipping-progress__percentage {
+  text-align: right;
+  font-size: 12px;
+  font-weight: 600;
+  color: #2d5016;
+}
+
+/**
+ * =============================================================================
+ * DELIVERY ESTIMATE
+ * =============================================================================
+ */
+
+.outdoor-cart-delivery-estimate {
+  padding: 12px 16px;
+  background: #fafaf8;
+  border: 1px solid #e5e5e0;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.outdoor-cart-delivery-estimate__icon {
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  color: #2d5016;
+}
+
+.outdoor-cart-delivery-estimate__text {
+  flex: 1;
+  font-size: 13px;
+  color: #4a4a4a;
+  line-height: 1.4;
+}
+
+.outdoor-cart-delivery-estimate__text strong {
+  font-weight: 600;
+  color: #1a1a1a;
+}
+
+/**
+ * =============================================================================
+ * CART UPSELL SLIDER
+ * =============================================================================
+ */
+
+.outdoor-cart-upsell {
+  padding: 20px 0;
+  border-top: 1px solid #e5e5e0;
+  border-bottom: 1px solid #e5e5e0;
+  margin: 16px 0;
+}
+
+.outdoor-cart-upsell__title {
+  font-size: 16px;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin-bottom: 16px;
+  padding: 0 20px;
+}
+
+.outdoor-cart-upsell__slider {
+  position: relative;
+}
+
+.outdoor-cart-upsell__grid {
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  padding: 0 20px;
+}
+
+.outdoor-cart-upsell__grid::-webkit-scrollbar {
+  display: none;
+}
+
+/**
+ * Upsell Item
+ */
+.outdoor-cart-upsell__item {
+  flex: 0 0 200px;
+  scroll-snap-align: start;
+  background: #fff;
+  border: 1px solid #e5e5e0;
+  border-radius: 8px;
+  overflow: hidden;
+  transition: box-shadow 0.2s ease;
+}
+
+.outdoor-cart-upsell__item:hover {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.outdoor-cart-upsell__image-link {
+  display: block;
+  aspect-ratio: 1;
+  overflow: hidden;
+  background: #f5f5f0;
+}
+
+.outdoor-cart-upsell__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.outdoor-cart-upsell__info {
+  padding: 12px;
+}
+
+.outdoor-cart-upsell__product-title {
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  line-height: 1.3;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.outdoor-cart-upsell__product-title a {
+  color: #1a1a1a;
+  text-decoration: none;
+}
+
+.outdoor-cart-upsell__price {
+  font-size: 14px;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin-bottom: 8px;
+}
+
+.outdoor-cart-upsell__quick-add {
+  width: 100%;
+  padding: 8px 12px;
+  background: #2d5016;
+  color: #ffffff;
+  border: none;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.outdoor-cart-upsell__quick-add:hover:not(:disabled) {
+  background: #1a3d0a;
+}
+
+.outdoor-cart-upsell__quick-add:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.outdoor-cart-upsell__quick-add.is-loading {
+  opacity: 0.7;
+}
+
+/**
+ * =============================================================================
+ * CART TRUST BADGES
+ * =============================================================================
+ */
+
+.outdoor-cart-trust-badges {
+  padding: 16px 20px;
+  background: #fafaf8;
+  border-top: 1px solid #e5e5e0;
+  margin-top: auto;
+}
+
+.outdoor-cart-trust-badges__grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.outdoor-cart-trust-badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.outdoor-cart-trust-badge__icon {
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  color: #2d5016;
+}
+
+.outdoor-cart-trust-badge__text {
+  font-size: 11px;
+  font-weight: 600;
+  color: #4a4a4a;
+  line-height: 1.3;
+}
+
+/**
+ * =============================================================================
+ * PROMO CODE UI
+ * =============================================================================
+ */
+
+.outdoor-cart-promo-code {
+  padding: 16px 20px;
+  background: #fff;
+  border: 1px solid #e5e5e0;
+  border-radius: 8px;
+  margin-bottom: 16px;
+}
+
+.outdoor-cart-promo-code__toggle {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0;
+  background: none;
+  border: none;
+  font-size: 14px;
+  font-weight: 600;
+  color: #2d5016;
+  cursor: pointer;
+  text-align: left;
+}
+
+.outdoor-cart-promo-code__toggle-icon {
+  width: 20px;
+  height: 20px;
+  transition: transform 0.3s ease;
+}
+
+.outdoor-cart-promo-code.is-open .outdoor-cart-promo-code__toggle-icon {
+  transform: rotate(180deg);
+}
+
+.outdoor-cart-promo-code__content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+}
+
+.outdoor-cart-promo-code.is-open .outdoor-cart-promo-code__content {
+  max-height: 200px;
+  margin-top: 12px;
+}
+
+.outdoor-cart-promo-code__form {
+  display: flex;
+  gap: 8px;
+}
+
+.outdoor-cart-promo-code__input {
+  flex: 1;
+  padding: 10px 12px;
+  border: 1px solid #d0d0d0;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.outdoor-cart-promo-code__input:focus {
+  outline: none;
+  border-color: #2d5016;
+}
+
+.outdoor-cart-promo-code__submit {
+  padding: 10px 16px;
+  background: #2d5016;
+  color: #ffffff;
+  border: none;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.outdoor-cart-promo-code__submit:hover {
+  background: #1a3d0a;
+}
+
+.outdoor-cart-promo-code__submit:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.outdoor-cart-promo-code__message {
+  margin-top: 8px;
+  font-size: 13px;
+  padding: 8px 12px;
+  border-radius: 4px;
+}
+
+.outdoor-cart-promo-code__message--success {
+  background: #e8f5e9;
+  color: #2d5016;
+}
+
+.outdoor-cart-promo-code__message--error {
+  background: #ffebee;
+  color: #c41e3a;
+}
+
+/**
+ * Desktop adjustments
+ */
+@media (min-width: 750px) {
+  .outdoor-cart-shipping-progress {
+    padding: 20px 24px;
+  }
+  
+  .outdoor-cart-shipping-progress__message {
+    font-size: 15px;
+  }
+  
+  .outdoor-cart-delivery-estimate {
+    padding: 14px 20px;
+  }
+  
+  .outdoor-cart-upsell__title {
+    font-size: 18px;
+    padding: 0 24px;
+  }
+  
+  .outdoor-cart-upsell__grid {
+    padding: 0 24px;
+  }
+  
+  .outdoor-cart-trust-badges {
+    padding: 20px 24px;
+  }
+  
+  .outdoor-cart-promo-code {
+    padding: 20px 24px;
+  }
+}
