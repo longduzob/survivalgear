@@ -1,0 +1,263 @@
+{%- comment -%}
+  Sticky Add-to-Cart (Mobile Only)
+  
+  Renders a sticky footer bar on mobile devices with:
+  - Product price (updated on variant change)
+  - Add to cart button
+  - Show/hide on scroll behavior
+  - Smooth animations
+  
+  Usage:
+    {% render 'outdoor-sticky-atc', product: product, block: block %}
+  
+  Settings required (in block schema):
+    - enable_sticky_atc_mobile (checkbox)
+    - sticky_atc_bg_color (color)
+    - sticky_atc_text_color (color)
+{%- endcomment -%}
+
+{%- liquid
+  assign enable_sticky = block.settings.enable_sticky_atc_mobile | default: true
+  assign bg_color = block.settings.sticky_atc_bg_color | default: '#ffffff'
+  assign text_color = block.settings.sticky_atc_text_color | default: '#1a1a1a'
+  assign button_bg = block.settings.sticky_atc_button_bg | default: '#2d5016'
+  assign button_text = block.settings.sticky_atc_button_text | default: '#ffffff'
+-%}
+
+{%- if enable_sticky -%}
+<div 
+  class="outdoor-sticky-atc"
+  data-outdoor-sticky-atc
+  data-product-id="{{ product.id }}"
+  style="--sticky-atc-bg: {{ bg_color }}; --sticky-atc-text: {{ text_color }}; --sticky-atc-btn-bg: {{ button_bg }}; --sticky-atc-btn-text: {{ button_text }};"
+>
+  <div class="outdoor-sticky-atc__container">
+    {%- comment -%} Product image thumbnail {%- endcomment -%}
+    <div class="outdoor-sticky-atc__image">
+      {% if product.featured_image %}
+        <img 
+          src="{{ product.featured_image | image_url: width: 80 }}"
+          alt="{{ product.featured_image.alt | escape }}"
+          width="80"
+          height="80"
+          loading="lazy"
+        >
+      {% endif %}
+    </div>
+    
+    {%- comment -%} Price (updates dynamically on variant change) {%- endcomment -%}
+    <div class="outdoor-sticky-atc__price" data-sticky-atc-price>
+      {% if product.compare_at_price > product.price %}
+        <span class="outdoor-sticky-atc__price-compare">
+          {{ product.compare_at_price | money }}
+        </span>
+        <span class="outdoor-sticky-atc__price-current outdoor-sticky-atc__price--sale">
+          {{ product.price | money }}
+        </span>
+      {% else %}
+        <span class="outdoor-sticky-atc__price-current">
+          {{ product.price | money }}
+        </span>
+      {% endif %}
+    </div>
+    
+    {%- comment -%} Add to Cart button {%- endcomment -%}
+    <button 
+      type="button"
+      class="outdoor-sticky-atc__button"
+      data-sticky-atc-button
+      aria-label="{{ 'products.product.add_to_cart' | t }}"
+    >
+      <svg class="outdoor-sticky-atc__button-icon" width="20" height="20" viewBox="0 0 20 20" fill="none">
+        <path d="M7 18C7.55228 18 8 17.5523 8 17C8 16.4477 7.55228 16 7 16C6.44772 16 6 16.4477 6 17C6 17.5523 6.44772 18 7 18Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M16 18C16.5523 18 17 17.5523 17 17C17 16.4477 16.5523 16 16 16C15.4477 16 15 16.4477 15 17C15 17.5523 15.4477 18 16 18Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M1 1H4L6.68 13.39C6.77144 13.8504 7.02191 14.264 7.38755 14.5583C7.75318 14.8526 8.2107 15.009 8.68 15H15.4C15.8693 15.009 16.3268 14.8526 16.6925 14.5583C17.0581 14.264 17.3086 13.8504 17.4 13.39L19 5H5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <span class="outdoor-sticky-atc__button-text">
+        {{ 'products.product.add_to_cart' | t }}
+      </span>
+    </button>
+  </div>
+</div>
+
+<script>
+/**
+ * Outdoor Sticky ATC
+ * Gère l'affichage/masquage du sticky ATC sur scroll
+ */
+if (!customElements.get('outdoor-sticky-atc')) {
+  class OutdoorStickyATC extends HTMLElement {
+    constructor() {
+      super();
+      this.stickyBar = this;
+      this.button = this.querySelector('[data-sticky-atc-button]');
+      this.priceElement = this.querySelector('[data-sticky-atc-price]');
+      this.productId = this.dataset.productId;
+      
+      // Scroll state
+      this.lastScrollY = window.scrollY;
+      this.isVisible = false;
+      this.scrollThreshold = 300; // Show after scrolling 300px
+      
+      this.init();
+    }
+    
+    init() {
+      // Bind events
+      this.button.addEventListener('click', this.handleAddToCart.bind(this));
+      window.addEventListener('scroll', this.handleScroll.bind(this), { passive: true });
+      
+      // Listen for variant changes
+      document.addEventListener('variant:change', this.handleVariantChange.bind(this));
+      
+      // Initial state
+      this.updateVisibility();
+    }
+    
+    handleScroll() {
+      const currentScrollY = window.scrollY;
+      const scrollingDown = currentScrollY > this.lastScrollY;
+      const scrolledEnough = currentScrollY > this.scrollThreshold;
+      
+      // Show when scrolling down past threshold
+      if (scrolledEnough && scrollingDown && !this.isVisible) {
+        this.show();
+      }
+      // Hide when scrolling up or at top
+      else if ((!scrolledEnough || !scrollingDown) && this.isVisible) {
+        this.hide();
+      }
+      
+      this.lastScrollY = currentScrollY;
+    }
+    
+    show() {
+      this.isVisible = true;
+      this.stickyBar.classList.add('is-visible');
+    }
+    
+    hide() {
+      this.isVisible = false;
+      this.stickyBar.classList.remove('is-visible');
+    }
+    
+    updateVisibility() {
+      // Only show on mobile/tablet
+      if (window.innerWidth > 1024) {
+        this.style.display = 'none';
+      } else {
+        this.style.display = 'block';
+      }
+    }
+    
+    async handleAddToCart(e) {
+      e.preventDefault();
+      
+      // Get main product form
+      const productForm = document.querySelector('product-form form[action*="/cart/add"]');
+      if (!productForm) return;
+      
+      // Get form data
+      const formData = new FormData(productForm);
+      
+      // Show loading state
+      this.button.classList.add('is-loading');
+      this.button.disabled = true;
+      
+      try {
+        // Add to cart via AJAX
+        const response = await fetch('/cart/add.js', {
+          method: 'POST',
+          body: formData
+        });
+        
+        if (!response.ok) throw new Error('Failed to add to cart');
+        
+        const data = await response.json();
+        
+        // Trigger success animation
+        this.button.classList.remove('is-loading');
+        this.button.classList.add('is-success');
+        
+        // Dispatch event for cart drawer to open
+        document.dispatchEvent(new CustomEvent('cart:item-added', {
+          detail: { item: data }
+        }));
+        
+        // Reset button after 2s
+        setTimeout(() => {
+          this.button.classList.remove('is-success');
+          this.button.disabled = false;
+        }, 2000);
+        
+      } catch (error) {
+        console.error('Error adding to cart:', error);
+        this.button.classList.remove('is-loading');
+        this.button.classList.add('is-error');
+        
+        // Reset after 2s
+        setTimeout(() => {
+          this.button.classList.remove('is-error');
+          this.button.disabled = false;
+        }, 2000);
+      }
+    }
+    
+    handleVariantChange(event) {
+      const { variant } = event.detail;
+      if (!variant) return;
+      
+      // Update price
+      this.updatePrice(variant);
+      
+      // Update availability
+      this.updateAvailability(variant);
+    }
+    
+    updatePrice(variant) {
+      if (!this.priceElement) return;
+      
+      let priceHTML = '';
+      
+      if (variant.compare_at_price && variant.compare_at_price > variant.price) {
+        priceHTML = `
+          <span class="outdoor-sticky-atc__price-compare">
+            ${this.formatMoney(variant.compare_at_price)}
+          </span>
+          <span class="outdoor-sticky-atc__price-current outdoor-sticky-atc__price--sale">
+            ${this.formatMoney(variant.price)}
+          </span>
+        `;
+      } else {
+        priceHTML = `
+          <span class="outdoor-sticky-atc__price-current">
+            ${this.formatMoney(variant.price)}
+          </span>
+        `;
+      }
+      
+      this.priceElement.innerHTML = priceHTML;
+    }
+    
+    updateAvailability(variant) {
+      if (variant.available) {
+        this.button.disabled = false;
+        this.button.querySelector('.outdoor-sticky-atc__button-text').textContent = 
+          '{{ 'products.product.add_to_cart' | t }}';
+      } else {
+        this.button.disabled = true;
+        this.button.querySelector('.outdoor-sticky-atc__button-text').textContent = 
+          '{{ 'products.product.sold_out' | t }}';
+      }
+    }
+    
+    formatMoney(cents) {
+      // Basic money formatting (use Shopify's money format if available)
+      return `${(cents / 100).toFixed(2)}€`;
+    }
+  }
+  
+  customElements.define('outdoor-sticky-atc', OutdoorStickyATC);
+}
+</script>
+{%- endif -%}

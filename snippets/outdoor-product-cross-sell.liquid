@@ -1,0 +1,217 @@
+{%- comment -%}
+  Enhanced Cross-Sell Section
+  
+  Section de cross-sell améliorée pour PDP :
+  - Produits complémentaires
+  - Slider horizontal mobile
+  - Grid desktop
+  - Product cards outdoor style
+  - "Ajouter au panier" rapide
+  
+  Usage:
+    {% render 'outdoor-product-cross-sell', product: product, block: block %}
+  
+  Settings required:
+    - enable_cross_sell (checkbox)
+    - cross_sell_title (text)
+    - cross_sell_collection (collection picker)
+    - cross_sell_limit (range 2-8)
+{%- endcomment -%}
+
+{%- liquid
+  assign enable_cross_sell = block.settings.enable_cross_sell | default: true
+  assign cross_sell_title = block.settings.cross_sell_title | default: 'Complétez votre équipement'
+  assign collection = block.settings.cross_sell_collection
+  assign limit = block.settings.cross_sell_limit | default: 4
+  
+  assign related_products = collection.products | where: 'available', true | limit: limit
+-%}
+
+{%- if enable_cross_sell and related_products.size > 0 -%}
+<div class="outdoor-cross-sell" data-outdoor-cross-sell>
+  {% if cross_sell_title != blank %}
+    <h3 class="outdoor-cross-sell__title">{{ cross_sell_title }}</h3>
+  {% endif %}
+  
+  <div class="outdoor-cross-sell__slider" data-cross-sell-slider>
+    <div class="outdoor-cross-sell__grid">
+      {% for related_product in related_products %}
+        <div class="outdoor-cross-sell__item" data-product-id="{{ related_product.id }}">
+          {%- comment -%} Image {%- endcomment -%}
+          <a href="{{ related_product.url }}" class="outdoor-cross-sell__image-link">
+            {% if related_product.featured_image %}
+              <img 
+                src="{{ related_product.featured_image | image_url: width: 400 }}"
+                alt="{{ related_product.featured_image.alt | escape }}"
+                class="outdoor-cross-sell__image"
+                loading="lazy"
+                width="400"
+                height="500"
+              >
+            {% endif %}
+          </a>
+          
+          {%- comment -%} Info {%- endcomment -%}
+          <div class="outdoor-cross-sell__info">
+            <h4 class="outdoor-cross-sell__product-title">
+              <a href="{{ related_product.url }}">{{ related_product.title }}</a>
+            </h4>
+            
+            <div class="outdoor-cross-sell__price">
+              {% if related_product.compare_at_price > related_product.price %}
+                <span class="outdoor-cross-sell__price-compare">
+                  {{ related_product.compare_at_price | money }}
+                </span>
+                <span class="outdoor-cross-sell__price-current outdoor-cross-sell__price--sale">
+                  {{ related_product.price | money }}
+                </span>
+              {% else %}
+                <span class="outdoor-cross-sell__price-current">
+                  {{ related_product.price | money }}
+                </span>
+              {% endif %}
+            </div>
+            
+            {%- comment -%} Quick add button {%- endcomment -%}
+            {% if related_product.available %}
+              <button 
+                type="button"
+                class="outdoor-cross-sell__quick-add"
+                data-quick-add="{{ related_product.variants.first.id }}"
+                data-product-handle="{{ related_product.handle }}"
+              >
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                  <path d="M8 3.33337V12.6667M3.33337 8H12.6667" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+                Ajouter
+              </button>
+            {% else %}
+              <button type="button" class="outdoor-cross-sell__quick-add" disabled>
+                Épuisé
+              </button>
+            {% endif %}
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+    
+    {%- comment -%} Navigation arrows (mobile slider) {%- endcomment -%}
+    <button class="outdoor-cross-sell__nav outdoor-cross-sell__nav--prev" data-nav="prev" aria-label="Précédent">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+        <path d="M15 18L9 12L15 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+    <button class="outdoor-cross-sell__nav outdoor-cross-sell__nav--next" data-nav="next" aria-label="Suivant">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+        <path d="M9 18L15 12L9 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+  </div>
+</div>
+{%- endif -%}
+
+<script>
+/**
+ * Cross-Sell Component
+ * - Horizontal scroll mobile
+ * - Quick add to cart
+ */
+if (!customElements.get('outdoor-cross-sell')) {
+  class OutdoorCrossSell extends HTMLElement {
+    constructor() {
+      super();
+      this.grid = this.querySelector('[data-cross-sell-slider] .outdoor-cross-sell__grid');
+      this.prevBtn = this.querySelector('[data-nav="prev"]');
+      this.nextBtn = this.querySelector('[data-nav="next"]');
+      this.quickAddButtons = this.querySelectorAll('[data-quick-add]');
+      
+      this.init();
+    }
+    
+    init() {
+      // Navigation
+      if (this.prevBtn && this.nextBtn) {
+        this.prevBtn.addEventListener('click', () => this.scroll(-1));
+        this.nextBtn.addEventListener('click', () => this.scroll(1));
+        this.updateNavButtons();
+        this.grid.addEventListener('scroll', () => this.updateNavButtons());
+      }
+      
+      // Quick add
+      this.quickAddButtons.forEach(btn => {
+        btn.addEventListener('click', (e) => this.handleQuickAdd(e, btn));
+      });
+    }
+    
+    scroll(direction) {
+      const itemWidth = this.grid.querySelector('.outdoor-cross-sell__item').offsetWidth;
+      const scrollAmount = itemWidth * direction;
+      this.grid.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+    }
+    
+    updateNavButtons() {
+      const { scrollLeft, scrollWidth, clientWidth } = this.grid;
+      
+      this.prevBtn.disabled = scrollLeft <= 0;
+      this.nextBtn.disabled = scrollLeft + clientWidth >= scrollWidth - 1;
+    }
+    
+    async handleQuickAdd(e, button) {
+      e.preventDefault();
+      
+      const variantId = button.dataset.quickAdd;
+      const productHandle = button.dataset.productHandle;
+      
+      // Loading state
+      button.classList.add('is-loading');
+      button.disabled = true;
+      const originalText = button.innerHTML;
+      button.innerHTML = '<svg class="spinner" width="16" height="16" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="2" fill="none" stroke-dasharray="30" stroke-dashoffset="10"/></svg>';
+      
+      try {
+        // Add to cart
+        const response = await fetch('/cart/add.js', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ id: variantId, quantity: 1 })
+        });
+        
+        if (!response.ok) throw new Error('Failed to add');
+        
+        const data = await response.json();
+        
+        // Success state
+        button.classList.remove('is-loading');
+        button.classList.add('is-success');
+        button.innerHTML = '<svg width="16" height="16" viewBox="0 0 16 16"><path d="M4 8L7 11L12 5" stroke="currentColor" stroke-width="2" fill="none"/></svg> Ajouté';
+        
+        // Dispatch event for cart drawer
+        document.dispatchEvent(new CustomEvent('cart:item-added', {
+          detail: { item: data }
+        }));
+        
+        // Reset after 2s
+        setTimeout(() => {
+          button.classList.remove('is-success');
+          button.innerHTML = originalText;
+          button.disabled = false;
+        }, 2000);
+        
+      } catch (error) {
+        console.error('Error adding to cart:', error);
+        button.classList.remove('is-loading');
+        button.classList.add('is-error');
+        button.innerHTML = 'Erreur';
+        
+        setTimeout(() => {
+          button.classList.remove('is-error');
+          button.innerHTML = originalText;
+          button.disabled = false;
+        }, 2000);
+      }
+    }
+  }
+  
+  customElements.define('outdoor-cross-sell', OutdoorCrossSell);
+}
+</script>
