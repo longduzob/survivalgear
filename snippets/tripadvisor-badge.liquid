@@ -1,10 +1,10 @@
 {%- comment -%}
   TripAdvisor Badge (official widget)
-  Only displayed when enabled in section settings.
+  Only displayed when enabled in block settings.
   You must set your own locationId from TripAdvisor listing.
 {%- endcomment -%}
 
-{%- if section.settings.enable_tripadvisor_badge and section.settings.tripadvisor_location_id != blank -%}
+{%- if block.settings.enable_tripadvisor_badge and block.settings.tripadvisor_location_id != blank -%}
   <div class="tripadvisor-badge-wrapper" data-tripadvisor-badge>
     <div id="TA_cdsratingsonlynarrow{{ section.id }}" class="TA_cdsratingsonlynarrow">
       <ul class="TA_links">
@@ -24,7 +24,7 @@
 
     <script
       async
-      src="https://www.jscache.com/wejs?wtype=cdsratingsonlynarrow&uniq={{ section.id | slice: -4 }}&locationId={{ section.settings.tripadvisor_location_id }}&lang={{ request.locale.iso_code | default: 'fr' }}&border=true&shadow=true&display_version=2">
+      src="https://www.jscache.com/wejs?wtype=cdsratingsonlynarrow&uniq={{ section.id | slice: -4 }}&locationId={{ block.settings.tripadvisor_location_id }}&lang={{ request.locale.iso_code | default: 'fr' }}&border=true&shadow=true&display_version=2">
     </script>
   </div>
 {%- endif -%}
