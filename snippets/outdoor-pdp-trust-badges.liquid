@@ -1,0 +1,217 @@
+{%- comment -%}
+  PDP Trust Badges Section
+  
+  Affiche 4 badges de confiance sur la page produit :
+  - Livraison gratuite
+  - Paiement sécurisé
+  - Garantie satisfait ou remboursé
+  - Service client réactif
+  
+  Usage:
+    {% render 'outdoor-pdp-trust-badges', block: block %}
+  
+  Settings required:
+    - enable_pdp_trust_badges (checkbox)
+    - trust_badge_1_icon, trust_badge_1_text (icon + text)
+    - trust_badge_2_icon, trust_badge_2_text
+    - trust_badge_3_icon, trust_badge_3_text
+    - trust_badge_4_icon, trust_badge_4_text
+{%- endcomment -%}
+
+{%- liquid
+  assign enable_badges = block.settings.enable_pdp_trust_badges | default: true
+-%}
+
+{%- if enable_badges -%}
+<div class="outdoor-pdp-trust-badges" data-outdoor-trust-badges>
+  <div class="outdoor-pdp-trust-badges__grid">
+    {%- comment -%} Badge 1: Livraison gratuite {%- endcomment -%}
+    {% if block.settings.trust_badge_1_text != blank %}
+    <div class="outdoor-pdp-trust-badge">
+      <div class="outdoor-pdp-trust-badge__icon">
+        {% case block.settings.trust_badge_1_icon %}
+          {% when 'truck' %}
+            <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+              <path d="M21.3334 6.66675H6.66675V21.3334H21.3334V6.66675Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M21.3334 13.3334H25.3334L28.0001 16.0001V21.3334H21.3334V13.3334Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M11.0001 26.6667C12.4728 26.6667 13.6667 25.4728 13.6667 24.0001C13.6667 22.5273 12.4728 21.3334 11.0001 21.3334C9.52733 21.3334 8.33341 22.5273 8.33341 24.0001C8.33341 25.4728 9.52733 26.6667 11.0001 26.6667Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M23.6667 26.6667C25.1394 26.6667 26.3334 25.4728 26.3334 24.0001C26.3334 22.5273 25.1394 21.3334 23.6667 21.3334C22.194 21.3334 21.0001 22.5273 21.0001 24.0001C21.0001 25.4728 22.194 26.6667 23.6667 26.6667Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          {% when 'shield' %}
+            <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+              <path d="M16 4L6.66669 8V14.6667C6.66669 21.4667 11.28 27.8 16 29.3334C20.72 27.8 25.3334 21.4667 25.3334 14.6667V8L16 4Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M12 16L14.6667 18.6667L20 13.3334" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          {% when 'gift' %}
+            <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+              <path d="M26.6667 13.3334H5.33337V28.0001H26.6667V13.3334Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M16 28V13.3333" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M16 13.3334H10.8C10.0816 13.3334 9.39249 13.0477 8.88365 12.5388C8.37481 12.0299 8.08911 11.3408 8.08911 10.6224C8.08911 9.90399 8.37481 9.21488 8.88365 8.70604C9.39249 8.1972 10.0816 7.9115 10.8 7.9115C14.6667 7.9115 16 13.3334 16 13.3334Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M16 13.3334H21.2C21.9184 13.3334 22.6075 13.0477 23.1164 12.5388C23.6252 12.0299 23.9109 11.3408 23.9109 10.6224C23.9109 9.90399 23.6252 9.21488 23.1164 8.70604C22.6075 8.1972 21.9184 7.9115 21.2 7.9115C17.3333 7.9115 16 13.3334 16 13.3334Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M5.33337 13.3334H26.6667V18.6667H5.33337V13.3334Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          {% when 'headset' %}
+            <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+              <path d="M4 18.6667V14.6667C4 11.5291 5.24761 8.51977 7.47756 6.28982C9.70751 4.05987 12.7169 2.81226 15.8545 2.81226C18.9921 2.81226 22.0014 4.05987 24.2314 6.28982C26.4613 8.51977 27.7089 11.5291 27.7089 14.6667V18.6667" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M27.7089 20C27.7089 20.7072 27.4279 21.3855 26.9278 21.8856C26.4277 22.3857 25.7494 22.6667 25.0422 22.6667H22.7089V17.3334H27.7089V20Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M4 20C4 20.7072 4.28095 21.3855 4.78105 21.8856C5.28115 22.3857 5.95942 22.6667 6.66667 22.6667H9V17.3334H4V20Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          {% else %}
+            <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+              <circle cx="16" cy="16" r="12" stroke="currentColor" stroke-width="2"/>
+              <path d="M16 12V16M16 20H16.02" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+        {% endcase %}
+      </div>
+      <div class="outdoor-pdp-trust-badge__text">
+        <strong>{{ block.settings.trust_badge_1_text }}</strong>
+        {% if block.settings.trust_badge_1_subtext != blank %}
+          <span>{{ block.settings.trust_badge_1_subtext }}</span>
+        {% endif %}
+      </div>
+    </div>
+    {% endif %}
+    
+    {%- comment -%} Badge 2: Paiement sécurisé {%- endcomment -%}
+    {% if block.settings.trust_badge_2_text != blank %}
+    <div class="outdoor-pdp-trust-badge">
+      <div class="outdoor-pdp-trust-badge__icon">
+        {% case block.settings.trust_badge_2_icon %}
+          {% when 'truck' %}
+            <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+              <path d="M21.3334 6.66675H6.66675V21.3334H21.3334V6.66675Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M21.3334 13.3334H25.3334L28.0001 16.0001V21.3334H21.3334V13.3334Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M11.0001 26.6667C12.4728 26.6667 13.6667 25.4728 13.6667 24.0001C13.6667 22.5273 12.4728 21.3334 11.0001 21.3334C9.52733 21.3334 8.33341 22.5273 8.33341 24.0001C8.33341 25.4728 9.52733 26.6667 11.0001 26.6667Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M23.6667 26.6667C25.1394 26.6667 26.3334 25.4728 26.3334 24.0001C26.3334 22.5273 25.1394 21.3334 23.6667 21.3334C22.194 21.3334 21.0001 22.5273 21.0001 24.0001C21.0001 25.4728 22.194 26.6667 23.6667 26.6667Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          {% when 'shield' %}
+            <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+              <path d="M16 4L6.66669 8V14.6667C6.66669 21.4667 11.28 27.8 16 29.3334C20.72 27.8 25.3334 21.4667 25.3334 14.6667V8L16 4Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M12 16L14.6667 18.6667L20 13.3334" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          {% when 'gift' %}
+            <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+              <path d="M26.6667 13.3334H5.33337V28.0001H26.6667V13.3334Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M16 28V13.3333" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M16 13.3334H10.8C10.0816 13.3334 9.39249 13.0477 8.88365 12.5388C8.37481 12.0299 8.08911 11.3408 8.08911 10.6224C8.08911 9.90399 8.37481 9.21488 8.88365 8.70604C9.39249 8.1972 10.0816 7.9115 10.8 7.9115C14.6667 7.9115 16 13.3334 16 13.3334Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M16 13.3334H21.2C21.9184 13.3334 22.6075 13.0477 23.1164 12.5388C23.6252 12.0299 23.9109 11.3408 23.9109 10.6224C23.9109 9.90399 23.6252 9.21488 23.1164 8.70604C22.6075 8.1972 21.9184 7.9115 21.2 7.9115C17.3333 7.9115 16 13.3334 16 13.3334Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M5.33337 13.3334H26.6667V18.6667H5.33337V13.3334Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          {% when 'headset' %}
+            <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+              <path d="M4 18.6667V14.6667C4 11.5291 5.24761 8.51977 7.47756 6.28982C9.70751 4.05987 12.7169 2.81226 15.8545 2.81226C18.9921 2.81226 22.0014 4.05987 24.2314 6.28982C26.4613 8.51977 27.7089 11.5291 27.7089 14.6667V18.6667" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M27.7089 20C27.7089 20.7072 27.4279 21.3855 26.9278 21.8856C26.4277 22.3857 25.7494 22.6667 25.0422 22.6667H22.7089V17.3334H27.7089V20Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M4 20C4 20.7072 4.28095 21.3855 4.78105 21.8856C5.28115 22.3857 5.95942 22.6667 6.66667 22.6667H9V17.3334H4V20Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          {% else %}
+            <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+              <circle cx="16" cy="16" r="12" stroke="currentColor" stroke-width="2"/>
+              <path d="M16 12V16M16 20H16.02" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+        {% endcase %}
+      </div>
+      <div class="outdoor-pdp-trust-badge__text">
+        <strong>{{ block.settings.trust_badge_2_text }}</strong>
+        {% if block.settings.trust_badge_2_subtext != blank %}
+          <span>{{ block.settings.trust_badge_2_subtext }}</span>
+        {% endif %}
+      </div>
+    </div>
+    {% endif %}
+    
+    {%- comment -%} Badge 3: Garantie {%- endcomment -%}
+    {% if block.settings.trust_badge_3_text != blank %}
+    <div class="outdoor-pdp-trust-badge">
+      <div class="outdoor-pdp-trust-badge__icon">
+        {% case block.settings.trust_badge_3_icon %}
+          {% when 'truck' %}
+            <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+              <path d="M21.3334 6.66675H6.66675V21.3334H21.3334V6.66675Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M21.3334 13.3334H25.3334L28.0001 16.0001V21.3334H21.3334V13.3334Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M11.0001 26.6667C12.4728 26.6667 13.6667 25.4728 13.6667 24.0001C13.6667 22.5273 12.4728 21.3334 11.0001 21.3334C9.52733 21.3334 8.33341 22.5273 8.33341 24.0001C8.33341 25.4728 9.52733 26.6667 11.0001 26.6667Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M23.6667 26.6667C25.1394 26.6667 26.3334 25.4728 26.3334 24.0001C26.3334 22.5273 25.1394 21.3334 23.6667 21.3334C22.194 21.3334 21.0001 22.5273 21.0001 24.0001C21.0001 25.4728 22.194 26.6667 23.6667 26.6667Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          {% when 'shield' %}
+            <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+              <path d="M16 4L6.66669 8V14.6667C6.66669 21.4667 11.28 27.8 16 29.3334C20.72 27.8 25.3334 21.4667 25.3334 14.6667V8L16 4Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M12 16L14.6667 18.6667L20 13.3334" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          {% when 'gift' %}
+            <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+              <path d="M26.6667 13.3334H5.33337V28.0001H26.6667V13.3334Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M16 28V13.3333" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M16 13.3334H10.8C10.0816 13.3334 9.39249 13.0477 8.88365 12.5388C8.37481 12.0299 8.08911 11.3408 8.08911 10.6224C8.08911 9.90399 8.37481 9.21488 8.88365 8.70604C9.39249 8.1972 10.0816 7.9115 10.8 7.9115C14.6667 7.9115 16 13.3334 16 13.3334Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M16 13.3334H21.2C21.9184 13.3334 22.6075 13.0477 23.1164 12.5388C23.6252 12.0299 23.9109 11.3408 23.9109 10.6224C23.9109 9.90399 23.6252 9.21488 23.1164 8.70604C22.6075 8.1972 21.9184 7.9115 21.2 7.9115C17.3333 7.9115 16 13.3334 16 13.3334Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M5.33337 13.3334H26.6667V18.6667H5.33337V13.3334Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          {% when 'headset' %}
+            <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+              <path d="M4 18.6667V14.6667C4 11.5291 5.24761 8.51977 7.47756 6.28982C9.70751 4.05987 12.7169 2.81226 15.8545 2.81226C18.9921 2.81226 22.0014 4.05987 24.2314 6.28982C26.4613 8.51977 27.7089 11.5291 27.7089 14.6667V18.6667" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M27.7089 20C27.7089 20.7072 27.4279 21.3855 26.9278 21.8856C26.4277 22.3857 25.7494 22.6667 25.0422 22.6667H22.7089V17.3334H27.7089V20Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M4 20C4 20.7072 4.28095 21.3855 4.78105 21.8856C5.28115 22.3857 5.95942 22.6667 6.66667 22.6667H9V17.3334H4V20Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          {% else %}
+            <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+              <circle cx="16" cy="16" r="12" stroke="currentColor" stroke-width="2"/>
+              <path d="M16 12V16M16 20H16.02" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+        {% endcase %}
+      </div>
+      <div class="outdoor-pdp-trust-badge__text">
+        <strong>{{ block.settings.trust_badge_3_text }}</strong>
+        {% if block.settings.trust_badge_3_subtext != blank %}
+          <span>{{ block.settings.trust_badge_3_subtext }}</span>
+        {% endif %}
+      </div>
+    </div>
+    {% endif %}
+    
+    {%- comment -%} Badge 4: SAV {%- endcomment -%}
+    {% if block.settings.trust_badge_4_text != blank %}
+    <div class="outdoor-pdp-trust-badge">
+      <div class="outdoor-pdp-trust-badge__icon">
+        {% case block.settings.trust_badge_4_icon %}
+          {% when 'truck' %}
+            <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+              <path d="M21.3334 6.66675H6.66675V21.3334H21.3334V6.66675Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M21.3334 13.3334H25.3334L28.0001 16.0001V21.3334H21.3334V13.3334Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M11.0001 26.6667C12.4728 26.6667 13.6667 25.4728 13.6667 24.0001C13.6667 22.5273 12.4728 21.3334 11.0001 21.3334C9.52733 21.3334 8.33341 22.5273 8.33341 24.0001C8.33341 25.4728 9.52733 26.6667 11.0001 26.6667Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M23.6667 26.6667C25.1394 26.6667 26.3334 25.4728 26.3334 24.0001C26.3334 22.5273 25.1394 21.3334 23.6667 21.3334C22.194 21.3334 21.0001 22.5273 21.0001 24.0001C21.0001 25.4728 22.194 26.6667 23.6667 26.6667Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          {% when 'shield' %}
+            <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+              <path d="M16 4L6.66669 8V14.6667C6.66669 21.4667 11.28 27.8 16 29.3334C20.72 27.8 25.3334 21.4667 25.3334 14.6667V8L16 4Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M12 16L14.6667 18.6667L20 13.3334" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          {% when 'gift' %}
+            <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+              <path d="M26.6667 13.3334H5.33337V28.0001H26.6667V13.3334Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M16 28V13.3333" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M16 13.3334H10.8C10.0816 13.3334 9.39249 13.0477 8.88365 12.5388C8.37481 12.0299 8.08911 11.3408 8.08911 10.6224C8.08911 9.90399 8.37481 9.21488 8.88365 8.70604C9.39249 8.1972 10.0816 7.9115 10.8 7.9115C14.6667 7.9115 16 13.3334 16 13.3334Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M16 13.3334H21.2C21.9184 13.3334 22.6075 13.0477 23.1164 12.5388C23.6252 12.0299 23.9109 11.3408 23.9109 10.6224C23.9109 9.90399 23.6252 9.21488 23.1164 8.70604C22.6075 8.1972 21.9184 7.9115 21.2 7.9115C17.3333 7.9115 16 13.3334 16 13.3334Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M5.33337 13.3334H26.6667V18.6667H5.33337V13.3334Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          {% when 'headset' %}
+            <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+              <path d="M4 18.6667V14.6667C4 11.5291 5.24761 8.51977 7.47756 6.28982C9.70751 4.05987 12.7169 2.81226 15.8545 2.81226C18.9921 2.81226 22.0014 4.05987 24.2314 6.28982C26.4613 8.51977 27.7089 11.5291 27.7089 14.6667V18.6667" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M27.7089 20C27.7089 20.7072 27.4279 21.3855 26.9278 21.8856C26.4277 22.3857 25.7494 22.6667 25.0422 22.6667H22.7089V17.3334H27.7089V20Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M4 20C4 20.7072 4.28095 21.3855 4.78105 21.8856C5.28115 22.3857 5.95942 22.6667 6.66667 22.6667H9V17.3334H4V20Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          {% else %}
+            <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+              <circle cx="16" cy="16" r="12" stroke="currentColor" stroke-width="2"/>
+              <path d="M16 12V16M16 20H16.02" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+        {% endcase %}
+      </div>
+      <div class="outdoor-pdp-trust-badge__text">
+        <strong>{{ block.settings.trust_badge_4_text }}</strong>
+        {% if block.settings.trust_badge_4_subtext != blank %}
+          <span>{{ block.settings.trust_badge_4_subtext }}</span>
+        {% endif %}
+      </div>
+    </div>
+    {% endif %}
+  </div>
+</div>
+{%- endif -%}
